@@ -1,0 +1,44 @@
+{
+	"bank": {
+		"account": "Bankovní účet",
+		"account_number": "Číslo účtu",
+		"bank": "Banka",
+		"iban": "IBAN",
+		"swift": "BIC/SWIFT",
+		"variable_symbol": "Variabilní symbol"
+	},
+	"currency": {
+		"currency": "Měna"
+	},
+	"date": {
+		"due": "Datum splatnosti",
+		"issue": "Datum vystavení",
+		"tax": "Datum zdanitelného plnění",
+		"tax_long": "Datum uskutečnění zdanitelného plnění",
+		"tax_short": "DUZP"
+	},
+	"document": {
+		"document": "Dokument"
+	},
+    "invoice": {
+		"add": "Vytvořit fakturu",
+		"detail_loading": "Načítám detail",
+		"detail_loading_failed": "Načítání detailu selhalo",
+		"to_other_eu_country": "Do zahraničí (EU)"
+	},
+	"supplier": {
+		"supplier": "Dodavatel"
+	},
+	"language": {
+		"language": "Jazyk"
+	},
+	"payment_type": {
+		"payment_type": "Způsob úhrady"
+	},
+	"price": {
+		"total_to_pay": "Celkem k úhradě"
+	},
+	"purchaser": {
+		"purchaser": "Odběratel"
+	}
+}

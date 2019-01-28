@@ -2,14 +2,6 @@ import { computed, observable, runInAction } from 'mobx'
 
 import isoCurrencies from 'currency/helpers/list'
 
-// function ensureDate(date) {
-// 	if (typeof date === 'object' && typeof date.getDate === 'function') return date
-// 	if (typeof date === 'string') return new Date(date)
-// 	return void 0
-// }
-
-
-
 export default class InvoiceModel {
 	id
 	logo
@@ -37,6 +29,7 @@ export default class InvoiceModel {
 	@observable purchaser
 	@observable bank_account
 	@observable qr_code
+	@observable footer
 	@computed get qr_code_value() {
 		if (!(
 			this.bank_account && this.bank_account.iban && this.bank_account.swift
@@ -74,6 +67,7 @@ export default class InvoiceModel {
 		bank_account,
 		qr_code,
 		invoice_rows,
+		footer,
 	} = {}) {
 		runInAction(() => {
 			this.id = id || (new Date()).getTime()
@@ -95,6 +89,7 @@ export default class InvoiceModel {
 			this.bank_account = bank_account
 			this.qr_code = qr_code || true
 			this.invoice_rows = invoice_rows || []
+			this.footer = footer || ''
 		})
 	}
 }

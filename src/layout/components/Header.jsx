@@ -1,6 +1,7 @@
 import React from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import Modal from 'react-modal'
+import { withNamespaces } from 'react-i18next'
 
 import Text from '../../text/components/Text'
 import Settings from '../../settings/components/Settings'
@@ -9,16 +10,17 @@ Modal.setAppElement('#root')
 
 const customStyles = {
 	content: {
-		top: '30%',
-		left: '50%',
-		right: 'auto',
+		position: 'relative',
+		maxWidth: '800px',
+		padding: '0',
 		bottom: 'auto',
-		marginRight: '-50%',
-		transform: 'translate(-50%, -50%)'
+		margin: '5% auto',
+		top: '0', right: '0', bottom: '0', left: '0',
 	}
 }
 
 @withRouter
+@withNamespaces()
 export default class Header extends React.Component {
 
 	constructor() {
@@ -40,6 +42,11 @@ export default class Header extends React.Component {
 	}
 
 	render() {
+
+		const {
+			t,
+		} = this.props
+
 		return (
 			<div className='screen-only'>
 				<div className='wrapper flex flex-space-between'>
@@ -50,8 +57,8 @@ export default class Header extends React.Component {
 						</Link>
 					</div>
 					<div>
-						<button type='button' className='button' onClick={this.openSettings}>
-							⚙ Settings
+						<button type='button' className='button button-phantom button-icon' onClick={this.openSettings}>
+							⚙ {t('settings.settings')}
 						</button>
 					</div>
 				</div>
@@ -61,17 +68,18 @@ export default class Header extends React.Component {
 					// onAfterOpen={this.afterOpenModal}
 					onRequestClose={this.closeModal}
 					style={customStyles}
-					contentLabel='Settings'
+					contentLabel={t('settings.settings')}
 				>
 					<div className='modal-wrapper'>
 						<div className='block flex flex-space-between'>
 							<div className='flex-1'>
-								<h1>Settings</h1>
+								<Text tag='h1' text={t('settings.settings')} />
 							</div>
 							<div>
-								<button type='button' className='button' onClick={this.closeModal}>&times;</button>
+								<button type='button' className='button button-phantom button-icon' onClick={this.closeModal}>&times;</button>
 							</div>
 						</div>
+						<hr className='block' />
 						<Settings />
 					</div>
 				</Modal>

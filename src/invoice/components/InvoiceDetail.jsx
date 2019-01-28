@@ -7,10 +7,18 @@ import InvoiceParamsForm from './InvoiceParamsForm'
 import InvoiceView from './InvoiceView'
 import InvoiceModel from 'invoice/stores/InvoiceModel'
 
-@inject('InvoiceStore')
+@inject('InvoiceStore', 'SettingsStore')
+@withNamespaces()
 @observer
-// @withNamespaces()
-class InvoiceDetail extends React.Component {
+export default class InvoiceDetail extends React.Component {
+
+	constructor() {
+		super()
+
+		this.state = {
+			detail: false,
+		}
+	}
 
 	componentDidMount() {
 		const {
@@ -19,27 +27,73 @@ class InvoiceDetail extends React.Component {
 		} = this.props
 
 		InvoiceStore.load(parseInt(match.params.id))
+		this.init()
+	}
+	componentDidUpdate() {
+		this.init()
+	}
+
+	init() {
+		if (this.state.detail) return
+
+		const {
+			match,
+			InvoiceStore,
+			SettingsStore: {
+				loaded,
+				suppliers,
+			},
+		} = this.props
+
+		if (!(InvoiceStore.loaded && loaded)) return
+		
+		this.setState({
+			detail: match.params.id === 'new' ? this.getBlankInvoice(suppliers[0]) : InvoiceStore.invoice(parseInt(match.params.id)),
+		})
+	}
+
+	getBlankInvoice(supplier) {
+		console.log('blank',supplier);
+		
+		return new InvoiceModel({
+			supplier,
+			logo: supplier.logo,
+			language: supplier.language,
+			currency: supplier.default_currency,
+			purchaser: supplier.purchasers[0],
+			bank_account: supplier.bank_accounts[0],
+			invoice_rows: (supplier.default_invoice_rows || []).map(item => [item.text, item.price]),
+			qr_code: supplier.show_qr_code,
+			footer: supplier.footer,
+		})
 	}
 
 	render() {
 
 		const {
-			// t,
-			match,
+			t,
 			InvoiceStore,
+			SettingsStore,
 		} = this.props
-const t = a => a
+		// const t = a => a
+
 		const {
-			loaded,
+			detail,
+		} = this.state
+
+		const {
+			loaded: invoicesLoaded,
 		} = InvoiceStore
 
-		const detail = match.params.id === 'new' ? new InvoiceModel() : InvoiceStore.invoice(parseInt(match.params.id))
-
-		if (!loaded) return (
+		const {
+			loaded: settingsLoaded,
+		} = SettingsStore
+		
+		if (!(invoicesLoaded && settingsLoaded)) return (
 			<Text className='wrapper empty' text={t('invoice.detail_loading')} />
 		)
 
-		if (!loaded && !detail) return (
+		if (!detail) return (
 			<Text className='wrapper empty' text={t('invoice.detail_loading_failed')} />
 		)
 
@@ -53,5 +107,3 @@ const t = a => a
 		)
 	}
 }
-
-export default withNamespaces()(InvoiceDetail)

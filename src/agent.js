@@ -1,23 +1,72 @@
 const INVOICE_STORAGE_KEY = 'bg-invoice-generator-invoices'
 let invoiceStorage = { invoices: [] }
+const SETTINGS_STORAGE_KEY = 'bg-invoice-generator-settings'
+let settingsStorage = { suppliers: [] }
 
 export default {
 	invoice: {
-		query: function () {
+		query: () => {
 			invoiceStorage = JSON.parse(window.localStorage.getItem(INVOICE_STORAGE_KEY)) || { invoices: [] }
 
-			if (!(invoiceStorage && invoiceStorage.invoices && invoiceStorage.invoices.length)) {
-				invoiceStorage.invoices.push(getMockInvoice())
-			}
+			// if (!(invoiceStorage && invoiceStorage.invoices && invoiceStorage.invoices.length)) {
+			// 	invoiceStorage.invoices.push(getMockInvoice())
+			// }
 
-			return Promise.resolve(invoiceStorage.invoices)
+			return Promise.resolve(invoiceStorage.invoices || [])
 		},
-		create: function (invoice) {
-			invoiceStorage.invoices.unshift(invoice)
+		create: item => {
+			invoiceStorage.invoices.unshift(item)
 			window.localStorage.setItem(INVOICE_STORAGE_KEY, JSON.stringify(invoiceStorage))
-			return Promise.resolve(1)
+			return Promise.resolve(item)
 		},
 	},
+	settings: {
+		query: () => {
+			return new Promise((resolve, reject) => {
+				settingsStorage = JSON.parse(window.localStorage.getItem(SETTINGS_STORAGE_KEY)) || { suppliers: [] }
+				setTimeout(() => {
+					resolve(settingsStorage.suppliers || [])
+				}, 500)
+			})
+		},
+		create: item => {
+			settingsStorage.suppliers.push(item)
+			return new Promise((resolve, reject) => {
+				setTimeout(() => {
+					window.localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settingsStorage))
+					return resolve(item)
+				}, 500)
+			})
+		},
+		update: item => {
+			for (var i = settingsStorage.suppliers.length;i--;) {
+				if (settingsStorage.suppliers[i].id === item.id) {
+					settingsStorage.suppliers[i] = item
+					break
+				}
+			}
+			return new Promise((resolve, reject) => {
+				setTimeout(() => {
+					window.localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settingsStorage))
+					return resolve({ ok: true })
+				}, 500)
+			})
+		},
+		delete: id => {
+			for (var i = settingsStorage.suppliers.length;i--;) {
+				if (settingsStorage.suppliers[i].id === id) {
+					settingsStorage.suppliers.splice(i, 1)
+					break
+				}
+			}
+			return new Promise((resolve, reject) => {
+				setTimeout(() => {
+					window.localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settingsStorage))
+					return resolve({ ok: true })
+				}, 500)
+			})
+		}
+	}
 }
 
 ///////////////////

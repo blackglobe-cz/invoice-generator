@@ -9,23 +9,13 @@ class InvoiceStore {
 	@observable loaded = false
 	@observable items = []
 
-	// @computed get selectedItem() {
-	// 	return toJS(this.item)
-	// }
-	// @computed get invoices() {
-	// 	return Object.values(toJS(this.items))
-	// }
 	@computed get invoices() {
 		return this.items
 	}
 	@computed get invoicesLength() {
 		return this.items.length
 	}
-	// @computed get invoice() {
-	// 	console.log('getter', arguments)
-		
-	// 	return this.items.find(item => item.id === id)
-	// }
+
 	invoice = createTransformer(id => this.items.find(item => item.id === id))
 
 	fetchRunning = false

@@ -15,7 +15,7 @@ export default class App extends React.Component {
 		super()
 
 		this.state = {
-			loaded: false
+			loaded: false,
 		}
 	}
 
@@ -29,11 +29,18 @@ export default class App extends React.Component {
 	}
 
 	render() {
+
+		const {
+			SettingsStore: {
+				suppliers
+			}
+		} = this.props
+
 		return (
 			<div>
 				<Header />
 
-				{this.state.loaded && !this.issuers.length && (
+				{this.state.loaded && !suppliers.length && (
 					<div className='wrapper alert info screen-only-a'>
 						It seems like you don't have any preferences or issuers. Set them up in settings!
 						{/* <button className='button primary-button' type='button'>

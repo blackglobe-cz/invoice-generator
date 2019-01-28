@@ -123,22 +123,63 @@ a:visited {
 }
 
 .modal-wrapper {
-	width: 800px;
+	// width: 800px;
+	padding: 1.25rem;
+}
+
+.nowrap {
+	white-space: nowrap !important;
+}
+.wrap {
+	white-space: normal !important;
 }
 
 .button {
     border: 0;
     background: #555;
+    border: 1px solid #555;
     color: #fff;
-    padding: .625rem 2.5rem;
+    padding: calc(.625rem - 2px) 2.5rem;
     white-space: nowrap;
     border-radius: .3125rem;
     font-weight: bold;
     font-size: 1rem;
-    line-height: 1rem;
-}
-.button-primary {
-    background: #5ba4d2;
+	line-height: 1rem;
+	cursor: pointer;
+
+	&-primary {
+		background: #5ba4d2;
+		border-color: #5ba4d2;
+	}
+	&-danger {
+		background: #ffd0d0;
+		border-color: #ff5555;
+		color: #ff5555 !important;
+	}
+	&-alt {
+		background: #fff;
+		color: #555;
+
+		&:hover {
+			background: rgba(0,0,0,.05);
+		}
+	}
+
+	&-icon {
+		padding-left: .625rem;
+		padding-right: .625rem;
+	}
+	&-phantom {
+		background: #fff;
+		border-color: transparent;
+		color: #555;
+	}
+
+	&:hover {
+		opacity: .8;
+
+	}
+	
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -150,21 +191,22 @@ h1, h2, h3, h4, h5, h6 {
 	background: lightblue;
 	border: 1px solid #0e91e3;
 	transition: .4s all;
-}
-.alert:hover {
-	box-shadow: 0 .15625rem .15625rem rgba(0,0,0,.2);
-}
-.alert.success {
-	background: lightgreen;
-	border-color: #22ee22;
-}
-.alert.danger {
-	background: lightsalmon;
-	border-color: #e7a01b;
-}
-.alert.danger {
-	background: lightcoral;
-	border-color: #ee2222;
+
+	&:hover {
+		box-shadow: 0 .15625rem .15625rem rgba(0,0,0,.2);
+	}
+	&.success {
+		background: lightgreen;
+		border-color: #22ee22;
+	}
+	&.warning {
+		background: lightsalmon;
+		border-color: #e7a01b;
+	}
+	&.danger {
+		background: #ffd0d0;
+		border-color: #ffd0d0;
+	}
 }
 
 .list > li {
@@ -184,18 +226,26 @@ h1, h2, h3, h4, h5, h6 {
 .list.anchor-list > li > a:hover {
 	background: #f8f8f8;
 }
+.list-item-active {
+	background: pink;
+}
 
 input[type='text'],
 input[type='number'],
 input[type='date'],
+textarea,
 select {
     display: block;
-    width: 100%;
+	width: 100%;
+	min-height: 2.25rem;
     line-height: 1rem;
     font-size: 1rem;
     padding: .3125rem;
     background: #fff;
     border: 1px solid #999;
+}
+textarea {
+	min-height: 3.5rem;
 }
 
 .project-logo {
@@ -268,4 +318,11 @@ select {
 }
 .invoice-side::first-line {
 	font-weight: bold;
+}
+
+.ReactModal__Body--open {
+	overflow: hidden;
+}
+.ReactModal__Overlay {
+	overflow: scroll;
 }

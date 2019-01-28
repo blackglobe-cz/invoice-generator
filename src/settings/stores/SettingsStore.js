@@ -1,40 +1,89 @@
-import { observable, action, computed } from 'mobx'
+import { observable, action, runInAction, computed, toJS } from 'mobx'
+import { createTransformer } from 'mobx-utils'
 
-const STORAGE_KEY = 'bg-invoice-generator-settings'
+import SupplierModel from './SupplierModel'
+import agent from 'agent'
 
 class SettingsStore {
 
-    @observable loaded = false
-    @observable items = observable.map()
+	@observable loaded = false
+	@observable items = []
+	@observable defaultSupplier
 
-    @computed get invoices() {
-        return this.items.values()
-    }
+	@computed get suppliers() {
+		return this.items
+	}
+	@computed get suppliersLength() {
+		return this.items.length
+	}
 
-    @action load(id) {
-        return new Promise((resolve, reject) => {
-            if (!this.loaded) {
-                let storage = window.localStorage.getItem(STORAGE_KEY)
-                if (!(storage && storage.issuers && storage.issuers.length)) {
-					storage = { issuers: [] }
+	supplier = createTransformer(id => this.items.find(item => item.id === id))
+
+	fetchRunning = false
+	q = []
+
+	@action
+	load(id) {
+		return new Promise((resolve, reject) => {
+			if (!this.loaded) {
+				if (this.fetchRunning) return this.q.push({ resolve, reject })
+				this.fetchRunning = true
+
+				agent.settings.query().then(items => {
+					runInAction(() => items.forEach(item => this.items.push(new SupplierModel(item))))
+					this.q.forEach(item => item.resolve(item.id ? this.items.find(it => it.id = item.id) : this.items))
+					return resolve(id ? items.find(it => it.id === id) : items)
+				}).catch(e => {
+					console.log('invoice list fetch faiiled', e);
+					this.q.forEach(item => item.reject(e))
+					return reject(e)
+				}).finally(() => {
+					runInAction(() => {
+						this.fetchRunning = false
+						this.loaded = true
+					})
+				})
+				return
+			}
+			return resolve(id ? this.items.find(item => item.id === id) : this.items)
+		})
+	}
+
+	@action save(supplier, create) {
+		if (create) this.items.push(supplier)
+		return agent.settings[create ? 'create' : 'update'](supplier).then(res => {
+			console.log('Supplier created ok')
+		}).catch(err => {
+			for (var i = this.items.length;i--;) {
+				if (this.items[i].id === supplier.id) {
+					console.log('Failed to save supplier')
+					runInAction(() => {
+						this.items.splice(i, 1)
+					})
+					return
 				}
-                this.items.merge(storage.issuers)
-                this.loaded = true
-            }
+			}
+		})
+	}
 
-            if (!id) return resolve({
-				issuers: Array.from( this.items.values() ),
-			})
-            return resolve(this.items.get(id))
-        })
-    }
-
-    @action save(invoice) {
-        this.items.set(invoice.id, invoice)
-        window.localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            issuers: Array.from( this.items.values ),
-        }))
-    }
+	@action
+	delete(supplier) {
+		let temp
+		let tempIndex
+		for (var i = this.items.length;i--;) {
+			if (this.items[i].id === supplier.id) {
+				temp = this.items.splice(i, 1)
+				tempIndex = i
+				break
+			}
+		}
+		return agent.settings.delete(supplier.id).then(res => {
+			console.log('Supplier deleted ok')
+		}).catch(err => {
+			console.log('Failed to delete supplier')
+			this.items.splice(tempIndex, 0 ,temp)
+		})
+	}
 }
 
 export default new SettingsStore()

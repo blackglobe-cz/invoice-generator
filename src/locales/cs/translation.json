@@ -1,6 +1,8 @@
 {
+	"are_you_sure": "Jste si jisti?",
 	"bank": {
 		"account": "Bankovní účet",
+		"accounts": "Bankovní účty",
 		"account_number": "Číslo účtu",
 		"bank": "Banka",
 		"iban": "IBAN",
@@ -8,10 +10,12 @@
 		"variable_symbol": "Variabilní symbol"
 	},
 	"currency": {
-		"currency": "Měna"
+		"currency": "Měna",
+		"default": "Výchozí měna"
 	},
 	"date": {
 		"due": "Datum splatnosti",
+		"due_default_period": "Standardní splatnost",
 		"issue": "Datum vystavení",
 		"tax": "Datum zdanitelného plnění",
 		"tax_long": "Datum uskutečnění zdanitelného plnění",
@@ -20,14 +24,24 @@
 	"document": {
 		"document": "Dokument"
 	},
+	"footer": "Patička faktury",
+	"form": {
+		"error": "Formulář obsahuje chyby"
+	},
     "invoice": {
 		"add": "Vytvořit fakturu",
+		"default_invoice_row": {
+			"add": "Přidat řádek",
+			"rows": "Výchozí řádky na faktuře"
+		},
 		"detail_loading": "Načítám detail",
 		"detail_loading_failed": "Načítání detailu selhalo",
 		"to_other_eu_country": "Do zahraničí (EU)"
 	},
-	"supplier": {
-		"supplier": "Dodavatel"
+	"label": "Popisek",
+	"loading": "Načítám",
+	"logo": {
+		"logo": "Logo"
 	},
 	"language": {
 		"language": "Jazyk"
@@ -36,9 +50,32 @@
 		"payment_type": "Způsob úhrady"
 	},
 	"price": {
+		"price": "Cena",
 		"total_to_pay": "Celkem k úhradě"
 	},
 	"purchaser": {
-		"purchaser": "Odběratel"
-	}
+		"add": "Přidat odběratele",
+		"purchaser": "Odběratel",
+		"purchasers": "Odběratelé",
+		"registered_for_vat": "Plátce DPH"
+	},
+	"qr": {
+		"code": "QR kód",
+		"show": "Zobrazovat QR kód"
+	},
+	"save": "Uložit",
+	"settings": {
+		"general": "Obecné",
+		"settings": "Nastavení"
+	},
+	"supplier": {
+		"add": "Přidat dodavatele",
+		"delete": "Smazat dodavatele",
+		"identification_text": "Jméno a adresa na faktuře",
+		"new": "Nový dodavatel",
+		"registered_for_vat": "Dodavatel registrován k DPH",
+		"save": "Uložit dodavatele",
+		"supplier": "Dodavatel"
+	},
+	"text": "Text"
 }

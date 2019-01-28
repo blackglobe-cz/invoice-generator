@@ -8,8 +8,8 @@ import formatDate from 'date/helpers/formatter'
 import formatPrice from 'currency/helpers/formatter'
 import QRCode from 'qrcode.react'
 
+@withNamespaces()
 @observer
-// @withNamespaces()
 export default class InvoiceView extends React.Component {
 
 	render() {
@@ -84,7 +84,7 @@ export default class InvoiceView extends React.Component {
 
 					<div>
 						<div translate='supplier'>Dodavatel</div>
-						<div className='invoice-side' id='invoice-supplier' contentEditable suppressContentEditableWarning={true}><Text text={supplier.text} /></div>
+						<div className='invoice-side' id='invoice-supplier' contentEditable suppressContentEditableWarning={true}><Text text={supplier.identification_text} /></div>
 					</div>
 					<div>
 						<div translate='purchaser'>Odběratel</div>

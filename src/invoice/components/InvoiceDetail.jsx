@@ -7,6 +7,8 @@ import InvoiceParamsForm from './InvoiceParamsForm'
 import InvoiceView from './InvoiceView'
 import InvoiceModel from 'invoice/stores/InvoiceModel'
 
+import { getInvoiceBasedOnSupplier } from '../helpers/invoiceHelpers'
+
 @inject('InvoiceStore', 'SettingsStore')
 @withNamespaces()
 @observer
@@ -46,26 +48,16 @@ export default class InvoiceDetail extends React.Component {
 		} = this.props
 
 		if (!(InvoiceStore.loaded && loaded)) return
-		
+
 		this.setState({
 			detail: match.params.id === 'new' ? this.getBlankInvoice(suppliers[0]) : InvoiceStore.invoice(parseInt(match.params.id)),
 		})
 	}
 
 	getBlankInvoice(supplier) {
-		console.log('blank',supplier);
-		
-		return new InvoiceModel({
-			supplier,
-			logo: supplier.logo,
-			language: supplier.language,
-			currency: supplier.default_currency,
-			purchaser: supplier.purchasers[0],
-			bank_account: supplier.bank_accounts[0],
-			invoice_rows: (supplier.default_invoice_rows || []).map(item => [item.text, item.price]),
-			qr_code: supplier.show_qr_code,
-			footer: supplier.footer,
-		})
+		console.log('blank', supplier);
+
+		return getInvoiceBasedOnSupplier(supplier)
 	}
 
 	render() {
@@ -88,7 +80,7 @@ export default class InvoiceDetail extends React.Component {
 		const {
 			loaded: settingsLoaded,
 		} = SettingsStore
-		
+
 		if (!(invoicesLoaded && settingsLoaded)) return (
 			<Text className='wrapper empty' text={t('invoice.detail_loading')} />
 		)

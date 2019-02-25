@@ -179,7 +179,7 @@ a:visited {
 		opacity: .8;
 
 	}
-	
+
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -243,6 +243,10 @@ select {
     padding: .3125rem;
     background: #fff;
     border: 1px solid #999;
+
+    &:disabled {
+        background: #eee;
+    }
 }
 textarea {
 	min-height: 3.5rem;
@@ -299,7 +303,7 @@ textarea {
 	padding: 1.25rem .625rem;
 	background: #fff;
 	border-bottom: 1px solid #ddd;
-	
+
 	&:last-child {
 		border-bottom: none;
 	}

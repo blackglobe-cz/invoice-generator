@@ -1,11 +1,15 @@
 import React from 'react'
-import { action, toJS } from 'mobx'
+import { action, runInAction, toJS } from 'mobx'
 // import { toJS } from 'mobx-utils'
 import { inject, observer } from 'mobx-react'
+import { withNamespaces } from 'react-i18next'
 
 import Text from 'text/components/Text'
-import { withNamespaces } from 'react-i18next'
-import { isNull } from 'util';
+import FormControl from 'form/components/FormControl'
+import InvoiceModel from 'invoice/stores/InvoiceModel'
+import { isNull } from 'util'
+
+import { getInvoiceBasedOnSupplier } from '../helpers/invoiceHelpers'
 
 @inject('SettingsStore')
 @withNamespaces()
@@ -21,7 +25,7 @@ export default class InvoiceParamsForm extends React.Component {
 	}
 
 	handleFormSubmit() {
-		console.log('Form submitted yo!');
+		console.log('Form submitted yo!')
 
 	}
 
@@ -34,7 +38,10 @@ export default class InvoiceParamsForm extends React.Component {
 		this.setState({
 			supplier: value,
 		}, () => {
-			this.handleInput('supplier', this.props.SettingsStore.suppliers.find(item => ('' + item.id) === ('' + value)))
+			const supplier = this.props.SettingsStore.suppliers.find(item => ('' + item.id) === ('' + value))
+			runInAction(() => {
+				Object.assign(this.props.data, getInvoiceBasedOnSupplier(supplier))
+			})
 		})
 	}
 
@@ -69,14 +76,11 @@ export default class InvoiceParamsForm extends React.Component {
 		let bank_accounts = []
 		let purchasers = []
 		if (data && data.supplier) {
-			// console.log('data.sup', data.supplier, data.supplier.purchasers);
-			
 			bank_accounts = data.supplier.bank_accounts
 			purchasers = data.supplier.purchasers
 		}
 
 		if (!data) return (<div>wat</div>)
-		
 
 		const formConfig = [
 			[
@@ -91,12 +95,15 @@ export default class InvoiceParamsForm extends React.Component {
 				{ type: 'select', name: 'purchaser.purchaser', prop: 'purchaser', opts: purchasers.map((item, index) => [index, item.label]) },
 				{ type: 'date', name: 'date.tax_short', prop: 'tax_date', labelProps: { title: t('date.tax_long') } }
 			], [
-				{ type: 'number', name: 'price.total_to_pay', prop: 'price', props: { min: '0', step: '10.00' } },
+				{ type: 'number', name: 'price.total_to_pay', prop: 'price', props: { min: '0', step: '10.00', disabled: data.autocalc } },
+				{ type: 'checkbox', name: 'price.autocalc', prop: 'autocalc' },
 				{ type: 'input', name: 'payment_type.payment_type', prop: 'payment_type', props: { disabled: true } },
 				{ type: 'select', name: 'currency.currency', prop: 'currency', opts: [['CZK', 'Kč'], ['EUR', 'Euro']] },
 				{ type: 'select', name: 'bank.account', prop: 'bank_account', opts: bank_accounts.map((item, index) => [index, item.label]) }
 			]
 		]
+
+		console.log('rendering disabled', data.autocalc);
 
 		return (
 			<div className='controls screen-only'>
@@ -106,7 +113,7 @@ export default class InvoiceParamsForm extends React.Component {
 							<label className='control-input-select'>
 								<Text tag='span' text={t('supplier.supplier')} />
 								<div>
-									<select value={supplier} name='supplier' onChange={this.handleSupplierChange.bind(this)}>
+									<select value={supplier} name='supplier' onChange={this.handleSupplierChange.bind(this)} autoFocus>
 										{suppliers.map((opt, index) => (
 											<option key={index} value={opt.id}>{opt.label}</option>
 										))}
@@ -121,6 +128,8 @@ export default class InvoiceParamsForm extends React.Component {
 								<div className='control-block' key={control.name}>
 									<label className={'control-input-' + control.type}>
 										<Text tag='span' text={t(control.name)} {...(control.labelProps || {})} />
+
+										{/*
 										{control.type === 'select' && (
 											<div>
 												<select value={data[control.prop]} name={control.prop} onChange={control.onChange || (e => this.handleInput(control.prop, e.target.value, e))}>
@@ -132,6 +141,9 @@ export default class InvoiceParamsForm extends React.Component {
 										)}
 										{(control.type === 'checkbox') && this.renderInput(control)}
 										{(control.type === 'input' || control.type === 'date' || control.type === 'number') && this.renderInput(control)}
+										*/}
+										<FormControl type={control.type} name={control.prop} onChange={(control.onChange || this.handleInput).bind(this)} value={data[control.prop]} opts={control.opts || null} {...(control.props || {})} />
+
 									</label>
 								</div>
 							))}

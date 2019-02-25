@@ -56,6 +56,7 @@ class FormControl extends React.Component {
 			<input
 				value={value}
 				type={type === 'input' ? 'text' : type}
+				checked={type === 'checkbox' ? !!value : null}
 				name={name}
 				onChange={e => onChange(prop || name, type === 'checkbox' ? e.target.checked : e.target.value, e)}
 				placeholder={placeholder || t(name)}

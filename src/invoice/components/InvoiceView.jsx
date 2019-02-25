@@ -12,6 +12,23 @@ import QRCode from 'qrcode.react'
 @observer
 export default class InvoiceView extends React.Component {
 
+	handlePriceInput = (e, item) => {
+		if (!this.props.data.autocalc) return
+		const data = this.props.data
+		console.log('e', e, e.target.innerHTML);
+		const newPrice = parseFloat(e.target.innerHTML)
+		runInAction(() => {
+			item[1] = newPrice
+			console.log(data.invoice_rows);
+			const np = data.invoice_rows.reduce((acc, item) => acc + parseFloat(item[1]), 0)
+			data.price = np
+			console.log(np, newPrice);
+			setTimeout(() => {
+				console.log(this.props);
+			}, 200)
+		})
+	}
+
 	render() {
 		const {
 			t,
@@ -152,7 +169,7 @@ export default class InvoiceView extends React.Component {
 										<td contentEditable suppressContentEditableWarning={true}>
 											{item[0]}
 										</td>
-										<td contentEditable suppressContentEditableWarning={true} className='text-align-right'>
+										<td contentEditable suppressContentEditableWarning={true} className='text-align-right' onInput={e => this.handlePriceInput(e, item)}>
 											{item[1]}
 										</td>
 										<td className='screen-only addon'>

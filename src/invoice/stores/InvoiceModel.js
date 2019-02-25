@@ -49,6 +49,7 @@ export default class InvoiceModel {
 		return spayd
 	}
 	@observable invoice_rows
+	@observable autocalc
 
 	constructor({
 		id,
@@ -73,9 +74,6 @@ export default class InvoiceModel {
 			this.id = id || (new Date()).getTime()
 			this.logo = logo
 			this.language = language
-			// this.issue_date = ensureDate(issue_date) || new Date()
-			// this.tax_date = ensureDate(tax_date) || new Date()
-			// this.due_date = ensureDate(due_date) || new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 14)) // + 14 days
 			this.issue_date = issue_date || (new Date()).toISOString().slice(0, 10)
 			this.tax_date = tax_date || (new Date()).toISOString().slice(0, 10)
 			this.due_date = due_date || (new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 14))).toISOString().slice(0, 10) // + 14 days
@@ -90,6 +88,8 @@ export default class InvoiceModel {
 			this.qr_code = qr_code || true
 			this.invoice_rows = invoice_rows || []
 			this.footer = footer || ''
+
+			this.autocalc = true
 		})
 	}
 }

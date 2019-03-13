@@ -34,6 +34,7 @@ export default class InvoiceView extends React.Component {
 			t,
 			data: {
 				logo,
+				bank_account,
 				order_number,
 				supplier,
 				purchaser,
@@ -52,11 +53,13 @@ export default class InvoiceView extends React.Component {
 			},
 		} = this.props
 
-		const bank_account = {
-			name: 'Fio',
-			number: '2400329442',
-			code: '2010',
-		}
+		console.log(this.props);
+
+		// const bank_account = {
+		// 	name: 'Fio',
+		// 	number: '2400329442',
+		// 	code: '2010',
+		// }
 
 		const addInvoiceRow = () => {
 			runInAction(() => { invoice_rows.push(['', 0]) })
@@ -95,24 +98,24 @@ export default class InvoiceView extends React.Component {
 						</div>
 					</div>
 
-					<div className='invoice-grid-full-width'>
+					<div className='invoice-grid-full-width margin-bottom-tiny'>
 						<hr />
 					</div>
 
-					<div>
-						<div translate='supplier'>Dodavatel</div>
-						<div className='invoice-side' id='invoice-supplier' contentEditable suppressContentEditableWarning={true}><Text text={supplier.identification_text} /></div>
+					<div className='invoice-side-wrapper'>
+						<div className='invoice-side-label'>{t('supplier.supplier')}</div>
+						<div className='invoice-side-text' id='invoice-supplier' contentEditable suppressContentEditableWarning={true}><Text text={supplier.identification_text} /></div>
 					</div>
-					<div>
-						<div translate='purchaser'>Odběratel</div>
-						<div className='invoice-side' id='invoice-purchaser' contentEditable suppressContentEditableWarning={true}><Text text={purchaser.text} /></div>
+					<div className='invoice-side-wrapper'>
+						<div className='invoice-side-label'>{t('purchaser.purchaser')}</div>
+						<div className='invoice-side-text' id='invoice-purchaser' contentEditable suppressContentEditableWarning={true}><Text text={purchaser.text} /></div>
 					</div>
 
-					<div className='invoice-grid-full-width'>
+					<div className='invoice-grid-full-width margin-bottom-medium'>
 						<hr />
 					</div>
 
-					<div>
+					<div className='margin-bottom-medium'>
 						<div className='flex flex-space-between'>
 							<div translate='payment_type'>Způsob úhrady</div>
 							<Text text={payment_type} />
@@ -120,11 +123,12 @@ export default class InvoiceView extends React.Component {
 
 						<div className='flex flex-space-between'>
 							<div translate='bank'>Banka</div>
-							<Text text={bank_account.name} />
+							<Text text={bank_account.bank} />
 						</div>
 						<div className='flex flex-space-between'>
 							<div translate='account_number'>Číslo účtu</div>
-							<Text className='text-emphasize' text={bank_account.number + '/' + bank_account.code} />
+							{/*<Text className='text-emphasize' text={bank_account.number + '/' + bank_account.code} />*/}
+							<Text className='text-emphasize' text={bank_account.account_number} />
 						</div>
 						{to_other_eu_country && [
 							<div key='iban' className='flex flex-space-between'>
@@ -141,7 +145,7 @@ export default class InvoiceView extends React.Component {
 							<Text className='text-emphasize' text={order_number} />
 						</div>
 					</div>
-					<div>
+					<div className='margin-bottom-medium'>
 						<div className='flex flex-space-between'>
 							<div translate='variable_symbol'>Datum vystavení</div>
 							<Text text={formatDate(issue_date)} />

@@ -15,16 +15,26 @@ function getInvoiceBasedOnSupplier(supplier) {
   })
 
   return new InvoiceModel({
-    supplier,
+    supplier: prepareForContentEditable(copy(supplier)),
     logo: supplier.logo,
     language: supplier.language,
     currency: supplier.default_currency,
-    purchaser: supplier.purchasers[0],
-    bank_account: supplier.bank_accounts[0],
+    purchaser: copy(supplier.purchasers[0]),
+    bank_account: copy(supplier.bank_accounts[0]),
     invoice_rows,
     qr_code: supplier.show_qr_code,
     footer: supplier.footer,
     due_date,
     price,
   })
+}
+
+function copy(obj) {
+  return JSON.parse(JSON.stringify(obj))
+}
+
+function prepareForContentEditable(supplier = {}) {
+  console.log('supp', supplier);
+  supplier.identification_text = supplier.identification_text.replace(/\n/g, '<br />')
+  return supplier
 }

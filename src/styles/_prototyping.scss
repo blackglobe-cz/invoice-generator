@@ -1,0 +1,109 @@
+/**
+ * POSITION
+ */
+.position-relative {position: relative !important}
+.position-absolute {position: absolute !important}
+.position-fixed {position: fixed !important}
+.position-static {position: static !important}
+
+/**
+ * WIDTH / HEIGHT
+ */
+.full-width {width: 100%;}
+.full-height {height: 100%;}
+
+.width-initial {width: initial;}
+
+/**
+ * DISPLAY
+ */
+.display-block {display: block !important;}
+.display-inline-block {display: inline-block !important;}
+
+/**
+ * CURSORS
+ */
+.cursor-pointer {cursor: pointer}
+.cursor-default {cursor: default}
+.cursor-move {
+    cursor: move;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    cursor: grab;
+
+    &:active {
+        cursor: -webkit-grabbing;
+        cursor: -moz-grabbing;
+        cursor: grabbing;
+    }
+}
+
+/**
+ * PADDING
+ */
+.padding-none {padding: 0 !important;}
+.padding-vertical-none {padding-top: 0 !important; padding-bottom: 0 !important;}
+.padding-horizontal-none {padding-right: 0 !important; padding-left: 0 !important;}
+.padding-top-none {padding-top: 0 !important;}
+.padding-right-none {padding-right: 0 !important;}
+.padding-bottom-none {padding-bottom: 0 !important;}
+.padding-left-none {padding-left: 0 !important;}
+
+.padding-small {padding: $size-small !important;}
+.padding-vertical-small {padding-top: $size-small !important; padding-bottom: $size-small !important;}
+.padding-horizontal-small {padding-right: $size-small !important; padding-left: $size-small !important;}
+.padding-top-small {padding-top: $size-small !important;}
+.padding-right-small {padding-right: $size-small !important;}
+.padding-bottom-small {padding-bottom: $size-small !important;}
+.padding-left-small {padding-left: $size-small !important;}
+
+.padding-medium {padding: $size-medium !important;}
+.padding-vertical-medium {padding-top: $size-medium !important; padding-bottom: $size-medium !important;}
+.padding-horizontal-medium {padding-right: $size-medium !important; padding-left: $size-medium !important;}
+.padding-top-medium {padding-top: $size-medium !important;}
+.padding-right-medium {padding-right: $size-medium !important;}
+.padding-bottom-medium {padding-bottom: $size-medium !important;}
+.padding-left-medium {padding-left: $size-medium !important;}
+
+.padding-large {padding: $size-large !important;}
+.padding-vertical-large {padding-top: $size-large !important; padding-bottom: $size-large !important;}
+.padding-horizontal-large {padding-right: $size-large !important; padding-left: $size-large !important;}
+.padding-top-large {padding-top: $size-large !important;}
+.padding-right-large {padding-right: $size-large !important;}
+.padding-bottom-large {padding-bottom: $size-large !important;}
+.padding-left-large {padding-left: $size-large !important;}
+
+/**
+ * MARGIN
+ */
+.margin-none {margin: 0 !important;}
+.margin-vertical-none {margin-top: 0 !important; margin-bottom: 0 !important;}
+.margin-horizontal-none {margin-right: 0 !important; margin-left: 0 !important;}
+.margin-top-none {margin-top: 0 !important;}
+.margin-right-none {margin-right: 0 !important;}
+.margin-bottom-none {margin-bottom: 0 !important;}
+.margin-left-none {margin-left: 0 !important;}
+
+.margin-small {margin: $size-small !important;}
+.margin-vertical-small {margin-top: $size-small !important; margin-bottom: $size-small !important;}
+.margin-horizontal-small {margin-right: $size-small !important; margin-left: $size-small !important;}
+.margin-top-small {margin-top: $size-small !important;}
+.margin-right-small {margin-right: $size-small !important;}
+.margin-bottom-small {margin-bottom: $size-small !important;}
+.margin-left-small {margin-left: $size-small !important;}
+
+.margin-medium {margin: $size-medium !important;}
+.margin-vertical-medium {margin-top: $size-medium !important; margin-bottom: $size-medium !important;}
+.margin-horizontal-medium {margin-right: $size-medium !important; margin-left: $size-medium !important;}
+.margin-top-medium {margin-top: $size-medium !important;}
+.margin-right-medium {margin-right: $size-medium !important;}
+.margin-bottom-medium {margin-bottom: $size-medium !important;}
+.margin-left-medium {margin-left: $size-medium !important;}
+
+.margin-large {margin: $size-large !important;}
+.margin-vertical-large {margin-top: $size-large !important; margin-bottom: $size-large !important;}
+.margin-horizontal-large {margin-right: $size-large !important; margin-left: $size-large !important;}
+.margin-top-large {margin-top: $size-large !important;}
+.margin-right-large {margin-right: $size-large !important;}
+.margin-bottom-large {margin-bottom: $size-large !important;}
+.margin-left-large {margin-left: $size-large !important;}

@@ -3,6 +3,16 @@ $mdc-theme-secondary: #feeae6;
 $mdc-theme-on-primary: #fff;
 $mdc-theme-on-secondary: #442b2d;
 
+$size-base: .15625rem;
+
+$size-tiny: $size-base * 1;
+$size-small: $size-base * 2;
+$size-medium: $size-base * 4;
+$size-big: $size-base * 6;
+$size-large: $size-base * 8;
+
+$color-light-gray: #dedede;
+
 @import '@material/react-button/index.scss';
 @import '@material/react-icon-button/index.scss';
 @import '@material/react-drawer/index.scss';
@@ -10,6 +20,7 @@ $mdc-theme-on-secondary: #442b2d;
 
 @import '@material/button/mixins';
 
+@import './styles/prototyping';
 @import './styles/base';
 @import './styles/grid';
 @import './styles/flex';
@@ -17,10 +28,10 @@ $mdc-theme-on-secondary: #442b2d;
 @import './styles/buttons';
 @import './styles/lists';
 @import './styles/alert';
-@import './styles/form';
+@import './styles/forms';
+@import './styles/tables';
 @import './styles/modal';
 @import './styles/mdc-lists';
-
 
 @media print {
 	.screen-only {
@@ -45,12 +56,12 @@ $mdc-theme-on-secondary: #442b2d;
 	.layout-grid {
 		width: 100%;
 		display: grid;
-	    grid-gap: 1.25rem;
+	    grid-gap: $size-large;
 		grid-template-columns: 200px auto;
 	}
 }
 .box {
-	padding: .625rem;
+	padding: $size-medium;
 
 	@media screen {
 		background: #fff;
@@ -62,7 +73,7 @@ $mdc-theme-on-secondary: #442b2d;
 	}
 }
 .block {
-    margin-bottom: .625rem;
+    margin-bottom: $size-medium;
 }
 .empty {
     text-align: center;
@@ -87,18 +98,17 @@ $mdc-theme-on-secondary: #442b2d;
 }
 .invoice-wrapper {
 	position: relative;
-	width: 100%;
-	min-width: 100%;
-	padding: 0 0 141.4285%;
 	font-size: .9rem;
+	width: 100%;
 
 	@media screen {
+		padding: 0 0 141.4285%;
 		min-width: 700px;
 	}
 }
 .invoice-grid {
 	position: absolute;
-	width: 100%;
+	top: 0; left: 0; right: 0;
 	display: grid;
 	grid-gap: .3125rem 1.25rem;
 	grid-template-columns: 1fr 1fr;
@@ -115,7 +125,7 @@ $mdc-theme-on-secondary: #442b2d;
 	display: inline-block;
 	width: 5.2rem; height: 5.2rem;
 	overflow: hidden;
-	margin-right: .625rem;
+	margin-right: $size-medium;
 }
 .invoice-rows {
 	width: 100%;
@@ -125,6 +135,26 @@ $mdc-theme-on-secondary: #442b2d;
 }
 
 
-.invoice-side::first-line {
-	font-weight: bold;
+.invoice-side {
+
+	&-wrapper {
+		display: flex;
+		margin: $size-small 0;
+	}
+	&-label {
+		font-style: italic;
+		font-size: 90%;
+		line-height: 1.15rem;
+	}
+	&-text {
+		flex: 1;
+		min-height: 1rem;
+		border-left: 1px solid $color-light-gray;
+		padding-left: $size-medium;
+		margin-left: $size-medium;
+
+		&::first-line {
+			font-weight: bold;
+		}
+	}
 }

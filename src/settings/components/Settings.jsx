@@ -169,7 +169,7 @@ class Settings extends React.Component {
 						</div><div className='block'>
 							<label>
 								<Text text={t('supplier.identification_text')} />
-								<FormControl value={activeSupplier.identification_text} type='textarea' name='supplier.identification_text' prop='identification_text' onChange={this.handleInput.bind(this)} />
+								<FormControl value={activeSupplier.identification_text} type='textarea' rows='6' name='supplier.identification_text' prop='identification_text' onChange={this.handleInput.bind(this)} />
 							</label>
 						</div><div className='block'>
 							<label className='flex flex-space-between'>

@@ -3,6 +3,12 @@ import { action, runInAction } from 'mobx'
 import { observer, inject } from 'mobx-react'
 import { withNamespaces } from 'react-i18next'
 
+import MaterialIcon from '@material/react-material-icon'
+import IconButton from '@material/react-icon-button'
+import Button from '@material/react-button'
+import Drawer from '@material/react-drawer'
+import List, { ListItem, ListItemText, ListDivider } from '@material/react-list'
+
 import Text from 'text/components/Text'
 import FormControl from 'form/components/FormControl'
 import currencyList from 'currency/helpers/list'
@@ -50,14 +56,14 @@ class Settings extends React.Component {
 			this.setState({ formSuccess: true, creatingNewSupplier: false })
 		}).catch(err => {
 			console.log('caught an error');
-			
+
 		})
 	}
 
 	handleInput(prop, value, event, target) {
 		runInAction(() => { (target || this.state.activeSupplier)[prop] = value })
 		console.log(this.props.SettingsStore.suppliers[0]);
-		
+
 	}
 
 	componentDidUpdate() {
@@ -114,32 +120,33 @@ class Settings extends React.Component {
 		)
 
 		return (
-			<div className='grid grid-large' style={{ gridTemplateColumns: '200px auto' }}>
+			<div className='grid grid-large' style={{ gridTemplateColumns: 'auto auto' }}>
 				<div>
-					<ul className='list'>
-						{(suppliers || []).map((item, index) => (
-							<li key={index} onClick={() => this.openSupplier(item)} className={item.id === activeSupplier.id ? 'list-item-active' : ''}>
-								<Text text={item.label} />
-							</li>
-						))}
+					<Drawer>
 						{creatingNewSupplier && (
-							<li className='list-item-active'>
+							<ListItem disabled={true} className='mdc-list-item--disabled mdc-list-item--disabled-selected'>
 								<Text text={t('supplier.new')} />
-							</li>
+							</ListItem>
 						)}
-						<li>
-							<button type='button' className='button button-alt button-primary wrap' onClick={() => this.openSupplier(void 0, true)}>
-								<Text text={t('supplier.add')} />
-							</button>
-						</li>
-					</ul>
+						<List>
+							{(suppliers || []).map((item, index) => (
+								<ListItem key={index} onClick={() => this.openSupplier(item)} className={'cursor-pointer' + (item.id === activeSupplier.id ? ' mdc-list-item--selected' : '')}>
+									<ListItemText primaryText={item.label} />
+								</ListItem>
+							))}
+						</List>
+						<hr />
+						<Button outlined type='button' className='button button-alt button-primary wrap' onClick={() => this.openSupplier(void 0, true)}>
+							<Text text={t('supplier.add')} />
+						</Button>
+					</Drawer>
 				</div>
 				<div>
 					{!creatingNewSupplier && (
 						<div className='text-align-right'>
-							<button type='button' className='button button-alt button-danger' onClick={() => this.deleteSupplier()}>
+							<Button icon={<MaterialIcon icon='delete' />} type='button' className='button button-alt button-danger' onClick={() => this.deleteSupplier()}>
 								<Text text={t('supplier.delete')} />
-							</button>
+							</Button>
 						</div>
 					)}
 					<form onSubmit={e => this.handleFormSubmit(e, activeSupplier)}>
@@ -195,14 +202,14 @@ class Settings extends React.Component {
 										<Text text={t('purchaser.registered_for_vat')} />
 										<FormControl value={item.registered_for_vat} type='checkbox' name='purchaser.registered_for_vat' prop='registered_for_vat' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
 									</div>
-									<button type='button' className='button button-icon button-alt' onClick={action(() => activeSupplier.purchasers.splice(index, 1))}>
-										&times;
-									</button>
+									<IconButton type='button' className='button button-icon button-alt' onClick={action(() => activeSupplier.purchasers.splice(index, 1))}>
+										<MaterialIcon icon='delete_outline' />
+									</IconButton>
 								</div>
 							))}
-							<button type='button' className='button' onClick={action(() => activeSupplier.purchasers.push({ label: '', text: '' }))}>
+							<Button type='button' className='button' onClick={action(() => activeSupplier.purchasers.push({ label: '', text: '' }))}>
 								<Text text={t('purchaser.add')} />
-							</button>
+							</Button>
 						</div><div className='block'>
 							<label className='flex flex-space-between'>
 								<Text text={t('qr.show')} />
@@ -218,14 +225,14 @@ class Settings extends React.Component {
 									<FormControl value={item.account_number} type='input' name='bank.account_number' prop='account_number' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
 									<FormControl value={item.iban} type='number' name='bank.iban' prop='iban' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
 									<FormControl value={item.swift} type='input' name='bank.swift' prop='swift' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
-									<button type='button' className='button button-icon button-alt' onClick={action(() => activeSupplier.bank_accounts.splice(index, 1))}>
-										&times;
-									</button>
+									<IconButton type='button' className='button button-icon button-alt' onClick={action(() => activeSupplier.bank_accounts.splice(index, 1))}>
+										<MaterialIcon icon='delete_outline' />
+									</IconButton>
 								</div>
 							))}
-							<button type='button' className='button' onClick={action(() => activeSupplier.bank_accounts.push({ label: '', bank: '', account_number: '', iban: '', swift: '' }))}>
+							<Button type='button' className='button' onClick={action(() => activeSupplier.bank_accounts.push({ label: '', bank: '', account_number: '', iban: '', swift: '' }))}>
 								<Text text={t('invoice.default_invoice_row.add')} />
-							</button>
+							</Button>
 						</div><div className='block'>
 							<Text tag='h2' className='heading-4' text={t('invoice.default_invoice_row.rows')} />
 							{activeSupplier.default_invoice_rows.map((item, index) => (
@@ -233,14 +240,14 @@ class Settings extends React.Component {
 									{index + 1}&nbsp;
 									<FormControl value={item.text} type='input' name='text' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
 									<FormControl value={item.price} type='number' name='price.price' prop='price' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
-									<button type='button' className='button button-icon button-alt' onClick={action(() => activeSupplier.default_invoice_rows.splice(index, 1))}>
-										&times;
-									</button>
+									<IconButton type='button' className='button button-icon button-alt' onClick={action(() => activeSupplier.default_invoice_rows.splice(index, 1))}>
+										<MaterialIcon icon='delete_outline' />
+									</IconButton>
 								</div>
 							))}
-							<button type='button' className='button' onClick={action(() => activeSupplier.default_invoice_rows.push({ text: '', price: '' }))}>
+							<Button type='button' className='button' onClick={action(() => activeSupplier.default_invoice_rows.push({ text: '', price: '' }))}>
 								<Text text={t('invoice.default_invoice_row.add')} />
-							</button>
+							</Button>
 						</div>
 						{formError && (
 							<div className='block flex flex-space-between alert danger'>
@@ -255,9 +262,9 @@ class Settings extends React.Component {
 							</div>
 						)}
 						<div className='block'>
-							<button type='submit' className='button button-primary'>
+							<Button raised type='submit' className='button button-primary'>
 								<Text text={t('supplier.save')} />
-							</button>
+							</Button>
 						</div>
 					</form>
 				</div>

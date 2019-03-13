@@ -91,7 +91,7 @@ export default class InvoiceDetail extends React.Component {
 
 		return (
 			<div className='wrapper'>
-				<div className='grid grid-large' style={{ 'gridTemplateColumns': '200px auto' }}>
+				<div className='layout-grid'>
 					<InvoiceParamsForm data={detail} />
 					<InvoiceView data={detail} />
 				</div>

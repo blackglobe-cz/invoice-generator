@@ -1,68 +1,25 @@
-@font-face {
-    font-family: 'arsenalbold';
-    src: url('fonts/arsenal-bold.eot');
-    src: url('fonts/arsenal-bold.eot?#iefix') format('embedded-opentype'),
-         url('fonts/arsenal-bold.woff2') format('woff2'),
-         url('fonts/arsenal-bold.woff') format('woff'),
-         url('fonts/arsenal-bold.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'arsenalitalic';
-    src: url('fonts/arsenal-italic.eot');
-    src: url('fonts/arsenal-italic.eot?#iefix') format('embedded-opentype'),
-         url('fonts/arsenal-italic.woff2') format('woff2'),
-         url('fonts/arsenal-italic.woff') format('woff'),
-         url('fonts/arsenal-italic.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'arsenalregular';
-    src: url('fonts/arsenal-regular.eot');
-    src: url('fonts/arsenal-regular.eot?#iefix') format('embedded-opentype'),
-         url('fonts/arsenal-regular.woff2') format('woff2'),
-         url('fonts/arsenal-regular.woff') format('woff'),
-         url('fonts/arsenal-regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
+$mdc-theme-primary: #5b97e6;
+$mdc-theme-secondary: #feeae6;
+$mdc-theme-on-primary: #fff;
+$mdc-theme-on-secondary: #442b2d;
 
-*,
-*::before,
-*::after {
-	box-sizing: border-box;
-}
-html,
-body {
-    margin: 0;
-    font-family: 'arsenalregular', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    background: #eee;
-    color: #555;
-}
-ul, li {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-hr {
-	margin: 0;
-	border: none;
-	height: 1px;
-	background-color: #bbb;
-}
-a,
-a:visited {
-	color: #555;
-	text-decoration: none;
-}
-.text-emphasize {
-	font-weight: bold;
-}
-.text-align-right {
-	text-align: right;
-}
+@import '@material/react-button/index.scss';
+@import '@material/react-icon-button/index.scss';
+@import '@material/react-drawer/index.scss';
+@import '@material/react-list/index.scss';
+
+@import '@material/button/mixins';
+
+@import './styles/base';
+@import './styles/grid';
+@import './styles/flex';
+@import './styles/typography';
+@import './styles/buttons';
+@import './styles/lists';
+@import './styles/alert';
+@import './styles/form';
+@import './styles/modal';
+@import './styles/mdc-lists';
 
 
 @media print {
@@ -84,14 +41,25 @@ a:visited {
 		max-width: 960px;
 		margin: 2rem auto;
 	}
+
+	.layout-grid {
+		width: 100%;
+		display: grid;
+	    grid-gap: 1.25rem;
+		grid-template-columns: 200px auto;
+	}
 }
 .box {
 	padding: .625rem;
-	background: #fff;
-	transition: .4s all;
-}
-.box:hover {
-	box-shadow: 0 .15625rem .15625rem rgba(0,0,0,.2);
+
+	@media screen {
+		background: #fff;
+		transition: .4s all;
+
+	    &:hover {
+	        box-shadow: 0 .15625rem .15625rem rgba(0,0,0,.2);
+	    }
+	}
 }
 .block {
     margin-bottom: .625rem;
@@ -101,155 +69,9 @@ a:visited {
     padding: 4rem;
     color: #bbb;
 }
-.grid {
-	display: grid;
-    grid-row: 1fr 1fr;
-}
-.grid-large {
-    grid-gap: 1.25rem;
-}
-.flex {
-	display: flex;
-}
-.flex-1 {
-	flex: 1;
-}
-.flex-space-between {
-	justify-content: space-between;
-}
-.flex-align-center {
-	/* justify-content: center; */
-	align-items: center;
-}
 
-.modal-wrapper {
-	// width: 800px;
-	padding: 1.25rem;
-}
-
-.nowrap {
-	white-space: nowrap !important;
-}
-.wrap {
-	white-space: normal !important;
-}
-
-.button {
-    border: 0;
-    background: #555;
-    border: 1px solid #555;
-    color: #fff;
-    padding: calc(.625rem - 2px) 2.5rem;
-    white-space: nowrap;
-    border-radius: .3125rem;
-    font-weight: bold;
-    font-size: 1rem;
-	line-height: 1rem;
-	cursor: pointer;
-
-	&-primary {
-		background: #5ba4d2;
-		border-color: #5ba4d2;
-	}
-	&-danger {
-		background: #ffd0d0;
-		border-color: #ff5555;
-		color: #ff5555 !important;
-	}
-	&-alt {
-		background: #fff;
-		color: #555;
-
-		&:hover {
-			background: rgba(0,0,0,.05);
-		}
-	}
-
-	&-icon {
-		padding-left: .625rem;
-		padding-right: .625rem;
-	}
-	&-phantom {
-		background: #fff;
-		border-color: transparent;
-		color: #555;
-	}
-
-	&:hover {
-		opacity: .8;
-
-	}
-
-}
-
-h1, h2, h3, h4, h5, h6 {
-	margin: 0;
-}
-
-.alert {
-    padding: .625rem 1.25rem;
-	background: lightblue;
-	border: 1px solid #0e91e3;
-	transition: .4s all;
-
-	&:hover {
-		box-shadow: 0 .15625rem .15625rem rgba(0,0,0,.2);
-	}
-	&.success {
-		background: lightgreen;
-		border-color: #22ee22;
-	}
-	&.warning {
-		background: lightsalmon;
-		border-color: #e7a01b;
-	}
-	&.danger {
-		background: #ffd0d0;
-		border-color: #ffd0d0;
-	}
-}
-
-.list > li {
-	border-bottom: 1px solid #eee;
-	padding: .3125rem 0;
-}
-.list > li:last-child {
-	border-bottom: none;
-}
-.list.anchor-list > li {
-	padding: 0 0;
-}
-.list.anchor-list > li > a {
-	padding: .3125rem 0;
-	transition: .4s all;
-}
-.list.anchor-list > li > a:hover {
-	background: #f8f8f8;
-}
-.list-item-active {
-	background: pink;
-}
-
-input[type='text'],
-input[type='number'],
-input[type='date'],
-textarea,
-select {
-    display: block;
-	width: 100%;
-	min-height: 2.25rem;
-    line-height: 1rem;
-    font-size: 1rem;
-    padding: .3125rem;
-    background: #fff;
-    border: 1px solid #999;
-
-    &:disabled {
-        background: #eee;
-    }
-}
-textarea {
-	min-height: 3.5rem;
+.cursor-pointer {
+    cursor: pointer;
 }
 
 .project-logo {
@@ -280,7 +102,10 @@ textarea {
 	display: grid;
 	grid-gap: .3125rem 1.25rem;
 	grid-template-columns: 1fr 1fr;
-	padding: 5rem;
+
+	@media screen {
+		padding: 5rem;
+	}
 }
 .invoice-grid-full-width {
 	grid-column-start: 1;
@@ -299,34 +124,7 @@ textarea {
 	padding-top: 3rem;
 }
 
-.controls li {
-	padding: 1.25rem .625rem;
-	background: #fff;
-	border-bottom: 1px solid #ddd;
 
-	&:last-child {
-		border-bottom: none;
-	}
-}
-.control-block {
-	margin-bottom: .625rem;
-
-	&:last-child {
-		margin-bottom: 0;
-	}
-
-	& > .control-input-checkbox {
-		display: flex;
-		justify-content: space-between;
-	}
-}
 .invoice-side::first-line {
 	font-weight: bold;
-}
-
-.ReactModal__Body--open {
-	overflow: hidden;
-}
-.ReactModal__Overlay {
-	overflow: scroll;
 }

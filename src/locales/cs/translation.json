@@ -50,6 +50,7 @@
 		"payment_type": "Způsob úhrady"
 	},
 	"price": {
+		"autocalc": "Počítat automaticky",
 		"price": "Cena",
 		"total_to_pay": "Celkem k úhradě"
 	},

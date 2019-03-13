@@ -3,6 +3,8 @@ import { inject, observer } from 'mobx-react'
 import { withRouter, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next/hooks'
 
+import Button from '@material/react-button'
+
 import Text from 'text/components/Text'
 import formatCurrency from 'currency/helpers/formatter'
 
@@ -37,7 +39,7 @@ export default class InvoiceList extends React.Component {
 				<div className='block'>You have no invoices yet!</div>
 				{/* <button className='button'>{t('invoice.add')}</button> */}
 				<Link to='/invoice/new'>
-					<button className='button button-primary'>Create invoice</button>
+					<Button raised type='button' className='button button-primary'>Create invoice</Button>
 				</Link>
 			</div>
 		)

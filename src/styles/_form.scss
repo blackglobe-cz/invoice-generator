@@ -1,0 +1,43 @@
+input[type='text'],
+input[type='number'],
+input[type='date'],
+textarea,
+select {
+    display: block;
+	width: 100%;
+	min-height: 2.25rem;
+    line-height: 1rem;
+    font-size: 1rem;
+    padding: .3125rem;
+    background: #fff;
+    border: 1px solid #999;
+
+    &:disabled {
+        background: #eee;
+    }
+}
+textarea {
+	min-height: 3.5rem;
+}
+
+.controls li {
+	padding: 1.25rem .625rem;
+	background: #fff;
+	border-bottom: 1px solid #ddd;
+
+	&:last-child {
+		border-bottom: none;
+	}
+}
+.control-block {
+	margin-bottom: .625rem;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+	& > .control-input-checkbox {
+		display: flex;
+		justify-content: space-between;
+	}
+}

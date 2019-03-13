@@ -1,0 +1,54 @@
+@font-face {
+    font-family: 'arsenalbold';
+    src: url('fonts/arsenal-bold.eot');
+    src: url('fonts/arsenal-bold.eot?#iefix') format('embedded-opentype'),
+         url('fonts/arsenal-bold.woff2') format('woff2'),
+         url('fonts/arsenal-bold.woff') format('woff'),
+         url('fonts/arsenal-bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'arsenalitalic';
+    src: url('fonts/arsenal-italic.eot');
+    src: url('fonts/arsenal-italic.eot?#iefix') format('embedded-opentype'),
+         url('fonts/arsenal-italic.woff2') format('woff2'),
+         url('fonts/arsenal-italic.woff') format('woff'),
+         url('fonts/arsenal-italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'arsenalregular';
+    src: url('fonts/arsenal-regular.eot');
+    src: url('fonts/arsenal-regular.eot?#iefix') format('embedded-opentype'),
+         url('fonts/arsenal-regular.woff2') format('woff2'),
+         url('fonts/arsenal-regular.woff') format('woff'),
+         url('fonts/arsenal-regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.text-emphasize {
+	font-weight: bold;
+}
+.text-align-right {
+	text-align: right;
+}
+
+.nowrap {
+	white-space: nowrap !important;
+}
+.wrap {
+	white-space: normal !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+}
+
+a,
+a:visited {
+	color: #555;
+	text-decoration: none;
+}

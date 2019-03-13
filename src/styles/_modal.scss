@@ -1,0 +1,11 @@
+.modal-wrapper {
+	// width: 800px;
+	padding: 1.25rem;
+}
+
+.ReactModal__Body--open {
+	overflow: hidden;
+}
+.ReactModal__Overlay {
+	overflow: scroll;
+}

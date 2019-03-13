@@ -32,8 +32,8 @@ export default class App extends React.Component {
 
 		const {
 			SettingsStore: {
-				suppliers
-			}
+				suppliers,
+			},
 		} = this.props
 
 		return (

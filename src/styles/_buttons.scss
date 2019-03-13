@@ -1,0 +1,63 @@
+.mdc-button {
+
+    &.button-danger {
+        color: #555;
+
+        &:focus,
+        &:hover {
+          color: #f44336;
+        }
+
+        &::before {
+            background-color: #f44336;
+        }
+    }
+}
+
+// .button {
+//     border: 0;
+//     background: #555;
+//     border: 1px solid #555;
+//     color: #fff;
+//     padding: calc(.625rem - 2px) 2.5rem;
+//     white-space: nowrap;
+//     border-radius: .3125rem;
+//     font-weight: bold;
+//     font-size: 1rem;
+// 	line-height: 1rem;
+// 	cursor: pointer;
+//
+// 	&-primary {
+// 		background: #5ba4d2;
+// 		border-color: #5ba4d2;
+// 	}
+// 	&-danger {
+// 		background: #ffd0d0;
+// 		border-color: #ff5555;
+// 		color: #ff5555 !important;
+// 	}
+// 	&-alt {
+// 		background: #fff;
+// 		color: #555;
+//
+// 		&:hover {
+// 			background: rgba(0,0,0,.05);
+// 		}
+// 	}
+//
+// 	&-icon {
+// 		padding-left: .625rem;
+// 		padding-right: .625rem;
+// 	}
+// 	&-phantom {
+// 		background: #fff;
+// 		border-color: transparent;
+// 		color: #555;
+// 	}
+//
+// 	&:hover {
+// 		opacity: .8;
+//
+// 	}
+//
+// }

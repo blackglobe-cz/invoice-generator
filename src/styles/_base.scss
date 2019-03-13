@@ -1,0 +1,27 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+html,
+body {
+    margin: 0;
+    font-family: 'arsenalregular', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	color: #000;
+
+	@media screen {
+		color: #555;
+		background: #eee;
+	}
+}
+ul, li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+hr {
+	margin: 0;
+	border: none;
+	height: 1px;
+	background-color: #bbb;
+}

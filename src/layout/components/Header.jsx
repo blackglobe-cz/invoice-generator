@@ -3,6 +3,10 @@ import { withRouter, Link } from 'react-router-dom'
 import Modal from 'react-modal'
 import { withNamespaces } from 'react-i18next'
 
+import Button from '@material/react-button'
+import IconButton from '@material/react-icon-button'
+import MaterialIcon from '@material/react-material-icon'
+
 import Text from '../../text/components/Text'
 import Settings from '../../settings/components/Settings'
 
@@ -57,9 +61,14 @@ export default class Header extends React.Component {
 						</Link>
 					</div>
 					<div>
+						<Button dense icon={<i className='material-icons'>settings</i>} type='button' className='button button-phantom button-icon' onClick={this.openSettings}>
+							{t('settings.settings')}
+						</Button>
+						{/*
 						<button type='button' className='button button-phantom button-icon' onClick={this.openSettings}>
 							⚙ {t('settings.settings')}
 						</button>
+						*/}
 					</div>
 				</div>
 
@@ -71,12 +80,17 @@ export default class Header extends React.Component {
 					contentLabel={t('settings.settings')}
 				>
 					<div className='modal-wrapper'>
-						<div className='block flex flex-space-between'>
+						<div className='block flex flex-space-between flex-align-center'>
 							<div className='flex-1'>
 								<Text tag='h1' text={t('settings.settings')} />
 							</div>
 							<div>
-								<button type='button' className='button button-phantom button-icon' onClick={this.closeModal}>&times;</button>
+								{/*
+								<Button icon={<i className='material-icons'>close</i>} type='button' className='button button-phantom button-icon' onClick={this.closeModal}>&times;</Button>
+								*/}
+								<IconButton type='button' onClick={this.closeModal}>
+									<MaterialIcon icon='close' />
+								</IconButton>
 							</div>
 						</div>
 						<hr className='block' />

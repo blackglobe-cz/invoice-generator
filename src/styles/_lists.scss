@@ -1,0 +1,20 @@
+.list > li {
+	border-bottom: 1px solid #eee;
+	padding: .3125rem 0;
+}
+.list > li:last-child {
+	border-bottom: none;
+}
+.list.anchor-list > li {
+	padding: 0 0;
+}
+.list.anchor-list > li > a {
+	padding: .3125rem 0;
+	transition: .4s all;
+}
+.list.anchor-list > li > a:hover {
+	background: #f8f8f8;
+}
+.list-item-active {
+	background: pink;
+}

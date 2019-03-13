@@ -96,7 +96,8 @@ export default class InvoiceParamsForm extends React.Component {
 				{ type: 'date', name: 'date.tax_short', prop: 'tax_date', labelProps: { title: t('date.tax_long') } }
 			], [
 				{ type: 'number', name: 'price.total_to_pay', prop: 'price', props: { min: '0', step: '10.00', disabled: data.autocalc } },
-				{ type: 'checkbox', name: 'price.autocalc', prop: 'autocalc' },
+				{ type: 'checkbox', name: 'price.autocalc', prop: 'autocalc' }
+			], [
 				{ type: 'input', name: 'payment_type.payment_type', prop: 'payment_type', props: { disabled: true } },
 				{ type: 'select', name: 'currency.currency', prop: 'currency', opts: [['CZK', 'Kč'], ['EUR', 'Euro']] },
 				{ type: 'select', name: 'bank.account', prop: 'bank_account', opts: bank_accounts.map((item, index) => [index, item.label]) }

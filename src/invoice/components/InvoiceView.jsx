@@ -1,7 +1,9 @@
 import React from 'react'
-import { runInAction } from 'mobx'
+import { action, runInAction } from 'mobx'
 import { observer } from 'mobx-react'
 import { withNamespaces, WithNamespaces } from 'react-i18next'
+
+import MaterialIcon from '@material/react-material-icon'
 
 import Text from 'text/components/Text'
 import formatDate from 'date/helpers/formatter'
@@ -53,13 +55,7 @@ export default class InvoiceView extends React.Component {
 			},
 		} = this.props
 
-		console.log(this.props);
-
-		// const bank_account = {
-		// 	name: 'Fio',
-		// 	number: '2400329442',
-		// 	code: '2010',
-		// }
+		console.log('invoice-view props', this.props);
 
 		const addInvoiceRow = () => {
 			runInAction(() => { invoice_rows.push(['', 0]) })
@@ -75,25 +71,25 @@ export default class InvoiceView extends React.Component {
 					<div className='invoice-grid-full-width'>
 						<Text className='invoice-logo' text={logo} />
 						<h1>
-							<span translate='invoice'>Faktura</span>&nbsp;<Text tag='span' text={order_number} />
+							<span>{t('invoice.invoice')}</span>&nbsp;<Text tag='span' text={order_number} />
 						</h1>
 					</div>
 					<div className='invoice-grid-full-width'>
 						<div className='flex flex-space-between'>
-							<div translate='document'>Dokument</div>
+							<div>{t('document.document')}</div>
 							<div>
-								<span translate='invoice'>Faktura</span>
-								<span className='registered-for-vat-only not-registered-for-vat-only-eu-only' translate='tax_document'> - daňový doklad</span>
+								<span>{t('invoice.invoice')}</span>
+								<span className='registered-for-vat-only not-registered-for-vat-only-eu-only'>{t('document.tax_document')}</span>
 							</div>
 						</div>
 						<div className='flex flex-space-between'>
-							<div translate='document_number'>Číslo dokumentu</div>
+							<div>{t('document.document_number')}</div>
 							<Text tag='div' text={order_number} />
 						</div>
 						<div className='flex flex-space-between'>
 							{/* <tr className='not-registered-for-vat-only not-registered-for-vat-inland-only'> */}
 							<div></div>
-							<div translate='not_a_tax_document'>Není daňový doklad</div>
+							<div>{t('document.not_a_tax_document')}</div>
 							{/* </tr> */}
 						</div>
 					</div>
@@ -117,45 +113,45 @@ export default class InvoiceView extends React.Component {
 
 					<div className='margin-bottom-medium'>
 						<div className='flex flex-space-between'>
-							<div translate='payment_type'>Způsob úhrady</div>
+							<div>{t('payment_type.payment_type')}</div>
 							<Text text={payment_type} />
 						</div>
 
 						<div className='flex flex-space-between'>
-							<div translate='bank'>Banka</div>
+							<div>{t('bank.bank')}</div>
 							<Text text={bank_account.bank} />
 						</div>
 						<div className='flex flex-space-between'>
-							<div translate='account_number'>Číslo účtu</div>
+							<div>{t('bank.account_number')}</div>
 							{/*<Text className='text-emphasize' text={bank_account.number + '/' + bank_account.code} />*/}
 							<Text className='text-emphasize' text={bank_account.account_number} />
 						</div>
 						{to_other_eu_country && [
 							<div key='iban' className='flex flex-space-between'>
-								<div>IBAN</div>
+								<div>{t('bank.iban')}</div>
 								<Text text={bank_account.iban} />
 							</div >,
 							<div key='swift' className='flex flex-space-between'>
-								<div>BIC/SWIFT</div>
+								<div>{t('bank.swift')}</div>
 								<Text text={bank_account.swift} />
 							</div >
 						]}
 						<div className='flex flex-space-between'>
-							<div translate='variable_symbol'>Variabilní symbol</div>
+							<div>{t('bank.variable_symbol')}</div>
 							<Text className='text-emphasize' text={order_number} />
 						</div>
 					</div>
 					<div className='margin-bottom-medium'>
 						<div className='flex flex-space-between'>
-							<div translate='variable_symbol'>Datum vystavení</div>
+							<div>{t('date.issue')}</div>
 							<Text text={formatDate(issue_date)} />
 						</div>
 						<div className='flex flex-space-between'>
-							<div translate='variable_symbol'>Datum zdanitelného plnění</div>
+							<div>{t('date.tax')}</div>
 							<Text text={formatDate(tax_date)} />
 						</div>
 						<div className='flex flex-space-between'>
-							<div translate='variable_symbol'>Datum splatnosti</div>
+							<div>{t('date.due')}</div>
 							<Text text={formatDate(due_date)} />
 						</div>
 					</div>
@@ -165,7 +161,7 @@ export default class InvoiceView extends React.Component {
 							Fakturujeme Vám
 						</div>
 
-						<hr />
+						<hr className='margin-vertical-small' />
 						<table className='invoice-rows'>
 							<tbody>
 								{invoice_rows.map((item, index) => (
@@ -177,15 +173,15 @@ export default class InvoiceView extends React.Component {
 											{item[1]}
 										</td>
 										<td className='screen-only addon'>
-											<div onClick={() => removeInvoiceRow(index)}>
-												&times;
+											<div>
+												<MaterialIcon icon='close' className='icon-small cursor-pointer invoice-rows-icon' onClick={() => removeInvoiceRow(index)} />
 											</div>
 										</td>
 									</tr>
 								))}
 								<tr className='screen-only'>
-									<td colSpan='3' onClick={addInvoiceRow}>
-										+
+									<td colSpan='3'>
+										<MaterialIcon icon='add' className='icon-small cursor-pointer invoice-rows-icon' onClick={addInvoiceRow} />
 									</td>
 								</tr>
 							</tbody>

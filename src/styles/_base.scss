@@ -10,7 +10,7 @@ body {
 	color: #000;
 
 	@media screen {
-		color: #555;
+		color: $color-text;
 		background: #eee;
 	}
 }

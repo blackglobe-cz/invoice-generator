@@ -12,13 +12,15 @@ $size-big: $size-base * 6;
 $size-large: $size-base * 8;
 
 $color-light-gray: #dedede;
+$color-medium-gray: #ccc;
+$color-text: #555;
 
 @import '@material/react-button/index.scss';
 @import '@material/react-icon-button/index.scss';
 @import '@material/react-drawer/index.scss';
 @import '@material/react-list/index.scss';
 
-@import '@material/button/mixins';
+// @import '@material/button/mixins';
 
 @import './styles/prototyping';
 @import './styles/base';
@@ -28,6 +30,7 @@ $color-light-gray: #dedede;
 @import './styles/buttons';
 @import './styles/lists';
 @import './styles/alert';
+@import './styles/icons';
 @import './styles/forms';
 @import './styles/tables';
 @import './styles/modal';
@@ -129,6 +132,22 @@ $color-light-gray: #dedede;
 }
 .invoice-rows {
 	width: 100%;
+
+	// I don't know why I have to copy this..
+	font-size: .9rem;
+
+	&-icon {
+		color: $color-medium-gray;
+
+		&:hover {
+			color: $color-text;
+		}
+	}
+
+	td {
+		// padding-top: $size-tiny;
+		padding-bottom: $size-tiny;
+	}
 }
 .qr-wrapper {
 	padding-top: 3rem;

@@ -20,6 +20,7 @@ class FormControl extends React.Component {
 			placeholder,
 			onChange,
 			opts,
+			optSrc,
 			...otherProps,
 		} = this.props
 
@@ -28,14 +29,15 @@ class FormControl extends React.Component {
 				<select
 					value={value}
 					name={name}
-					onChange={e => onChange(prop || name, e.target.value, e)}
+					onChange={e => { console.log(prop, e.target.value, typeof e.target.value); onChange(prop || name, (optSrc || opts)[parseInt(e.target.value)], e)} }
 					{...otherProps}
 				>
 					{opts.map((opt, index) => {
 						const val = typeof opt !== 'string' && opt.length >= 1 ? opt[0] : opt
 						const label = typeof opt !== 'string' && opt.length > 1 ? opt[1] : opt
+						// <option key={index} value={index}>{label}</option>
 						return (
-							<option key={index} value={val}>{label}</option>
+							<option key={index} value={index}>{label}</option>
 						)
 					})}
 				</select>

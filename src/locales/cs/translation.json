@@ -22,13 +22,16 @@
 		"tax_short": "DUZP"
 	},
 	"document": {
-		"document": "Dokument"
+		"document": "Dokument",
+		"document_number": "Číslo dokumentu",
+		"not_a_tax_document": "Není daňový doklad",
+		"tax_document": " - daňový doklad"
 	},
 	"footer": "Patička faktury",
 	"form": {
 		"error": "Formulář obsahuje chyby"
 	},
-    "invoice": {
+  "invoice": {
 		"add": "Vytvořit fakturu",
 		"default_invoice_row": {
 			"add": "Přidat řádek",
@@ -36,6 +39,7 @@
 		},
 		"detail_loading": "Načítám detail",
 		"detail_loading_failed": "Načítání detailu selhalo",
+		"invoice": "Faktura",
 		"to_other_eu_country": "Do zahraničí (EU)"
 	},
 	"label": "Popisek",

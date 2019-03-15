@@ -30,6 +30,7 @@ export default class InvoiceParamsForm extends React.Component {
 	}
 
 	handleInput(prop, value) {
+		console.log('changing', value);
 		action(() => { this.props.data[prop] = value })()
 	}
 
@@ -45,17 +46,17 @@ export default class InvoiceParamsForm extends React.Component {
 		})
 	}
 
-	renderInput(control) {
-		return (
-			<input
-				value={this.props.data[control.prop]}
-				type={control.type === 'input' ? 'text' : control.type}
-				name={control.prop}
-				onChange={e => this.handleInput(control.prop, control.type === 'checkbox' ? e.target.checked : e.target.value, e)}
-				{...(control.props || {})}
-			/>
-		)
-	}
+	// renderInput(control) {
+	// 	return (
+	// 		<input
+	// 			value={this.props.data[control.prop]}
+	// 			type={control.type === 'input' ? 'text' : control.type}
+	// 			name={control.prop}
+	// 			onChange={e => this.handleInput(control.prop, control.type === 'checkbox' ? e.target.checked : e.target.value, e)}
+	// 			{...(control.props || {})}
+	// 		/>
+	// 	)
+	// }
 
 	render() {
 
@@ -92,7 +93,7 @@ export default class InvoiceParamsForm extends React.Component {
 				{ type: 'date', name: 'date.due', prop: 'due_date' }
 			], [
 				{ type: 'checkbox', name: 'invoice.to_other_eu_country', prop: 'to_other_eu_country' },
-				{ type: 'select', name: 'purchaser.purchaser', prop: 'purchaser', opts: purchasers.map((item, index) => [index, item.label]) },
+				{ type: 'select', name: 'purchaser.purchaser', prop: 'purchaser', optSrc: purchasers, opts: purchasers.map((item, index) => [item, item.label]) },
 				{ type: 'date', name: 'date.tax_short', prop: 'tax_date', labelProps: { title: t('date.tax_long') } }
 			], [
 				{ type: 'number', name: 'price.total_to_pay', prop: 'price', props: { min: '0', step: '10.00', disabled: data.autocalc } },
@@ -100,7 +101,7 @@ export default class InvoiceParamsForm extends React.Component {
 			], [
 				{ type: 'input', name: 'payment_type.payment_type', prop: 'payment_type', props: { disabled: true } },
 				{ type: 'select', name: 'currency.currency', prop: 'currency', opts: [['CZK', 'Kč'], ['EUR', 'Euro']] },
-				{ type: 'select', name: 'bank.account', prop: 'bank_account', opts: bank_accounts.map((item, index) => [index, item.label]) }
+				{ type: 'select', name: 'bank.account', prop: 'bank_account', optSrc: bank_accounts, opts: bank_accounts.map((item, index) => [item, item.label]) }
 			]
 		]
 
@@ -129,22 +130,7 @@ export default class InvoiceParamsForm extends React.Component {
 								<div className='control-block' key={control.name}>
 									<label className={'control-input-' + control.type}>
 										<Text tag='span' text={t(control.name)} {...(control.labelProps || {})} />
-
-										{/*
-										{control.type === 'select' && (
-											<div>
-												<select value={data[control.prop]} name={control.prop} onChange={control.onChange || (e => this.handleInput(control.prop, e.target.value, e))}>
-													{control.opts.map((opt, index) => (
-														<option key={index} value={opt[0]}>{opt[1]}</option>
-													))}
-												</select>
-											</div>
-										)}
-										{(control.type === 'checkbox') && this.renderInput(control)}
-										{(control.type === 'input' || control.type === 'date' || control.type === 'number') && this.renderInput(control)}
-										*/}
-										<FormControl type={control.type} name={control.prop} onChange={(control.onChange || this.handleInput).bind(this)} value={data[control.prop]} opts={control.opts || null} {...(control.props || {})} />
-
+										<FormControl type={control.type} name={control.name} prop={control.prop} onChange={(control.onChange || this.handleInput).bind(this)} optSrc={control.optSrc || control.opts} value={control.type === 'select' ? (control.optSrc || control.opts).indexOf(data[control.prop]) : data[control.prop]} opts={control.opts || null} {...(control.props || {})} />
 									</label>
 								</div>
 							))}

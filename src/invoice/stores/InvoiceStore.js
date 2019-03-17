@@ -50,11 +50,12 @@ class InvoiceStore {
 		})
 	}
 
-	@action save(invoice) {
-		const newInvoice = new InvoiceModel(invoice)
-		this.items.push(newInvoice)
-		agent.invoice.create(newInvoice).then(res => {
-			console.log('Invoice created ok');
+	@action
+	save(invoice, create) {
+		console.log(invoice);
+		if (create) this.items.push(invoice)
+		agent.invoice[create ? 'create' : 'update'](invoice).then(res => {
+			console.log('Invoice saved ok');
 		}).catch(err => {
 			for (var i = this.items.length;i--;) {
 				if (this.items[i].id === invoice.id) {

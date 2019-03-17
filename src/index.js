@@ -15,6 +15,7 @@ import App from './App'
 
 import InvoiceStore from './invoice/stores/InvoiceStore'
 import SettingsStore from './settings/stores/SettingsStore'
+import PaymentTypeStore from './payment-type/stores/PaymentTypeStore'
 
 import { I18nextProvider } from 'react-i18next'
 import i18n from './i18n'
@@ -26,6 +27,7 @@ configure({
 const stores = {
 	InvoiceStore,
 	SettingsStore,
+  PaymentTypeStore,
 }
 
 render(

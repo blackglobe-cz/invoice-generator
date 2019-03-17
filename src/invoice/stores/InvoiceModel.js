@@ -1,6 +1,7 @@
 import { computed, observable, runInAction } from 'mobx'
 
 import isoCurrencies from 'currency/helpers/list'
+import PaymentTypeStore from 'payment-type/stores/PaymentTypeStore'
 
 export default class InvoiceModel {
 	id
@@ -22,27 +23,29 @@ export default class InvoiceModel {
 		return 0.21 * (this.price || 0)
 	}
 	@computed get total_price() {
-		return this.price + this.vat_amount
+		return this.price + (((this.supplier && this.supplier.registered_for_vat) || this.to_other_eu_country) ? this.vat_amount : 0)
 	}
 	@observable currency
 	@observable supplier
 	@observable purchaser
 	@observable bank_account
+	@observable payment_type
 	@observable qr_code
 	@observable footer
 	@computed get qr_code_value() {
+		const due_date = new Date(this.due_date)
 		if (!(
 			this.bank_account && this.bank_account.iban && this.bank_account.swift
 			&& this.total_price > 0
 			&& this.currency && isoCurrencies.indexOf(this.currency) > -1
-			&& this.due_date && typeof this.due_date.getDate === 'function'
+			&& due_date && typeof due_date.getDate === 'function'
 			&& this.order_number
 		)) return ''
 		const spayd = 'SPD*1.0'
 			+ '*ACC:' + this.bank_account.iban + '+' + this.bank_account.swift
 			+ '*AM:' + String(this.total_price)
 			+ '*CC:' + String(this.currency).toUpperCase()
-			+ '*DT:' + this.due_date.getISOString().slice(0, 10)
+			+ '*DT:' + due_date.toISOString().slice(0, 10)
 			+ '*X-VS:' + String(this.order_number.slice(0, 10))
 		// qrcode.makeCode(spayd)
 		// fe($('.qr-outer-wrapper'), el => (checkQRValidity() ? el.classList.remove('invalid') : el.classList.add('invalid')))
@@ -66,6 +69,7 @@ export default class InvoiceModel {
 		supplier,
 		purchaser,
 		bank_account,
+		payment_type,
 		qr_code,
 		invoice_rows,
 		footer,
@@ -85,6 +89,7 @@ export default class InvoiceModel {
 			this.supplier = supplier
 			this.purchaser = purchaser
 			this.bank_account = bank_account
+			this.payment_type = payment_type || PaymentTypeStore.paymentTypes[0]
 			this.qr_code = qr_code || true
 			this.invoice_rows = invoice_rows || []
 			this.footer = footer || ''

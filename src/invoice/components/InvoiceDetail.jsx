@@ -1,4 +1,5 @@
 import React from 'react'
+import { toJS } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import { withNamespaces } from 'react-i18next'
 
@@ -50,12 +51,11 @@ export default class InvoiceDetail extends React.Component {
 		if (!(InvoiceStore.loaded && loaded)) return
 
 		this.setState({
-			detail: match.params.id === 'new' ? this.getBlankInvoice(suppliers[0]) : InvoiceStore.invoice(parseInt(match.params.id)),
+			detail: match.params.id === 'new' ? this.getBlankInvoice(suppliers[0]) : new InvoiceModel(toJS(InvoiceStore.invoice(parseInt(match.params.id)))),
 		})
 	}
 
 	getBlankInvoice(supplier) {
-		console.log('blank', supplier);
 
 		return getInvoiceBasedOnSupplier(supplier)
 	}
@@ -67,7 +67,6 @@ export default class InvoiceDetail extends React.Component {
 			InvoiceStore,
 			SettingsStore,
 		} = this.props
-		// const t = a => a
 
 		const {
 			detail,

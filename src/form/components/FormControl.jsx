@@ -29,7 +29,7 @@ class FormControl extends React.Component {
 				<select
 					value={value}
 					name={name}
-					onChange={e => { console.log(prop, e.target.value, typeof e.target.value); onChange(prop || name, (optSrc || opts)[parseInt(e.target.value)], e)} }
+					onChange={e => onChange(prop || name, (optSrc || opts)[parseInt(e.target.value)], e) }
 					{...otherProps}
 				>
 					{opts.map((opt, index) => {

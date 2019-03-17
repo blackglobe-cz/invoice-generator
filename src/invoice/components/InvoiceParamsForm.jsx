@@ -4,6 +4,8 @@ import { action, runInAction, toJS } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import { withNamespaces } from 'react-i18next'
 
+import Button from '@material/react-button'
+
 import Text from 'text/components/Text'
 import FormControl from 'form/components/FormControl'
 import InvoiceModel from 'invoice/stores/InvoiceModel'
@@ -11,7 +13,7 @@ import { isNull } from 'util'
 
 import { getInvoiceBasedOnSupplier } from '../helpers/invoiceHelpers'
 
-@inject('SettingsStore')
+@inject('SettingsStore', 'PaymentTypeStore', 'InvoiceStore')
 @withNamespaces()
 @observer
 export default class InvoiceParamsForm extends React.Component {
@@ -24,13 +26,16 @@ export default class InvoiceParamsForm extends React.Component {
 		}
 	}
 
-	handleFormSubmit() {
-		console.log('Form submitted yo!')
+	handleFormSubmit(event) {
+		event.preventDefault()
+		// window.print()
 
+		console.log('Form submitted yo!')
+		this.props.InvoiceStore.save(this.props.data, location.pathname.indexOf('/invoice/new') > -1)
 	}
 
 	handleInput(prop, value) {
-		console.log('changing', value);
+		console.log('changing', prop, value);
 		action(() => { this.props.data[prop] = value })()
 	}
 
@@ -64,6 +69,7 @@ export default class InvoiceParamsForm extends React.Component {
 			t,
 			data,
 			SettingsStore,
+			PaymentTypeStore,
 		} = this.props
 
 		const {
@@ -73,6 +79,10 @@ export default class InvoiceParamsForm extends React.Component {
 		const {
 			suppliers,
 		} = SettingsStore
+
+		const {
+			paymentTypes,
+		} = PaymentTypeStore
 
 		let bank_accounts = []
 		let purchasers = []
@@ -99,17 +109,15 @@ export default class InvoiceParamsForm extends React.Component {
 				{ type: 'number', name: 'price.total_to_pay', prop: 'price', props: { min: '0', step: '10.00', disabled: data.autocalc } },
 				{ type: 'checkbox', name: 'price.autocalc', prop: 'autocalc' }
 			], [
-				{ type: 'input', name: 'payment_type.payment_type', prop: 'payment_type', props: { disabled: true } },
+				{ type: 'select', name: 'payment_type.payment_type', prop: 'payment_type', optSrc: paymentTypes, opts: paymentTypes.map(item => [t(item.label), t(item.label)]) },
 				{ type: 'select', name: 'currency.currency', prop: 'currency', opts: [['CZK', 'Kč'], ['EUR', 'Euro']] },
 				{ type: 'select', name: 'bank.account', prop: 'bank_account', optSrc: bank_accounts, opts: bank_accounts.map((item, index) => [item, item.label]) }
 			]
 		]
 
-		console.log('rendering disabled', data.autocalc);
-
 		return (
 			<div className='controls screen-only'>
-				<form onSubmit={this.handleFormSubmit}>
+				<form onSubmit={e => this.handleFormSubmit(e)}>
 					<li>
 						<div className='control-block'>
 							<label className='control-input-select'>
@@ -136,6 +144,14 @@ export default class InvoiceParamsForm extends React.Component {
 							))}
 						</li>
 					))}
+					<li>
+						<Button raised type='submit' className='full-width block'>
+							<Text text={t('document.save')} />
+						</Button>
+						<Button outlined type='button' onClick={window.print} className='full-width'>
+							<Text text={t('document.print')} />
+						</Button>
+					</li>
 				</form>
 			</div>
 		)

@@ -25,6 +25,8 @@
 		"document": "Dokument",
 		"document_number": "Číslo dokumentu",
 		"not_a_tax_document": "Není daňový doklad",
+		"print": "Tisknout",
+		"save": "Uložit",
 		"tax_document": " - daňový doklad"
 	},
 	"footer": "Patička faktury",
@@ -39,6 +41,7 @@
 		},
 		"detail_loading": "Načítám detail",
 		"detail_loading_failed": "Načítání detailu selhalo",
+		"empty_list": "Zatím nemáte žádné faktury",
 		"invoice": "Faktura",
 		"to_other_eu_country": "Do zahraničí (EU)"
 	},
@@ -51,6 +54,8 @@
 		"language": "Jazyk"
 	},
 	"payment_type": {
+		"bank_transfer": "Bankovním převodem",
+		"cash": "Hotově",
 		"payment_type": "Způsob úhrady"
 	},
 	"price": {

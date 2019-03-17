@@ -34,7 +34,6 @@ function copy(obj) {
 }
 
 function prepareForContentEditable(supplier = {}) {
-  console.log('supp', supplier);
   supplier.identification_text = supplier.identification_text.replace(/\n/g, '<br />')
   return supplier
 }

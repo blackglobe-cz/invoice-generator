@@ -19,6 +19,16 @@ export default {
 			window.localStorage.setItem(INVOICE_STORAGE_KEY, JSON.stringify(invoiceStorage))
 			return Promise.resolve(item)
 		},
+		update: item => {
+			for (var i = invoiceStorage.invoices.length;i--;) {
+				if (invoiceStorage.invoices[i].id === item.id) {
+					invoiceStorage.invoices[i] = item
+					break
+				}
+			}
+			window.localStorage.setItem(INVOICE_STORAGE_KEY, JSON.stringify(invoiceStorage))
+			return Promise.resolve(item)
+		},
 	},
 	settings: {
 		query: () => {

@@ -64,7 +64,7 @@ export default class SupplierModel {
 			}]
 			// this.default_bank_account = default_bank_account
 			this.footer = footer || ''
-			this.show_qr_code = show_qr_code
+			this.show_qr_code = typeof show_qr_code !== void 0 ? show_qr_code : true
 			this.default_invoice_rows = default_invoice_rows || [{ text: '', price: 0 }]
 		})
 	}

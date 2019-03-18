@@ -90,7 +90,7 @@ export default class InvoiceModel {
 			this.purchaser = purchaser
 			this.bank_account = bank_account
 			this.payment_type = payment_type || PaymentTypeStore.paymentTypes[0]
-			this.qr_code = qr_code || true
+			this.qr_code = typeof qr_code !== void 0 ? qr_code : true
 			this.invoice_rows = invoice_rows || []
 			this.footer = footer || ''
 

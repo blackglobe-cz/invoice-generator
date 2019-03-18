@@ -1,7 +1,9 @@
 $mdc-theme-primary: #5b97e6;
-$mdc-theme-secondary: #feeae6;
+// $mdc-theme-secondary: #feeae6;
+$mdc-theme-secondary: #5b97e6;
 $mdc-theme-on-primary: #fff;
-$mdc-theme-on-secondary: #442b2d;
+// $mdc-theme-on-secondary: #442b2d;
+$mdc-theme-on-secondary: #fff;
 
 $size-base: .15625rem;
 
@@ -19,11 +21,14 @@ $color-text: #555;
 @import '@material/react-icon-button/index.scss';
 @import '@material/react-drawer/index.scss';
 @import '@material/react-list/index.scss';
+@import '@material/react-checkbox/index.scss';
+@import '@material/react-text-field/index.scss';
 
 // @import '@material/button/mixins';
 
 @import './styles/prototyping';
 @import './styles/base';
+@import './styles/box';
 @import './styles/grid';
 @import './styles/flex';
 @import './styles/typography';
@@ -63,18 +68,7 @@ $color-text: #555;
 		grid-template-columns: 200px auto;
 	}
 }
-.box {
-	padding: $size-medium;
 
-	@media screen {
-		background: #fff;
-		transition: .4s all;
-
-	    &:hover {
-	        box-shadow: 0 .15625rem .15625rem rgba(0,0,0,.2);
-	    }
-	}
-}
 .block {
     margin-bottom: $size-medium;
 }

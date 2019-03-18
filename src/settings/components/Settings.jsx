@@ -172,7 +172,7 @@ class Settings extends React.Component {
 								<FormControl value={activeSupplier.identification_text} type='textarea' rows='6' name='supplier.identification_text' prop='identification_text' onChange={this.handleInput.bind(this)} />
 							</label>
 						</div><div className='block'>
-							<label className='flex flex-space-between'>
+							<label className='flex flex-space-between flex-align-center'>
 								<Text text={t('supplier.registered_for_vat') + '*'} />
 								<FormControl value={activeSupplier.registered_for_vat} type='checkbox' name='supplier.registered_for_vat' prop='registered_for_vat' onChange={this.handleInput.bind(this)} />
 							</label>
@@ -211,7 +211,7 @@ class Settings extends React.Component {
 								<Text text={t('purchaser.add')} />
 							</Button>
 						</div><div className='block'>
-							<label className='flex flex-space-between'>
+							<label className='flex flex-space-between flex-align-center'>
 								<Text text={t('qr.show')} />
 								<FormControl value={activeSupplier.show_qr_code} type='checkbox' name='qr.show' prop='show_qr_code' onChange={this.handleInput.bind(this)} />
 							</label>
@@ -231,7 +231,7 @@ class Settings extends React.Component {
 								</div>
 							))}
 							<Button type='button' className='button' onClick={action(() => activeSupplier.bank_accounts.push({ label: '', bank: '', account_number: '', iban: '', swift: '' }))}>
-								<Text text={t('invoice.default_invoice_row.add')} />
+								<Text text={t('bank.add_account')} />
 							</Button>
 						</div><div className='block'>
 							<Text tag='h2' className='heading-4' text={t('invoice.default_invoice_row.rows')} />

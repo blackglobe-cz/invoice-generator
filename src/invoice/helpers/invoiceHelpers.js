@@ -4,7 +4,7 @@ export {
   getInvoiceBasedOnSupplier,
 }
 
-function getInvoiceBasedOnSupplier(supplier) {
+function getInvoiceBasedOnSupplier(supplier, id) {
 
   const due_date = (new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * parseInt(supplier.default_due_date_period || 14)))).toISOString().slice(0, 10)
   const invoice_rows = []
@@ -14,7 +14,9 @@ function getInvoiceBasedOnSupplier(supplier) {
     invoice_rows.push([item.text, item.price])
   })
 
+  // console.log('sup', supplier);
   return new InvoiceModel({
+    id,
     supplier: prepareForContentEditable(copy(supplier)),
     logo: supplier.logo,
     language: supplier.language,
@@ -22,7 +24,7 @@ function getInvoiceBasedOnSupplier(supplier) {
     purchaser: copy(supplier.purchasers[0]),
     bank_account: copy(supplier.bank_accounts[0]),
     invoice_rows,
-    qr_code: supplier.show_qr_code,
+    qr_code: !!supplier.show_qr_code,
     footer: supplier.footer,
     due_date,
     price,

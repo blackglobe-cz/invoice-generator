@@ -22,6 +22,7 @@ export default class InvoiceView extends React.Component {
 		this.invoice_rows_nodes = []
 
 		this.state = {
+			supplier_id: null,
 			supplier_text: null,
 			purchaser_text: null,
 			invoice_rows: [],
@@ -29,12 +30,23 @@ export default class InvoiceView extends React.Component {
 	}
 
 	componentDidMount() {
+		this.resetLocalState()
+	}
+
+	resetLocalState() {
 		const data = this.props.data
 		this.setState({
+			supplier_id: data.supplier.id,
 			supplier_text: data.supplier.identification_text,
 			purchaser_text: data.purchaser.text,
 			invoice_rows: JSON.parse(JSON.stringify(data.invoice_rows)),
 		})
+	}
+
+	componentDidUpdate(prevProps) {
+		if (this.state.supplier_id !== this.props.data.supplier.id) {
+			this.resetLocalState()
+		}
 	}
 
 	assignRow = (el, index, rowIndex) => {
@@ -60,13 +72,18 @@ export default class InvoiceView extends React.Component {
 			} else if (prop === 'purchaser') {
 				this.props.data.purchaser.text = this.purchaser_node.current.innerHTML
 			} else if (prop === 'invoice_row') {
+				console.log(this.props.data.invoice_rows, opts.index);
 				this.props.data.invoice_rows[opts.index] = this.props.data.invoice_rows[opts.index] || []
 				this.props.data.invoice_rows[opts.index][opts.rowIndex] = this.invoice_rows_nodes[opts.index][opts.rowIndex].innerHTML
 
-				const np = this.props.data.invoice_rows.reduce((acc, item) => acc + parseFloat(item[1]), 0)
-				this.props.data.price = np
+				this.recalculatePrice()
 			}
 		})
+	}
+
+	// is expected to be run in a runInAction block
+	recalculatePrice() {
+		this.props.data.price = this.props.data.invoice_rows.reduce((acc, item) => acc + parseFloat(item[1] || '0'), 0)
 	}
 
 	render() {
@@ -93,13 +110,20 @@ export default class InvoiceView extends React.Component {
 			},
 		} = this.props
 
-		console.log('invoice-view props', this.props);
-
 		const addInvoiceRow = () => {
-			runInAction(() => { invoice_rows.push(['', 0]) })
+			runInAction(() => invoice_rows.push(['', 0]))
+			this.setState({
+				invoice_rows: JSON.parse(JSON.stringify(invoice_rows)),
+			})
 		}
 		const removeInvoiceRow = index => {
-			runInAction(() => { invoice_rows.splice(index, 1) })
+			runInAction(() => {
+				invoice_rows.splice(index, 1)
+				this.recalculatePrice()
+			})
+			this.setState({
+				invoice_rows: JSON.parse(JSON.stringify(invoice_rows)),
+			})
 		}
 
 		const isTaxDocument = (supplier && supplier.registered_for_vat) || to_other_eu_country

@@ -5,9 +5,11 @@ import { withRouter, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next/hooks'
 
 import Button from '@material/react-button'
+import List, { ListItem, ListDivider, ListItemText } from '@material/react-list'
 
 import Text from 'text/components/Text'
 import formatCurrency from 'currency/helpers/formatter'
+import formatDate from 'date/helpers/formatter'
 
 ////////
 
@@ -54,19 +56,26 @@ export default class InvoiceList extends React.Component {
 						<Button outlined type='button'><Text text={t('invoice.add')} /></Button>
 					</Link>
 				</div>
-				<ul className='list anchor-list'>
+				{/*<ul className='list anchor-list'>*/}
+				<List className='mdc-list-anchors'>
+					<li className='flex mdc-list-heading'>
+						<Text className='flex-1'>{t('date.issue')}</Text>
+						<Text className='flex-1'>{t('invoice.order_number')}</Text>
+						<Text className='flex-1'>{t('purchaser.purchaser')}</Text>
+						<Text className='flex-1 text-align-right'>{t('price.price')}</Text>
+					</li>
+					<ListDivider />
 					{InvoiceStore.items.map((item, index) => (
-						<li key={index}>
-							<Link to={`/invoice/${item.id}`} className='flex'>
-								{/*<Text className='flex-1' text={index + 1} />*/}
+						<ListItem key={index}>
+							<Link to={`/invoice/${item.id}`} className='flex flex-1 flex-align-center'>
+								<Text className='flex-1' text={formatDate(item.issue_date)} />
 								<Text className='flex-1' text={item.order_number} />
-								<Text className='flex-1' text={formatCurrency(item.total_price, item.currency)} />
 								<Text className='flex-1' text={item.purchaser ? item.purchaser.label : '??'} />
-								<Text className='flex-1' text={item.issued_at} />
+								<Text className='flex-1 text-align-right' text={formatCurrency(item.total_price, item.currency)} />
 							</Link>
-						</li>
+						</ListItem>
 					))}
-				</ul>
+				</List>
 			</div>
 		)
 

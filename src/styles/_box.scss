@@ -1,0 +1,12 @@
+.box {
+	padding: $size-medium;
+
+	@media screen {
+		background: #fff;
+		transition: .4s all;
+
+	    &:hover {
+	        box-shadow: 0 $size-tiny $size-tiny rgba(0,0,0,.2);
+	    }
+	}
+}

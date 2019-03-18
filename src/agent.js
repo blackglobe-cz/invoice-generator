@@ -29,6 +29,17 @@ export default {
 			window.localStorage.setItem(INVOICE_STORAGE_KEY, JSON.stringify(invoiceStorage))
 			return Promise.resolve(item)
 		},
+		delete: id => {
+			let item
+			for (var i = invoiceStorage.invoices.length;i--;) {
+				if (invoiceStorage.invoices[i].id === id) {
+					item = invoiceStorage.invoices.splice(i, 1)
+					break
+				}
+			}
+			window.localStorage.setItem(INVOICE_STORAGE_KEY, JSON.stringify(invoiceStorage))
+			return Promise.resolve(item)
+		}
 	},
 	settings: {
 		query: () => {

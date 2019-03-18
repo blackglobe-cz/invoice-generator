@@ -1,6 +1,5 @@
 import React from 'react'
-import { action, runInAction, toJS } from 'mobx'
-// import { toJS } from 'mobx-utils'
+import { runInAction } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import { withNamespaces } from 'react-i18next'
 
@@ -28,15 +27,11 @@ export default class InvoiceParamsForm extends React.Component {
 
 	handleFormSubmit(event) {
 		event.preventDefault()
-		// window.print()
-
-		console.log('Form submitted yo!')
 		this.props.InvoiceStore.save(this.props.data, location.pathname.indexOf('/invoice/new') > -1)
 	}
 
 	handleInput(prop, value) {
-		console.log('changing', prop, value);
-		action(() => { this.props.data[prop] = value })()
+		runInAction(() => { this.props.data[prop] = value })
 	}
 
 	handleSupplierChange(e) {
@@ -50,18 +45,6 @@ export default class InvoiceParamsForm extends React.Component {
 			})
 		})
 	}
-
-	// renderInput(control) {
-	// 	return (
-	// 		<input
-	// 			value={this.props.data[control.prop]}
-	// 			type={control.type === 'input' ? 'text' : control.type}
-	// 			name={control.prop}
-	// 			onChange={e => this.handleInput(control.prop, control.type === 'checkbox' ? e.target.checked : e.target.value, e)}
-	// 			{...(control.props || {})}
-	// 		/>
-	// 	)
-	// }
 
 	render() {
 
@@ -100,7 +83,8 @@ export default class InvoiceParamsForm extends React.Component {
 				{ type: 'select', name: 'language.language', prop: 'language', opts: [['cs', 'Česky'], ['en', 'English']] }
 			], [
 				{ type: 'date', name: 'date.issue', prop: 'issue_date' },
-				{ type: 'date', name: 'date.due', prop: 'due_date' }
+				{ type: 'date', name: 'date.due', prop: 'due_date' },
+				{ type: 'number', name: 'invoice.order_number_of_the_day', prop: 'order_number_of_the_day' }
 			], [
 				{ type: 'checkbox', name: 'invoice.to_other_eu_country', prop: 'to_other_eu_country' },
 				{ type: 'select', name: 'purchaser.purchaser', prop: 'purchaser', optSrc: purchasers, opts: purchasers.map((item, index) => [item, item.label]) },

@@ -52,10 +52,23 @@ class InvoiceStore {
 
 	@action
 	save(invoice, create) {
-		console.log(invoice);
-		if (create) this.items.push(invoice)
+		// console.log('Saving invoice', invoice);
 		agent.invoice[create ? 'create' : 'update'](invoice).then(res => {
 			console.log('Invoice saved ok');
+			if (create) {
+				runInAction(() => {
+					this.items.push(invoice)
+				})
+			} else {
+				for (var i = this.items.length;i--;) {
+					if (this.items[i].id === invoice.id) {
+						runInAction(() => {
+							this.items[i] = invoice
+						})
+						break
+					}
+				}
+			}
 		}).catch(err => {
 			for (var i = this.items.length;i--;) {
 				if (this.items[i].id === invoice.id) {
@@ -68,6 +81,27 @@ class InvoiceStore {
 			}
 		})
 	}
+
+	@action
+	delete(invoiceId) {
+		return new Promise((resolve, reject) => {
+			let item
+			agent.invoice.delete(invoiceId).then(res => {
+				for (var i = this.items.length;i--;) {
+					if (this.items[i].id === invoiceId) {
+						runInAction(() => {
+							item = this.items.splice(i, 1)
+						})
+						break
+					}
+				}
+				resolve(item)
+			}).catch(err => {
+				reject(err)
+			})
+		})
+	}
+
 }
 
 export default new InvoiceStore()

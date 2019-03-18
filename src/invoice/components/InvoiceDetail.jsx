@@ -2,6 +2,10 @@ import React from 'react'
 import { toJS } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import { withNamespaces } from 'react-i18next'
+import { Route, Redirect } from 'react-router'
+
+import Button from '@material/react-button'
+import MaterialIcon from '@material/react-material-icon'
 
 import Text from 'text/components/Text'
 import InvoiceParamsForm from './InvoiceParamsForm'
@@ -19,6 +23,7 @@ export default class InvoiceDetail extends React.Component {
 		super()
 
 		this.state = {
+			redirectTo: null,
 			detail: false,
 		}
 	}
@@ -56,8 +61,18 @@ export default class InvoiceDetail extends React.Component {
 	}
 
 	getBlankInvoice(supplier) {
-
 		return getInvoiceBasedOnSupplier(supplier)
+	}
+
+	deleteInvoice() {
+		if (!confirm(this.props.t('invoice.delete_confirm'))) return
+		this.props.InvoiceStore.delete(this.state.detail.id).then(res => {
+			this.setState({
+				redirectTo: '/',
+			})
+		}).catch(err => {
+			console.log('ERROR invoice delete', err);
+		})
 	}
 
 	render() {
@@ -70,6 +85,7 @@ export default class InvoiceDetail extends React.Component {
 
 		const {
 			detail,
+			redirectTo,
 		} = this.state
 
 		const {
@@ -79,6 +95,8 @@ export default class InvoiceDetail extends React.Component {
 		const {
 			loaded: settingsLoaded,
 		} = SettingsStore
+
+		if (redirectTo) return (<Redirect to={this.state.redirectTo} />)
 
 		if (!(invoicesLoaded && settingsLoaded)) return (
 			<Text className='wrapper empty' text={t('invoice.detail_loading')} />
@@ -90,6 +108,15 @@ export default class InvoiceDetail extends React.Component {
 
 		return (
 			<div className='wrapper'>
+				{location.pathname.indexOf('/invoice/new') === -1 &&
+					<div className='text-align-right screen-only'>
+						<hr className='margin-bottom-small' />
+						<Button className='button-danger margin-bottom-small' icon={<MaterialIcon icon='delete_outline' />} onClick={() => this.deleteInvoice()}>
+							<Text text={t('invoice.delete')} />
+						</Button>
+					</div>
+				}
+
 				<div className='layout-grid'>
 					<InvoiceParamsForm data={detail} />
 					<InvoiceView data={detail} />

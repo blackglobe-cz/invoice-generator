@@ -41,7 +41,7 @@ export default class InvoiceParamsForm extends React.Component {
 		}, () => {
 			const supplier = this.props.SettingsStore.suppliers.find(item => ('' + item.id) === ('' + value))
 			runInAction(() => {
-				Object.assign(this.props.data, getInvoiceBasedOnSupplier(supplier))
+				Object.assign(this.props.data, getInvoiceBasedOnSupplier(supplier, this.props.data.id))
 			})
 		})
 	}

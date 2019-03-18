@@ -213,7 +213,7 @@ export default class InvoiceView extends React.Component {
 								<Text text={formatDate(tax_date)} />
 							</div>
 						)}
-						<div className='flex flex-space-between'>
+						<div className='flex flex-space-between text-emphasize'>
 							<Text text={t('date.due')} />
 							<Text text={formatDate(due_date)} />
 						</div>

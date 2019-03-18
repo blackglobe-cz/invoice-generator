@@ -52,18 +52,15 @@ class Settings extends React.Component {
 			formError: true
 		})
 		this.props.SettingsStore.save(supplier, !!this.state.creatingNewSupplier).then(res => {
-			console.log('saved :)', res);
 			this.setState({ formSuccess: true, creatingNewSupplier: false })
 		}).catch(err => {
-			console.log('caught an error');
-
+			console.log('caught an error', err);
 		})
 	}
 
 	handleInput(prop, value, event, target) {
 		runInAction(() => { (target || this.state.activeSupplier)[prop] = value })
-		console.log(this.props.SettingsStore.suppliers[0]);
-
+		// console.log(this.props.SettingsStore.suppliers[0]);
 	}
 
 	componentDidUpdate() {
@@ -115,6 +112,8 @@ class Settings extends React.Component {
 			suppliers,
 		} = SettingsStore
 
+		const languageList = [['cs', 'Česky'], ['en', 'English']]
+
 		if (!(loaded && activeSupplier.id)) return (
 			<Text tag='div' className='empty' text={t('loading')} />
 		)
@@ -164,7 +163,7 @@ class Settings extends React.Component {
 						</div><div className='block'>
 							<label>
 								<Text text={t('language.language') + '*'} />
-								<FormControl value={activeSupplier.language} type='select' name='language.language' prop='language' onChange={this.handleInput.bind(this)} opts={[['cs', 'Česky'], ['en', 'English']]} />
+								<FormControl value={languageList.findIndex(item => item[0] === activeSupplier.default_language)} type='select' name='language.language' prop='default_language' onChange={this.handleInput.bind(this)} optSrc={languageList.map(i => i[0])} opts={languageList} />
 							</label>
 						</div><div className='block'>
 							<label>
@@ -179,7 +178,7 @@ class Settings extends React.Component {
 						</div><div className='block'>
 							<label>
 								<Text text={t('currency.default') + '*'} />
-								<FormControl value={activeSupplier.default_currency} type='select' name='currency.default' prop='default_currency' onChange={this.handleInput.bind(this)} opts={currencyList} />
+								<FormControl value={currencyList.indexOf(activeSupplier.default_currency)} type='select' name='currency.default' prop='default_currency' onChange={this.handleInput.bind(this)} opts={currencyList} />
 							</label>
 						</div><div className='block'>
 							<label>

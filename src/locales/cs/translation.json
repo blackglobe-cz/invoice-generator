@@ -6,13 +6,18 @@
 		"account_number": "Číslo účtu",
 		"add_account": "Přidan bankovní účet",
 		"bank": "Banka",
+		"bank_name": "Název banky",
 		"iban": "IBAN",
+		"label": "Popisek",
 		"swift": "BIC/SWIFT",
 		"variable_symbol": "Variabilní symbol"
 	},
 	"currency": {
 		"currency": "Měna",
 		"default": "Výchozí měna"
+	},
+	"data": {
+		"import_export": "Import a export dat"
 	},
 	"date": {
 		"due": "Datum splatnosti",
@@ -48,6 +53,8 @@
 		"invoice": "Faktura",
 		"order_number": "Číslo faktury",
 		"order_number_of_the_day": "Pořadové číslo daný den",
+		"row_text": "Text řádku",
+		"row_price": "Cena řádku",
 		"to_other_eu_country": "Do zahraničí (EU)"
 	},
 	"label": "Popisek",
@@ -70,9 +77,11 @@
 	},
 	"purchaser": {
 		"add": "Přidat odběratele",
+		"label": "Popisek",
 		"purchaser": "Odběratel",
 		"purchasers": "Odběratelé",
-		"registered_for_vat": "Plátce DPH"
+		"registered_for_vat": "Plátce DPH",
+		"text": "Text"
 	},
 	"qr": {
 		"code": "QR kód",
@@ -90,7 +99,8 @@
 		"new": "Nový dodavatel",
 		"registered_for_vat": "Dodavatel registrován k DPH",
 		"save": "Uložit dodavatele",
-		"supplier": "Dodavatel"
+		"supplier": "Dodavatel",
+		"suppliers": "Dodavatelé"
 	},
 	"text": "Text"
 }

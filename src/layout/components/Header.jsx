@@ -6,9 +6,13 @@ import { withNamespaces } from 'react-i18next'
 import Button from '@material/react-button'
 import IconButton from '@material/react-icon-button'
 import MaterialIcon from '@material/react-material-icon'
+// import TextField, { Input } from '@material/react-text-field'
+import Tab from '@material/react-tab'
+import TabBar from '@material/react-tab-bar'
 
 import Text from '../../text/components/Text'
 import Settings from '../../settings/components/Settings'
+import DataImportExport from '../../settings/components/DataImportExport'
 
 Modal.setAppElement('#root')
 
@@ -32,6 +36,8 @@ export default class Header extends React.Component {
 
 		this.state = {
 			modalIsOpen: false,
+
+			activeIndex: 0,
 		}
 	}
 
@@ -45,7 +51,17 @@ export default class Header extends React.Component {
 		this.setState({ modalIsOpen: false })
 	}
 
+	closeImportExport = () => {
+		this.setState({ dataMgmtOpen: false })
+	}
+
+	handleActiveIndexUpdate = activeIndex => this.setState({ activeIndex })
+
 	render() {
+
+		const {
+			activeIndex,
+		} = this.state
 
 		const {
 			t,
@@ -61,8 +77,11 @@ export default class Header extends React.Component {
 						</Link>
 					</div>
 					<div>
-						<Button dense icon={<i className='material-icons'>settings</i>} type='button' className='button button-phantom button-icon' onClick={this.openSettings}>
-							{t('settings.settings')}
+						{/*<Button dense icon={<MaterialIcon icon='import_export' />} type='button' onClick={this.openImportExport}>
+							<Text text={t('import_export.import_export')} />
+						</Button>*/}
+						<Button dense icon={<i className='material-icons'>settings</i>} type='button' onClick={this.openSettings}>
+							<Text text={t('settings.settings')} />
 						</Button>
 						{/*
 						<button type='button' className='button button-phantom button-icon' onClick={this.openSettings}>
@@ -93,10 +112,46 @@ export default class Header extends React.Component {
 								</IconButton>
 							</div>
 						</div>
-						<hr className='block' />
-						<Settings />
+						{/*<hr className='block' />*/}
+
+						<TabBar
+		          activeIndex={activeIndex}
+		          handleActiveIndexUpdate={this.handleActiveIndexUpdate}
+		        >
+		          <Tab>
+		            <Text className='mdc-tab__text-label' text={t('supplier.suppliers')} />
+		          </Tab>
+		          <Tab>
+		            <Text className='mdc-tab__text-label' text={t('data.import_export')} />
+		          </Tab>
+		        </TabBar>
+						{activeIndex === 0 && (
+							<Settings />
+						)}
+						{activeIndex === 1 && (
+							<DataImportExport />
+						)}
 					</div>
 				</Modal>
+
+				{/*<Modal
+					isOpen={this.state.dataMgmtOpen}
+					// onAfterOpen={this.afterOpenModal}
+					onRequestClose={this.closeImportExport}
+					style={customStyles}
+					contentLabel={t('data.mgmt')}
+				>
+					<div className='modal-wrapper'>
+						<h1>Import / Export</h1>
+						<div className='block'>
+							<TextField textarea label='invoice.invoice_export'><Input value={this.state.valueInvoices} /></TextField>
+						</div>
+						<div className='block'>
+							<TextField textarea label='settings.settings_export'><Input value={this.state.valueSettings} /></TextField>
+						</div>
+					</div>
+				</Modal>*/}
+
 			</div>
 		)
 	}

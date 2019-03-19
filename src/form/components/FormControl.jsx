@@ -1,7 +1,8 @@
 import React from 'react'
 import { withNamespaces } from 'react-i18next'
 
-// import TextField, { HelperText, Input } from '@material/react-text-field'
+import TextField, { HelperText, Input } from '@material/react-text-field'
+import Select from '@material/react-select'
 import Checkbox from '@material/react-checkbox'
 
 class FormControl extends React.Component {
@@ -58,7 +59,25 @@ class FormControl extends React.Component {
 					{...otherProps}
 				></textarea>
 			)
+			// return (
+			// 	<TextField
+	    //     // label='Dogo'
+	    //     // helperText={<HelperText>Help Me!</HelperText>}
+	    //     // onTrailingIconSelect={() => this.setState({value: ''})}
+	    //     // trailingIcon={<MaterialIcon role="button" icon="delete"/>}
+			// 		dense
+			// 		fullWidth
+			// 		textarea
+	    //   >
+			// 		<Input
+			// 			type={type === 'input' ? 'text' : type}
+	    //       value={value}
+	    //       onChange={e => onChange(prop || name, type === 'checkbox' ? e.target.checked : e.target.value, e)}
+			// 		/>
+			// 	</TextField>
+			// )
 		}
+
 		if (type === 'checkbox') {
 			return (
 				<Checkbox
@@ -89,6 +108,8 @@ class FormControl extends React.Component {
     //     // helperText={<HelperText>Help Me!</HelperText>}
     //     // onTrailingIconSelect={() => this.setState({value: ''})}
     //     // trailingIcon={<MaterialIcon role="button" icon="delete"/>}
+		// 		dense
+		// 		fullWidth
     //   >
 		// 		<Input
 		// 			type={type === 'input' ? 'text' : type}

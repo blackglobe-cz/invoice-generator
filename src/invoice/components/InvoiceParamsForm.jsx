@@ -78,8 +78,6 @@ export default class InvoiceParamsForm extends React.Component {
 
 		const formConfig = [
 			[
-			// 	{ type: 'select', name: 'supplier.supplier', prop: 'supplier', opts: suppliers.map(item => [item.id, item.label]), onChange: supplierChange }
-			// ], [
 				{ type: 'select', name: 'language.language', prop: 'language', opts: [['cs', 'Česky'], ['en', 'English']] }
 			], [
 				{ type: 'date', name: 'date.issue', prop: 'issue_date' },

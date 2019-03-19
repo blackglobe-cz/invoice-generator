@@ -5,6 +5,8 @@ $mdc-theme-on-primary: #fff;
 // $mdc-theme-on-secondary: #442b2d;
 $mdc-theme-on-secondary: #fff;
 
+$font-family: 'arsenalregular', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
 $size-base: .15625rem;
 
 $size-tiny: $size-base * 1;
@@ -17,12 +19,26 @@ $color-light-gray: #dedede;
 $color-medium-gray: #ccc;
 $color-text: #555;
 
+$box-shadow-std: 0 .0625rem $size-tiny rgba(0,0,0,.4);
+
+$h1: 'h1, .heading-1';
+$h2: 'h2, .heading-2';
+$h3: 'h3, .heading-3';
+$h4: 'h4, .heading-4';
+$h5: 'h5, .heading-5';
+$h6: 'h6, .heading-6';
+
 @import '@material/react-button/index.scss';
 @import '@material/react-icon-button/index.scss';
 @import '@material/react-drawer/index.scss';
 @import '@material/react-list/index.scss';
 @import '@material/react-checkbox/index.scss';
 @import '@material/react-text-field/index.scss';
+@import '@material/react-tab/index.scss';
+@import '@material/react-tab-bar/index.scss';
+@import '@material/react-tab-scroller/index.scss';
+@import '@material/react-tab-indicator/index.scss';
+@import '@material/react-select/index.scss';
 
 // @import '@material/button/mixins';
 
@@ -70,6 +86,7 @@ $color-text: #555;
 }
 
 .block {
+	display: block;
     margin-bottom: $size-medium;
 }
 .empty {
@@ -80,6 +97,10 @@ $color-text: #555;
 
 .cursor-pointer {
     cursor: pointer;
+}
+
+.controls > * {
+	box-shadow: $box-shadow-std;
 }
 
 .project-logo {

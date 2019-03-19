@@ -8,6 +8,7 @@ import IconButton from '@material/react-icon-button'
 import Button from '@material/react-button'
 import Drawer from '@material/react-drawer'
 import List, { ListItem, ListItemText, ListDivider } from '@material/react-list'
+// import TextField, { Input } from '@material/react-text-field'
 
 import Text from 'text/components/Text'
 import FormControl from 'form/components/FormControl'
@@ -15,8 +16,9 @@ import currencyList from 'currency/helpers/list'
 import SupplierModel from '../stores/SupplierModel'
 
 @inject('SettingsStore')
+@withNamespaces()
 @observer
-class Settings extends React.Component {
+export default class Settings extends React.Component {
 
 	constructor() {
 		super()
@@ -191,54 +193,118 @@ class Settings extends React.Component {
 								<FormControl value={activeSupplier.footer} type='textarea' name='footer' onChange={this.handleInput.bind(this)} />
 							</label>
 						</div><div className='block'>
+							<label className='flex flex-space-between flex-align-center'>
+								<Text text={t('qr.show')} />
+								<FormControl value={activeSupplier.show_qr_code} type='checkbox' name='qr.show' prop='show_qr_code' onChange={this.handleInput.bind(this)} />
+							</label>
+						</div><div className='block'>
 							<Text tag='h2' className='heading-4' text={t('purchaser.purchasers')} />
 							{activeSupplier.purchasers.map((item, index) => (
-								<div key={index} className='flex flex-align-center'>
-									<Text text={(index + 1) + '&nbsp;'} />
-									<FormControl value={item.label} type='input' name='label' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
-									<FormControl value={item.text} type='input' name='text' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
-									<div className='flex flex-align-center'>
-										<Text text={t('purchaser.registered_for_vat')} />
-										<FormControl value={item.registered_for_vat} type='checkbox' name='purchaser.registered_for_vat' prop='registered_for_vat' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
+								<div key={index} className='box block'>
+									<div className='flex flex-align-center block'>
+										<div className='flex flex-align-center flex-1'>
+											<Text className='margin-horizontal-large heading-2' text={index + 1} />
+											<IconButton type='button' disabled={index === 0} className='button button-icon button-alt' onClick={action(() => {
+													const temp = activeSupplier.purchasers[index]
+													activeSupplier.purchasers[index] = activeSupplier.purchasers[index - 1]
+													activeSupplier.purchasers[index - 1] = temp
+												})}>
+												<MaterialIcon icon='arrow_upward' />
+											</IconButton>
+											<IconButton type='button' disabled={index === activeSupplier.purchasers.length - 1} className='button button-icon button-alt' onClick={action(() => {
+													const temp = activeSupplier.purchasers[index]
+													activeSupplier.purchasers[index] = activeSupplier.purchasers[index + 1]
+													activeSupplier.purchasers[index + 1] = temp
+												})}
+											>
+												<MaterialIcon icon='arrow_downward' />
+											</IconButton>
+										</div>
+										<IconButton type='button' className='button button-icon button-alt' onClick={action(() => activeSupplier.purchasers.splice(index, 1))}>
+											<MaterialIcon icon='delete_outline' />
+										</IconButton>
 									</div>
-									<IconButton type='button' className='button button-icon button-alt' onClick={action(() => activeSupplier.purchasers.splice(index, 1))}>
-										<MaterialIcon icon='delete_outline' />
-									</IconButton>
+									<hr className='block' />
+
+									<div className='block'>
+										<label>
+											<Text text={t('purchaser.label')} />
+											<FormControl value={item.label} type='input' name='label' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
+										</label>
+									</div>
+									<div className='block'>
+										<label>
+											<Text text={t('purchaser.text')} />
+											<FormControl value={item.text} type='textarea' rows='6' name='text' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
+										</label>
+									</div>
+									<div className='flex flex-align-center'>
+										<label>
+											<Text text={t('purchaser.registered_for_vat')} />
+											<FormControl value={item.registered_for_vat} type='checkbox' name='purchaser.registered_for_vat' prop='registered_for_vat' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
+										</label>
+									</div>
 								</div>
 							))}
 							<Button type='button' className='button' onClick={action(() => activeSupplier.purchasers.push({ label: '', text: '' }))}>
 								<Text text={t('purchaser.add')} />
 							</Button>
 						</div><div className='block'>
-							<label className='flex flex-space-between flex-align-center'>
-								<Text text={t('qr.show')} />
-								<FormControl value={activeSupplier.show_qr_code} type='checkbox' name='qr.show' prop='show_qr_code' onChange={this.handleInput.bind(this)} />
-							</label>
-						</div><div className='block'>
 							<Text tag='h2' className='heading-4' text={t('bank.accounts')} />
 							{activeSupplier.bank_accounts.map((item, index) => (
-								<div key={index} className='flex flex-align-center'>
-									{index + 1}&nbsp;
-									<FormControl value={item.label} type='input' name='label' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
-									<FormControl value={item.bank} type='input' name='bank.bank' prop='bank' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
-									<FormControl value={item.account_number} type='input' name='bank.account_number' prop='account_number' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
-									<FormControl value={item.iban} type='number' name='bank.iban' prop='iban' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
-									<FormControl value={item.swift} type='input' name='bank.swift' prop='swift' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
-									<IconButton type='button' className='button button-icon button-alt' onClick={action(() => activeSupplier.bank_accounts.splice(index, 1))}>
-										<MaterialIcon icon='delete_outline' />
-									</IconButton>
+								<div key={index} className='box block'>
+									<div className='flex flex-align-center block'>
+										<div className='flex-1'>
+											<Text text={index + 1} className='heading-2 margin-horizontal-large' />
+										</div>
+										<IconButton type='button' className='button button-icon button-alt' onClick={action(() => activeSupplier.bank_accounts.splice(index, 1))}>
+											<MaterialIcon icon='delete_outline' />
+										</IconButton>
+									</div>
+									<hr className='block' />
+
+									<label className='block'>
+										<Text text={t('bank.label')} />
+										<FormControl value={item.label} type='input' name='label' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
+									</label>
+									<label className='block'>
+										<Text text={t('bank.bank_name')} />
+										<FormControl value={item.bank} type='input' name='bank.bank' prop='bank' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
+									</label>
+									<label className='block'>
+										<Text text={t('bank.account_number')} />
+										<FormControl value={item.account_number} type='input' name='bank.account_number' prop='account_number' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
+									</label>
+									<div className='flex block'>
+										<label className='flex-1'>
+											<Text text={t('bank.iban')} />
+											<FormControl value={item.iban} type='number' name='bank.iban' prop='iban' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
+										</label>
+										<label className='flex-1'>
+											<Text text={t('bank.swift')} />
+											<FormControl value={item.swift} type='input' name='bank.swift' prop='swift' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
+										</label>
+									</div>
 								</div>
 							))}
 							<Button type='button' className='button' onClick={action(() => activeSupplier.bank_accounts.push({ label: '', bank: '', account_number: '', iban: '', swift: '' }))}>
 								<Text text={t('bank.add_account')} />
 							</Button>
 						</div><div className='block'>
-							<Text tag='h2' className='heading-4' text={t('invoice.default_invoice_row.rows')} />
+							<Text tag='h2' className='heading-4 margin-bottom-large' text={t('invoice.default_invoice_row.rows')} />
+
+							<div className='flex flex-align-center'>
+								<Text text='#' className='margin-horizontal-medium' />
+								<Text text={t('invoice.row_text')} className='flex-1' />
+								<Text text={t('invoice.row_price')} className='flex-1' />
+							</div>
+							<hr className='block' />
+
 							{activeSupplier.default_invoice_rows.map((item, index) => (
 								<div key={index} className='flex flex-align-center'>
-									{index + 1}&nbsp;
-									<FormControl value={item.text} type='input' name='text' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
-									<FormControl value={item.price} type='number' name='price.price' prop='price' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
+									<Text text={index + 1} className='margin-horizontal-medium' />
+									<FormControl className='flex-1' value={item.text} type='input' name='text' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
+									<FormControl className='flex-1' value={item.price} type='number' name='price.price' prop='price' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
 									<IconButton type='button' className='button button-icon button-alt' onClick={action(() => activeSupplier.default_invoice_rows.splice(index, 1))}>
 										<MaterialIcon icon='delete_outline' />
 									</IconButton>
@@ -272,5 +338,3 @@ class Settings extends React.Component {
 	}
 
 }
-
-export default withNamespaces()(Settings)

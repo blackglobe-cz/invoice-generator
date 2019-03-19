@@ -14,10 +14,11 @@ function getInvoiceBasedOnSupplier(supplier, id) {
     invoice_rows.push([item.text, item.price])
   })
 
-  // console.log('sup', supplier);
+  supplier = prepareForContentEditable(copy(supplier))
+
   return new InvoiceModel({
     id,
-    supplier: prepareForContentEditable(copy(supplier)),
+    supplier: supplier,
     logo: supplier.logo,
     language: supplier.language,
     currency: supplier.default_currency,
@@ -37,5 +38,6 @@ function copy(obj) {
 
 function prepareForContentEditable(supplier = {}) {
   supplier.identification_text = supplier.identification_text.replace(/\n/g, '<br />')
+  supplier.purchasers.forEach(item => item.text = item.text.replace(/\n/g, '<br />'))
   return supplier
 }

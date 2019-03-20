@@ -52,33 +52,36 @@ class InvoiceStore {
 
 	@action
 	save(invoice, create) {
-		// console.log('Saving invoice', invoice);
-		agent.invoice[create ? 'create' : 'update'](invoice).then(res => {
-			console.log('Invoice saved ok');
-			if (create) {
-				runInAction(() => {
-					this.items.push(invoice)
-				})
-			} else {
-				for (var i = this.items.length;i--;) {
-					if (this.items[i].id === invoice.id) {
-						runInAction(() => {
-							this.items[i] = invoice
-						})
-						break
+		return new Promise((resolve, reject) => {
+			agent.invoice[create ? 'create' : 'update'](invoice).then(res => {
+				console.log('Invoice saved ok');
+				if (create) {
+					runInAction(() => {
+						this.items.unshift(invoice)
+					})
+				} else {
+					for (var i = this.items.length;i--;) {
+						if (this.items[i].id === invoice.id) {
+							runInAction(() => {
+								this.items[i] = invoice
+							})
+							break
+						}
 					}
 				}
-			}
-		}).catch(err => {
-			for (var i = this.items.length;i--;) {
-				if (this.items[i].id === invoice.id) {
-					console.log('Failed to save invoice');
-					runInAction(() => {
-						this.items.splice(i, 1)
-					})
-					return
+				return resolve(res)
+			}).catch(err => {
+				for (var i = this.items.length;i--;) {
+					if (this.items[i].id === invoice.id) {
+						console.log('Failed to save invoice');
+						runInAction(() => {
+							this.items.splice(i, 1)
+						})
+						return
+					}
 				}
-			}
+				return reject(err)
+			})
 		})
 	}
 

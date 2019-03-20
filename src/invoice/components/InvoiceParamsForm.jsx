@@ -2,6 +2,7 @@ import React from 'react'
 import { runInAction } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import { withNamespaces } from 'react-i18next'
+import { Route, Redirect } from 'react-router'
 
 import Button from '@material/react-button'
 
@@ -22,12 +23,28 @@ export default class InvoiceParamsForm extends React.Component {
 
 		this.state = {
 			supplier_id: null,
+			redirectTo: null,
+		}
+	}
+
+	componentDidUpdate() {
+		if (this.state.redirectTo) {
+			this.setState({
+				redirectTo: null,
+			})
 		}
 	}
 
 	handleFormSubmit(event) {
 		event.preventDefault()
-		this.props.InvoiceStore.save(this.props.data, location.pathname.indexOf('/invoice/new') > -1)
+		const creating = location.pathname.indexOf('/invoice/new') > -1
+		console.log('c', creating);
+		this.props.InvoiceStore.save(this.props.data, creating).then(res => {
+			console.log('asdf?');
+			if (creating) this.setState({ redirectTo: `/invoice/${this.props.data.id}` })
+		}).catch(err => {
+			console.log('err?', err);
+		})
 	}
 
 	handleInput(prop, value) {
@@ -57,6 +74,7 @@ export default class InvoiceParamsForm extends React.Component {
 
 		const {
 			supplier,
+			redirectTo,
 		} = this.state
 
 		const {
@@ -73,6 +91,8 @@ export default class InvoiceParamsForm extends React.Component {
 			bank_accounts = data.supplier.bank_accounts
 			purchasers = data.supplier.purchasers
 		}
+
+		if (redirectTo) return (<Redirect to={redirectTo} />)
 
 		if (!data) return (<div>wat</div>)
 

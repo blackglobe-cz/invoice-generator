@@ -72,8 +72,14 @@ $h6: 'h6, .heading-6';
 }
 
 @media screen {
+	#root {
+		padding-left: $size-large;
+		padding-right: $size-large;
+	}
+
 	.wrapper {
 		max-width: 960px;
+		max-width: 1096px;
 		margin: 2rem auto;
 	}
 
@@ -81,7 +87,7 @@ $h6: 'h6, .heading-6';
 		width: 100%;
 		display: grid;
 	    grid-gap: $size-large;
-		grid-template-columns: 200px auto;
+		grid-template-columns: 200px auto 68px;
 	}
 }
 

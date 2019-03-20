@@ -254,8 +254,23 @@ export default class Settings extends React.Component {
 							{activeSupplier.bank_accounts.map((item, index) => (
 								<div key={index} className='box block'>
 									<div className='flex flex-align-center block'>
-										<div className='flex-1'>
+										<div className='flex-1 flex flex-align-center'>
 											<Text text={index + 1} className='heading-2 margin-horizontal-large' />
+											<IconButton type='button' disabled={index === 0} className='button button-icon button-alt' onClick={action(() => {
+													const temp = activeSupplier.bank_accounts[index]
+													activeSupplier.bank_accounts[index] = activeSupplier.bank_accounts[index - 1]
+													activeSupplier.bank_accounts[index - 1] = temp
+												})}>
+												<MaterialIcon icon='arrow_upward' />
+											</IconButton>
+											<IconButton type='button' disabled={index === activeSupplier.bank_accounts.length - 1} className='button button-icon button-alt' onClick={action(() => {
+													const temp = activeSupplier.bank_accounts[index]
+													activeSupplier.bank_accounts[index] = activeSupplier.bank_accounts[index + 1]
+													activeSupplier.bank_accounts[index + 1] = temp
+												})}
+											>
+												<MaterialIcon icon='arrow_downward' />
+											</IconButton>
 										</div>
 										<IconButton type='button' className='button button-icon button-alt' onClick={action(() => activeSupplier.bank_accounts.splice(index, 1))}>
 											<MaterialIcon icon='delete_outline' />
@@ -297,6 +312,7 @@ export default class Settings extends React.Component {
 								<Text text='#' className='margin-horizontal-medium' />
 								<Text text={t('invoice.row_text')} className='flex-1' />
 								<Text text={t('invoice.row_price')} className='flex-1' />
+								<div style={{minWidth: '48px'}} />
 							</div>
 							<hr className='block' />
 

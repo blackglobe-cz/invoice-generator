@@ -6,6 +6,7 @@ import { Route, Redirect } from 'react-router'
 
 import Button from '@material/react-button'
 import MaterialIcon from '@material/react-material-icon'
+import IconButton from '@material/react-icon-button'
 
 import Text from 'text/components/Text'
 import InvoiceParamsForm from './InvoiceParamsForm'
@@ -75,6 +76,10 @@ export default class InvoiceDetail extends React.Component {
 		})
 	}
 
+	importExport() {
+		console.log('TBD yo!');
+	}
+
 	render() {
 
 		const {
@@ -96,7 +101,7 @@ export default class InvoiceDetail extends React.Component {
 			loaded: settingsLoaded,
 		} = SettingsStore
 
-		if (redirectTo) return (<Redirect to={this.state.redirectTo} />)
+		if (redirectTo) return (<Redirect to={redirectTo} />)
 
 		if (!(invoicesLoaded && settingsLoaded)) return (
 			<Text className='wrapper empty' text={t('invoice.detail_loading')} />
@@ -108,18 +113,28 @@ export default class InvoiceDetail extends React.Component {
 
 		return (
 			<div className='wrapper'>
-				{location.pathname.indexOf('/invoice/new') === -1 &&
+				{/*location.pathname.indexOf('/invoice/new') === -1 &&
 					<div className='text-align-right screen-only'>
 						<hr className='margin-bottom-small' />
 						<Button className='button-danger margin-bottom-small' icon={<MaterialIcon icon='delete_outline' />} onClick={() => this.deleteInvoice()}>
 							<Text text={t('invoice.delete')} />
 						</Button>
 					</div>
-				}
+				*/}
 
 				<div className='layout-grid'>
 					<InvoiceParamsForm data={detail} />
 					<InvoiceView data={detail} />
+					<div className='screen-only'>
+						<div className='box'>
+							<IconButton type='button' disabled={location.pathname.indexOf('/invoice/new') !== -1} onClick={() => this.deleteInvoice()}>
+								<MaterialIcon icon='delete_outline' />
+							</IconButton>
+							<IconButton type='button' onClick={() => this.importExport()}>
+								<MaterialIcon icon='import_export' />
+							</IconButton>
+						</div>
+					</div>
 				</div>
 			</div>
 		)

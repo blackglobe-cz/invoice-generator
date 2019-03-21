@@ -55,7 +55,7 @@ class FormControl extends React.Component {
 					value={value}
 					name={name}
 					onChange={e => onChange(prop || name, e.target.value, e)}
-					placeholder={t(name)}
+					placeholder={placeholder || t(name)}
 					{...otherProps}
 				></textarea>
 			)

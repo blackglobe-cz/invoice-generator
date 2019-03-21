@@ -15,7 +15,7 @@ export default class InvoiceModel {
 	@computed get order_number() {
 		if (!this.issue_date) return ''
 		const date = new Date(this.issue_date)
-		return ('' + date.getFullYear()).slice(-2) + ('0' + (date.getMonth() + 1)).slice(0, 2) + ('0' + date.getDate()).slice(0, 2) + ('000' + this.order_number_of_the_day).slice(0, 4)
+		return ('' + date.getFullYear()).slice(-2) + ('0' + (date.getMonth() + 1)).slice(-2) + ('0' + date.getDate()).slice(-2) + ('000' + this.order_number_of_the_day).slice(-4)
 	}
 	@observable to_other_eu_country
 	@observable price

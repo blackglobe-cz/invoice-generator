@@ -61,6 +61,7 @@ export default class InvoiceList extends React.Component {
 					<li className='flex mdc-list-heading'>
 						<Text className='flex-1'>{t('date.issue')}</Text>
 						<Text className='flex-1'>{t('invoice.order_number')}</Text>
+						<Text className='flex-1'>{t('supplier.supplier')}</Text>
 						<Text className='flex-1'>{t('purchaser.purchaser')}</Text>
 						<Text className='flex-1 text-align-right'>{t('price.price')}</Text>
 					</li>
@@ -70,6 +71,7 @@ export default class InvoiceList extends React.Component {
 							<Link to={`/invoice/${item.id}`} className='flex flex-1 flex-align-center'>
 								<Text className='flex-1' text={formatDate(item.issue_date)} />
 								<Text className='flex-1' text={item.order_number} />
+								<Text className='flex-1' text={item.supplier ? item.supplier.label : '??'} />
 								<Text className='flex-1' text={item.purchaser ? item.purchaser.label : '??'} />
 								<Text className='flex-1 text-align-right' text={formatCurrency(item.total_price, item.currency)} />
 							</Link>

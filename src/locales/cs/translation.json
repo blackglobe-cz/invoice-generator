@@ -17,7 +17,15 @@
 		"default": "Výchozí měna"
 	},
 	"data": {
-		"import_export": "Import a export dat"
+		"export": "Export",
+		"import": "Import",
+		"import_invoices": "Import faktur",
+		"import_settings": "Import nastavení",
+		"import_invoices_submit": "Import faktury",
+		"import_settings_submit": "Importovat nastavení",
+		"import_export": "Import a export dat",
+		"invoice_export": "Export faktur",
+		"settings_export": "Export nastavení"
 	},
 	"date": {
 		"due": "Datum splatnosti",

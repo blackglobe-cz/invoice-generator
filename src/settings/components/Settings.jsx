@@ -121,9 +121,9 @@ export default class Settings extends React.Component {
 		)
 
 		return (
-			<div className='grid grid-large' style={{ gridTemplateColumns: 'auto auto' }}>
+			<div className='grid grid-large' style={{ gridTemplateColumns: '260px auto' }}>
 				<div>
-					<Drawer>
+					<Drawer className='settings-drawer'>
 						{creatingNewSupplier && (
 							<ListItem disabled={true} className='mdc-list-item--disabled mdc-list-item--disabled-selected'>
 								<Text text={t('supplier.new')} />
@@ -246,7 +246,7 @@ export default class Settings extends React.Component {
 									</div>
 								</div>
 							))}
-							<Button type='button' className='button' onClick={action(() => activeSupplier.purchasers.push({ label: '', text: '' }))}>
+							<Button type='button' onClick={action(() => activeSupplier.purchasers.push({ label: '', text: '' }))}>
 								<Text text={t('purchaser.add')} />
 							</Button>
 						</div><div className='block'>

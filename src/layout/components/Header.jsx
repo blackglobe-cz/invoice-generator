@@ -117,6 +117,7 @@ export default class Header extends React.Component {
 						<TabBar
 		          activeIndex={activeIndex}
 		          handleActiveIndexUpdate={this.handleActiveIndexUpdate}
+							className='margin-bottom-large'
 		        >
 		          <Tab>
 		            <Text className='mdc-tab__text-label' text={t('supplier.suppliers')} />

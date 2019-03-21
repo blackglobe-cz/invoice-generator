@@ -3,6 +3,7 @@ import { toJS } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import { withNamespaces } from 'react-i18next'
 import { Route, Redirect } from 'react-router'
+import Modal from 'react-modal'
 
 import Button from '@material/react-button'
 import MaterialIcon from '@material/react-material-icon'
@@ -15,6 +16,17 @@ import InvoiceModel from 'invoice/stores/InvoiceModel'
 
 import { getInvoiceBasedOnSupplier } from '../helpers/invoiceHelpers'
 
+const customStyles = {
+	content: {
+		position: 'relative',
+		maxWidth: '800px',
+		padding: '0',
+		bottom: 'auto',
+		margin: '5% auto',
+		top: '0', right: '0', bottom: '0', left: '0',
+	}
+}
+
 @inject('InvoiceStore', 'SettingsStore')
 @withNamespaces()
 @observer
@@ -26,6 +38,7 @@ export default class InvoiceDetail extends React.Component {
 		this.state = {
 			redirectTo: null,
 			detail: false,
+			importExportShown: false,
 		}
 	}
 
@@ -76,9 +89,11 @@ export default class InvoiceDetail extends React.Component {
 		})
 	}
 
-	importExport() {
-		console.log('TBD yo!');
+	toggleImportExport(importExportShown) {
+		this.setState({ importExportShown })
 	}
+
+	closeImportExport
 
 	render() {
 
@@ -91,6 +106,7 @@ export default class InvoiceDetail extends React.Component {
 		const {
 			detail,
 			redirectTo,
+			importExportShown,
 		} = this.state
 
 		const {
@@ -113,28 +129,46 @@ export default class InvoiceDetail extends React.Component {
 
 		return (
 			<div className='wrapper'>
-				{/*location.pathname.indexOf('/invoice/new') === -1 &&
-					<div className='text-align-right screen-only'>
-						<hr className='margin-bottom-small' />
-						<Button className='button-danger margin-bottom-small' icon={<MaterialIcon icon='delete_outline' />} onClick={() => this.deleteInvoice()}>
-							<Text text={t('invoice.delete')} />
-						</Button>
-					</div>
-				*/}
-
 				<div className='layout-grid'>
 					<InvoiceParamsForm data={detail} />
 					<InvoiceView data={detail} />
+
 					<div className='screen-only'>
 						<div className='box'>
 							<IconButton type='button' disabled={location.pathname.indexOf('/invoice/new') !== -1} onClick={() => this.deleteInvoice()}>
 								<MaterialIcon icon='delete_outline' />
 							</IconButton>
-							<IconButton type='button' onClick={() => this.importExport()}>
+							<IconButton type='button' onClick={() => this.toggleImportExport(true)}>
 								<MaterialIcon icon='import_export' />
 							</IconButton>
 						</div>
+
+						<Modal
+							isOpen={importExportShown}
+							onRequestClose={() => this.toggleImportExport()}
+							style={customStyles}
+							contentLabel={t('invoice.import_export')}
+						>
+							<div className='modal-wrapper'>
+								<div className='block flex flex-space-between flex-align-center'>
+									<div className='flex-1'>
+										<Text tag='h1' text={t('invoice.export')} />
+									</div>
+									<div>
+										{/*
+										<Button icon={<i className='material-icons'>close</i>} type='button' className='button button-phantom button-icon' onClick={this.closeModal}>&times;</Button>
+										*/}
+										<IconButton type='button' onClick={() => this.toggleImportExport(false)}>
+											<MaterialIcon icon='close' />
+										</IconButton>
+									</div>
+								</div>
+								{/*<textarea readOnly rows='10' value={JSON.stringify(toJS(detail), 2)} />*/}
+								<pre style={{whiteSpace: 'pre-wrap'}}>{JSON.stringify(toJS(detail), null, 2)}</pre>
+							</div>
+						</Modal>
 					</div>
+
 				</div>
 			</div>
 		)

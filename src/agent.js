@@ -3,6 +3,11 @@ let invoiceStorage = { invoices: [] }
 const SETTINGS_STORAGE_KEY = 'bg-invoice-generator-settings'
 let settingsStorage = { suppliers: [] }
 
+export const STORAGE_KEYS = {
+	'INVOICE': INVOICE_STORAGE_KEY,
+	'SETTINGS': SETTINGS_STORAGE_KEY,
+}
+
 export default {
 	invoice: {
 		query: () => {

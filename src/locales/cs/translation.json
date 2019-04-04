@@ -60,7 +60,10 @@
 		"empty_list": "Zatím nemáte žádné faktury",
 		"invoice": "Faktura",
 		"order_number": "Číslo faktury",
+		"order_number_autocalc": "Počítat pořadové číslo automaticky",
 		"order_number_of_the_day": "Pořadové číslo daný den",
+		"order_number_recipe": "Formát pořadového čísla",
+		"order_number_recipe_helper": "Můžete vybíraz z těchto skupin [YYYY | YYY | YY] [MM] [DD] [NNNNNN | NNNNN | NNNN | NNN | NN]",
 		"row_text": "Text řádku",
 		"row_price": "Cena řádku",
 		"to_other_eu_country": "Do zahraničí (EU)"

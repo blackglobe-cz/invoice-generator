@@ -164,6 +164,12 @@ export default class Settings extends React.Component {
 							</label>
 						</div><div className='block'>
 							<label>
+								<Text text={t('invoice.order_number_recipe')} />
+								<FormControl value={activeSupplier.order_number_recipe} type='input' name='invoice.order_number_recipe' prop='order_number_recipe' placeholder='YYYYNNN' onChange={this.handleInput.bind(this)} />
+								<Text tag='small' class='' text={t('invoice.order_number_recipe_helper')} />
+							</label>
+						</div><div className='block'>
+							<label>
 								<Text text={t('language.language') + '*'} />
 								<FormControl value={languageList.findIndex(item => item[0] === activeSupplier.default_language)} type='select' name='language.language' prop='default_language' onChange={this.handleInput.bind(this)} optSrc={languageList.map(i => i[0])} opts={languageList} />
 							</label>

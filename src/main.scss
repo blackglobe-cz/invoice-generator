@@ -88,6 +88,10 @@ $h6: 'h6, .heading-6';
 		display: grid;
 	    grid-gap: $size-large;
 		grid-template-columns: 200px auto 68px;
+
+		& > * {
+			overflow: hidden;
+		}
 	}
 }
 

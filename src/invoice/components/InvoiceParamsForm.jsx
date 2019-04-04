@@ -11,7 +11,7 @@ import FormControl from 'form/components/FormControl'
 import InvoiceModel from 'invoice/stores/InvoiceModel'
 import { isNull } from 'util'
 
-import { getInvoiceBasedOnSupplier } from '../helpers/invoiceHelpers'
+import { getInvoiceBasedOnSupplier, calculateOrderNumber } from '../helpers/invoiceHelpers'
 
 @inject('SettingsStore', 'PaymentTypeStore', 'InvoiceStore')
 @withNamespaces()
@@ -48,7 +48,16 @@ export default class InvoiceParamsForm extends React.Component {
 	}
 
 	handleInput(prop, value) {
-		runInAction(() => { this.props.data[prop] = value })
+		runInAction(() => {
+			const data = this.props.data
+			data[prop] = value
+
+			// if we change any prop that might affect order number, we recalculate
+			if (data.order_number_autocalc && ['issue_date'].indexOf(prop)) {
+				// data.order_number = .calculateOrderNumber(data.supplier)
+				data.order_number = '1234'
+			}
+		})
 	}
 
 	handleSupplierChange(e) {
@@ -102,7 +111,9 @@ export default class InvoiceParamsForm extends React.Component {
 			], [
 				{ type: 'date', name: 'date.issue', prop: 'issue_date' },
 				{ type: 'date', name: 'date.due', prop: 'due_date' },
-				{ type: 'number', name: 'invoice.order_number_of_the_day', prop: 'order_number_of_the_day' }
+				// { type: 'number', name: 'invoice.order_number_of_the_day', prop: 'order_number_of_the_day' }
+				{ type: 'text', name: 'invoice.order_number', prop: 'order_number' },
+				{ type: 'checkbox', name: 'invoice.order_number_autocalc', prop: 'order_number_autocalc' }
 			], [
 				{ type: 'checkbox', name: 'invoice.to_other_eu_country', prop: 'to_other_eu_country' },
 				{ type: 'select', name: 'purchaser.purchaser', prop: 'purchaser', optSrc: purchasers, opts: purchasers.map((item, index) => [item, item.label]) },

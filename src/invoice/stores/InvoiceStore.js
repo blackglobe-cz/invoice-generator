@@ -104,6 +104,11 @@ class InvoiceStore {
 			})
 		})
 	}
+	
+	@action
+	getNextOrderNumber(supplierId, date) {
+		return agent.invoice.getNextOrderNumber({ supplierId, date })
+	}
 
 }
 

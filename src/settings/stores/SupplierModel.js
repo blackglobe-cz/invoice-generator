@@ -6,6 +6,7 @@ export default class SupplierModel {
 	id
 	@observable label
 	@observable logo
+	@observable order_number_recipe
 	@observable default_language
 	@observable identification_text
 	@observable registered_for_vat
@@ -26,6 +27,7 @@ export default class SupplierModel {
 		id,
 		label,
 		logo,
+		order_number_recipe,
 		default_language,
 		identification_text,
 		registered_for_vat,
@@ -44,6 +46,7 @@ export default class SupplierModel {
 		runInAction(() => {
 			this.id = id || (new Date()).getTime()
 			this.logo = logo || ''
+			this.order_number_recipe = order_number_recipe || 'YYYYNNN'
 			this.label = label || ''
 			this.default_language = default_language || 'cs'
 			this.identification_text = identification_text || ''

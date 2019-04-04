@@ -69,9 +69,17 @@ export default class InvoiceDetail extends React.Component {
 
 		if (!(InvoiceStore.loaded && loaded)) return
 
-		this.setState({
-			detail: match.params.id === 'new' ? this.getBlankInvoice(suppliers[0]) : new InvoiceModel(toJS(InvoiceStore.invoice(parseInt(match.params.id)))),
-		})
+		if (match.params.id === 'new') {
+			this.getBlankInvoice(suppliers[0]).then(newInvoice => {
+				this.setState({
+					detail: newInvoice,
+				})
+			})
+		} else {
+			this.setState({
+				detail: new InvoiceModel(toJS(InvoiceStore.invoice(parseInt(match.params.id)))),
+			})
+		}
 	}
 
 	getBlankInvoice(supplier) {

@@ -1,3 +1,5 @@
+import logger from 'logger'
+
 const currencies = {
 	CZK: {
 		code: 'CZK',
@@ -20,7 +22,7 @@ const currenciesSuffixed = [
 export default function (amount, currencyCode) {
 	let curr = ''
 	if (!currencies[currencyCode]) {
-		console.error('Unknown currency code', currencyCode)
+		logger.log('Unknown currency code', currencyCode)
 		curr = 'munny'
 	} else {
 		curr = currencies[currencyCode].short

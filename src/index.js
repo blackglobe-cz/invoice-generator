@@ -9,7 +9,9 @@ import { Provider } from 'mobx-react'
 import './main.scss'
 
 // import localization for bundling
+// asdf-eslint-disable-next-line
 import './i18n'
+// import i18n from './i18n'
 
 import App from './App'
 
@@ -17,17 +19,15 @@ import InvoiceStore from './invoice/stores/InvoiceStore'
 import SettingsStore from './settings/stores/SettingsStore'
 import PaymentTypeStore from './payment-type/stores/PaymentTypeStore'
 
-import { I18nextProvider } from 'react-i18next'
-import i18n from './i18n'
 
 configure({
-  enforceActions: 'always',
+	enforceActions: 'always',
 })
 
 const stores = {
 	InvoiceStore,
 	SettingsStore,
-  PaymentTypeStore,
+	PaymentTypeStore,
 }
 
 render(
@@ -37,9 +37,7 @@ render(
 
 			<BrowserRouter>
 				<Suspense fallback={<div>Loading...</div>}>
-					{/* <I18nextProvider i18n={ i18n }> */}
-						<App />
-					{/* </I18nextProvider> */}
+					<App />
 				</Suspense>
 			</BrowserRouter>
 

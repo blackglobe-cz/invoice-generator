@@ -4,7 +4,7 @@ import { withTranslation } from 'react-i18next'
 import { withRouter, Link } from 'react-router-dom'
 
 import Button from '@material/react-button'
-import List, { ListItem, ListDivider, ListItemText } from '@material/react-list'
+import List, { ListItem, ListDivider } from '@material/react-list'
 
 import Text from 'text/components/Text'
 import formatCurrency from 'currency/helpers/formatter'

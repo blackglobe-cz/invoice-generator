@@ -5,6 +5,7 @@ export default function Text(props) {
 
 	const {
 		children,
+		style,
 		className,
 		tag,
 		t: toBeTranslated,
@@ -12,7 +13,7 @@ export default function Text(props) {
 		title,
 	} = props
 
-	const { t, i18n } = useTranslation()
+	const { t } = useTranslation()
 
 	let content = children || text || t(toBeTranslated)
 
@@ -21,9 +22,9 @@ export default function Text(props) {
 	const Tag = tag || 'div'
 
 	if (typeof content === 'string') {
-		content = <Tag className={className} title={title} dangerouslySetInnerHTML={{ __html: content.trim() }} />
+		content = <Tag className={className} style={style} title={title} dangerouslySetInnerHTML={{ __html: content.trim() }} />
 	} else {
-		content = <Tag className={className} title={title}>{content}</Tag>
+		content = <Tag className={className} style={style} title={title}>{content}</Tag>
 	}
 
 	return content

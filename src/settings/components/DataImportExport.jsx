@@ -1,17 +1,14 @@
 import React from 'react'
-import { action, runInAction } from 'mobx'
+import { runInAction } from 'mobx'
 import { observer, inject } from 'mobx-react'
 import { withTranslation } from 'react-i18next'
 import { withRouter } from 'react-router-dom'
 
 import { STORAGE_KEYS } from 'agent'
 
-import MaterialIcon from '@material/react-material-icon'
-import IconButton from '@material/react-icon-button'
 import Button from '@material/react-button'
-import TextField, { Input } from '@material/react-text-field'
 import Drawer from '@material/react-drawer'
-import List, { ListItem, ListItemText, ListDivider } from '@material/react-list'
+import List, { ListItem } from '@material/react-list'
 
 import Text from 'text/components/Text'
 import FormControl from 'form/components/FormControl'
@@ -41,7 +38,7 @@ export default class DataImportExport extends React.Component {
 			InvoiceStore,
 			SettingsStore,
 		} = this.props
-		
+
 		Promise.all([
 			SettingsStore.exportSettings(),
 			InvoiceStore.exportInvoices()
@@ -61,8 +58,8 @@ export default class DataImportExport extends React.Component {
 		this.props.history.push('/')
 	}
 
-	handleInput(prop, value, event) {
-		runInAction(() => { this.state[prop] = value })
+	handleInput(prop, value/*, event*/) {
+		runInAction(() => { this.setState({ [prop]: value }) })
 	}
 
 	render() {

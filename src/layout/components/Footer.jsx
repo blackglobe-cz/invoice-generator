@@ -23,7 +23,7 @@ export default function Footer () {
 						<Text text='English' />
 					</Button>
 				</div>
-				<a href='https://github.com/Gaspari/invoice-generator-v2' target='_blank' className='flex flex-align-center'>
+				<a href='https://github.com/Gaspari/invoice-generator-v2' target='_blank' rel='noopener noreferrer' className='flex flex-align-center'>
 					<div className='icon-svg'>
 						<Octocat />
 					</div>

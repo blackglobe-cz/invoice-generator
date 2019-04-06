@@ -2,12 +2,13 @@ import React from 'react'
 import { toJS } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from 'react-i18next'
-import { Route, Redirect } from 'react-router'
+import { Redirect } from 'react-router'
 import Modal from 'react-modal'
 
-import Button from '@material/react-button'
 import MaterialIcon from '@material/react-material-icon'
 import IconButton from '@material/react-icon-button'
+
+import logger from 'logger'
 
 import Text from 'text/components/Text'
 import InvoiceParamsForm from './InvoiceParamsForm'
@@ -21,7 +22,6 @@ const customStyles = {
 		position: 'relative',
 		maxWidth: '800px',
 		padding: '0',
-		bottom: 'auto',
 		margin: '5% auto',
 		top: '0', right: '0', bottom: '0', left: '0',
 	}
@@ -88,12 +88,12 @@ export default class InvoiceDetail extends React.Component {
 
 	deleteInvoice() {
 		if (!confirm(this.props.t('invoice.delete_confirm'))) return
-		this.props.InvoiceStore.delete(this.state.detail.id).then(res => {
+		this.props.InvoiceStore.delete(this.state.detail.id).then(() => {
 			this.setState({
 				redirectTo: '/',
 			})
 		}).catch(err => {
-			console.log('ERROR invoice delete', err);
+			logger.log('err invoice delete', err);
 		})
 	}
 

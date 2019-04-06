@@ -1,8 +1,9 @@
-import { observable, action, runInAction, computed, toJS } from 'mobx'
+import { observable, action, runInAction, computed } from 'mobx'
 import { createTransformer } from 'mobx-utils'
 
 import SupplierModel from './SupplierModel'
 import agent from 'agent'
+import logger from 'logger'
 
 class SettingsStore {
 
@@ -34,7 +35,7 @@ class SettingsStore {
 					this.q.forEach(item => item.resolve(item.id ? this.items.find(it => it.id = item.id) : this.items))
 					return resolve(id ? items.find(it => it.id === id) : items)
 				}).catch(e => {
-					console.log('invoice list fetch faiiled', e);
+					logger.log('invoice list fetch faiiled', e);
 					this.q.forEach(item => item.reject(e))
 					return reject(e)
 				}).finally(() => {
@@ -51,12 +52,12 @@ class SettingsStore {
 
 	@action save(supplier, create) {
 		if (create) this.items.push(supplier)
-		return agent.settings[create ? 'create' : 'update'](supplier).then(res => {
-			console.log('Supplier created ok')
+		return agent.settings[create ? 'create' : 'update'](supplier).then(() => {
+			logger.log('Supplier created ok')
 		}).catch(err => {
 			for (var i = this.items.length;i--;) {
 				if (this.items[i].id === supplier.id) {
-					console.log('Failed to save supplier')
+					logger.log('Failed to save supplier', err)
 					runInAction(() => {
 						this.items.splice(i, 1)
 					})
@@ -77,10 +78,10 @@ class SettingsStore {
 				break
 			}
 		}
-		return agent.settings.delete(supplier.id).then(res => {
-			console.log('Supplier deleted ok')
+		return agent.settings.delete(supplier.id).then(() => {
+			// logger.log('Supplier deleted ok')
 		}).catch(err => {
-			console.log('Failed to delete supplier')
+			logger.log('Failed to delete supplier', err)
 			this.items.splice(tempIndex, 0 ,temp)
 		})
 	}

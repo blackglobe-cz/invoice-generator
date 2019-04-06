@@ -7,9 +7,9 @@ import MaterialIcon from '@material/react-material-icon'
 import IconButton from '@material/react-icon-button'
 import Button from '@material/react-button'
 import Drawer from '@material/react-drawer'
-import List, { ListItem, ListItemText, ListDivider } from '@material/react-list'
-// import TextField, { Input } from '@material/react-text-field'
+import List, { ListItem, ListItemText } from '@material/react-list'
 
+import logger from 'logger'
 import Text from 'text/components/Text'
 import FormControl from 'form/components/FormControl'
 import currencyList from 'currency/helpers/list'
@@ -53,10 +53,10 @@ export default class Settings extends React.Component {
 		)) return this.setState({
 			formError: true
 		})
-		this.props.SettingsStore.save(supplier, !!this.state.creatingNewSupplier).then(res => {
+		this.props.SettingsStore.save(supplier, !!this.state.creatingNewSupplier).then(() => {
 			this.setState({ formSuccess: true, creatingNewSupplier: false })
 		}).catch(err => {
-			console.log('caught an error', err);
+			logger.log('err settings form submit', err)
 		})
 	}
 
@@ -211,17 +211,17 @@ export default class Settings extends React.Component {
 										<div className='flex flex-align-center flex-1'>
 											<Text className='margin-horizontal-large heading-2' text={index + 1} />
 											<IconButton type='button' disabled={index === 0} className='button button-icon button-alt' onClick={action(() => {
-													const temp = activeSupplier.purchasers[index]
-													activeSupplier.purchasers[index] = activeSupplier.purchasers[index - 1]
-													activeSupplier.purchasers[index - 1] = temp
-												})}>
+												const temp = activeSupplier.purchasers[index]
+												activeSupplier.purchasers[index] = activeSupplier.purchasers[index - 1]
+												activeSupplier.purchasers[index - 1] = temp
+											})}>
 												<MaterialIcon icon='arrow_upward' />
 											</IconButton>
 											<IconButton type='button' disabled={index === activeSupplier.purchasers.length - 1} className='button button-icon button-alt' onClick={action(() => {
-													const temp = activeSupplier.purchasers[index]
-													activeSupplier.purchasers[index] = activeSupplier.purchasers[index + 1]
-													activeSupplier.purchasers[index + 1] = temp
-												})}
+												const temp = activeSupplier.purchasers[index]
+												activeSupplier.purchasers[index] = activeSupplier.purchasers[index + 1]
+												activeSupplier.purchasers[index + 1] = temp
+											})}
 											>
 												<MaterialIcon icon='arrow_downward' />
 											</IconButton>
@@ -263,17 +263,17 @@ export default class Settings extends React.Component {
 										<div className='flex-1 flex flex-align-center'>
 											<Text text={index + 1} className='heading-2 margin-horizontal-large' />
 											<IconButton type='button' disabled={index === 0} className='button button-icon button-alt' onClick={action(() => {
-													const temp = activeSupplier.bank_accounts[index]
-													activeSupplier.bank_accounts[index] = activeSupplier.bank_accounts[index - 1]
-													activeSupplier.bank_accounts[index - 1] = temp
-												})}>
+												const temp = activeSupplier.bank_accounts[index]
+												activeSupplier.bank_accounts[index] = activeSupplier.bank_accounts[index - 1]
+												activeSupplier.bank_accounts[index - 1] = temp
+											})}>
 												<MaterialIcon icon='arrow_upward' />
 											</IconButton>
 											<IconButton type='button' disabled={index === activeSupplier.bank_accounts.length - 1} className='button button-icon button-alt' onClick={action(() => {
-													const temp = activeSupplier.bank_accounts[index]
-													activeSupplier.bank_accounts[index] = activeSupplier.bank_accounts[index + 1]
-													activeSupplier.bank_accounts[index + 1] = temp
-												})}
+												const temp = activeSupplier.bank_accounts[index]
+												activeSupplier.bank_accounts[index] = activeSupplier.bank_accounts[index + 1]
+												activeSupplier.bank_accounts[index + 1] = temp
+											})}
 											>
 												<MaterialIcon icon='arrow_downward' />
 											</IconButton>

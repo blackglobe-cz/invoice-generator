@@ -1,8 +1,9 @@
-import { observable, action, runInAction, computed, toJS } from 'mobx'
+import { observable, action, runInAction, computed } from 'mobx'
 import { createTransformer } from 'mobx-utils'
 
 import InvoiceModel from './InvoiceModel'
 import agent from 'agent'
+import logger from 'logger'
 
 class InvoiceStore {
 
@@ -35,7 +36,7 @@ class InvoiceStore {
 
 					return resolve(id ? invoices.find(inv => inv.id === id) : invoices)
 				}).catch(e => {
-					console.log('invoice list fetch faiiled', e);
+					logger.log('invoice list fetch faiiled', e)
 					this.q.forEach(item => item.reject(e))
 					return reject(e)
 				}).finally(() => {
@@ -54,7 +55,6 @@ class InvoiceStore {
 	save(invoice, create) {
 		return new Promise((resolve, reject) => {
 			agent.invoice[create ? 'create' : 'update'](invoice).then(res => {
-				console.log('Invoice saved ok');
 				if (create) {
 					runInAction(() => {
 						this.items.unshift(invoice)
@@ -73,7 +73,7 @@ class InvoiceStore {
 			}).catch(err => {
 				for (var i = this.items.length;i--;) {
 					if (this.items[i].id === invoice.id) {
-						console.log('Failed to save invoice');
+						logger.log('err invoice save', err)
 						runInAction(() => {
 							this.items.splice(i, 1)
 						})
@@ -89,7 +89,7 @@ class InvoiceStore {
 	delete(invoiceId) {
 		return new Promise((resolve, reject) => {
 			let item
-			agent.invoice.delete(invoiceId).then(res => {
+			agent.invoice.delete(invoiceId).then(() => {
 				for (var i = this.items.length;i--;) {
 					if (this.items[i].id === invoiceId) {
 						runInAction(() => {

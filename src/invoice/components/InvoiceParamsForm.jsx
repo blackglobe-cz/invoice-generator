@@ -2,16 +2,15 @@ import React from 'react'
 import { runInAction } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from 'react-i18next'
-import { Route, Redirect } from 'react-router'
+import { Redirect } from 'react-router'
 
 import Button from '@material/react-button'
 
 import Text from 'text/components/Text'
 import FormControl from 'form/components/FormControl'
-import InvoiceModel from 'invoice/stores/InvoiceModel'
-import { isNull } from 'util'
 
-import { getInvoiceBasedOnSupplier, calculateOrderNumber } from '../helpers/invoiceHelpers'
+import logger from 'logger'
+import { getInvoiceBasedOnSupplier } from '../helpers/invoiceHelpers'
 
 @inject('SettingsStore', 'PaymentTypeStore', 'InvoiceStore')
 @withTranslation()
@@ -38,11 +37,10 @@ export default class InvoiceParamsForm extends React.Component {
 	handleFormSubmit(event) {
 		event.preventDefault()
 		const creating = location.pathname.indexOf('/invoice/new') > -1
-		console.log('c', creating);
-		this.props.InvoiceStore.save(this.props.data, creating).then(res => {
+		this.props.InvoiceStore.save(this.props.data, creating).then(() => {
 			if (creating) this.setState({ redirectTo: `/invoice/${this.props.data.id}` })
 		}).catch(err => {
-			console.log('err saving invoice', err);
+			logger.log('err saving invoice', err);
 		})
 	}
 
@@ -53,12 +51,9 @@ export default class InvoiceParamsForm extends React.Component {
 
 			// if we change any prop that might affect order number, we recalculate
 			if (data.order_number_autocalc && ['issue_date'].indexOf(prop) > -1) {
-				console.log('recalc', data);
 				this.props.InvoiceStore.getNextOrderNumber(data.supplier.id, data.issue_date).then(res => {
 					data.order_number = res
 				})
-				// data.order_number = .calculateOrderNumber(data.supplier)
-				// data.order_number = '1234'
 			}
 		})
 	}
@@ -119,7 +114,7 @@ export default class InvoiceParamsForm extends React.Component {
 				{ type: 'checkbox', name: 'invoice.order_number_autocalc', prop: 'order_number_autocalc' }
 			], [
 				{ type: 'checkbox', name: 'invoice.to_other_eu_country', prop: 'to_other_eu_country' },
-				{ type: 'select', name: 'purchaser.purchaser', prop: 'purchaser', optSrc: purchasers, opts: purchasers.map((item, index) => [item, item.label]) },
+				{ type: 'select', name: 'purchaser.purchaser', prop: 'purchaser', optSrc: purchasers, opts: purchasers.map(item => [item, item.label]) },
 				{ type: 'date', name: 'date.tax_short', prop: 'tax_date', labelProps: { title: t('date.tax_long') } }
 			], [
 				{ type: 'number', name: 'price.total_to_pay', prop: 'price', props: { min: '0', step: '10.00', disabled: data.autocalc } },
@@ -127,7 +122,7 @@ export default class InvoiceParamsForm extends React.Component {
 			], [
 				{ type: 'select', name: 'payment_type.payment_type', prop: 'payment_type', optSrc: paymentTypes, opts: paymentTypes.map(item => [t(item.label), t(item.label)]) },
 				{ type: 'select', name: 'currency.currency', prop: 'currency', opts: [['CZK', 'Kč'], ['EUR', 'Euro']] },
-				{ type: 'select', name: 'bank.account', prop: 'bank_account', optSrc: bank_accounts, opts: bank_accounts.map((item, index) => [item, item.label]) }
+				{ type: 'select', name: 'bank.account', prop: 'bank_account', optSrc: bank_accounts, opts: bank_accounts.map(item => [item, item.label]) }
 			]
 		]
 

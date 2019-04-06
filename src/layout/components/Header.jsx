@@ -21,7 +21,6 @@ const customStyles = {
 		position: 'relative',
 		maxWidth: '800px',
 		padding: '0',
-		bottom: 'auto',
 		margin: '5% auto',
 		top: '0', right: '0', bottom: '0', left: '0',
 	}
@@ -71,7 +70,7 @@ export default class Header extends React.Component {
 					<div className='flex-1'>
 						<Link to='/' className='grid grid-large' style={{gridTemplateColumns: 'auto 1fr'}}>
 							<BlackGlobeLogo className='project-logo' />
-							<span style={{alignSelf: 'center'}}>Lo and behold - Black Globe's Invoice Generator!</span>
+							<Text style={{ alignSelf: 'center' }} text='Lo and behold - Black Globe&apos;s Invoice Generator!' />
 						</Link>
 					</div>
 					<div>
@@ -100,17 +99,17 @@ export default class Header extends React.Component {
 						</div>
 
 						<TabBar
-		          activeIndex={activeIndex}
-		          handleActiveIndexUpdate={this.handleActiveIndexUpdate}
+							activeIndex={activeIndex}
+							handleActiveIndexUpdate={this.handleActiveIndexUpdate}
 							className='margin-bottom-large'
-		        >
-		          <Tab>
-		            <Text className='mdc-tab__text-label' text={t('supplier.suppliers')} />
-		          </Tab>
-		          <Tab>
-		            <Text className='mdc-tab__text-label' text={t('data.import_export')} />
-		          </Tab>
-		        </TabBar>
+						>
+							<Tab>
+								<Text className='mdc-tab__text-label' text={t('supplier.suppliers')} />
+							</Tab>
+							<Tab>
+								<Text className='mdc-tab__text-label' text={t('data.import_export')} />
+							</Tab>
+						</TabBar>
 						{activeIndex === 0 && (
 							<Settings />
 						)}

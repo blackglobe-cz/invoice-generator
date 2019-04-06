@@ -1,5 +1,5 @@
 import React from 'react'
-import { action, runInAction } from 'mobx'
+import { runInAction } from 'mobx'
 import { observer } from 'mobx-react'
 import { withTranslation } from 'react-i18next'
 
@@ -47,7 +47,7 @@ export default class InvoiceView extends React.Component {
 		})
 	}
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate() {
 		const data = this.props.data
 		if (this.state.supplier_id !== data.supplier.id) {
 			this.resetLocalState()
@@ -83,7 +83,6 @@ export default class InvoiceView extends React.Component {
 			} else if (prop === 'purchaser') {
 				this.props.data.purchaser.text = this.purchaser_node.current.innerHTML
 			} else if (prop === 'invoice_row') {
-				console.log(this.props.data.invoice_rows, opts.index);
 				this.props.data.invoice_rows[opts.index] = this.props.data.invoice_rows[opts.index] || []
 				this.props.data.invoice_rows[opts.index][opts.rowIndex] = this.invoice_rows_nodes[opts.index][opts.rowIndex].innerHTML
 
@@ -105,7 +104,6 @@ export default class InvoiceView extends React.Component {
 				bank_account = {},
 				order_number,
 				supplier = {},
-				purchaser = {},
 				payment_type,
 				issue_date,
 				due_date,
@@ -121,7 +119,8 @@ export default class InvoiceView extends React.Component {
 			},
 		} = this.props
 
-		const t = tString => this.props.t(tString, language ? { lng: language } : void 0)
+		console.log('lng', language);
+		const t = (tString, opts) => this.props.t(tString, language ? Object.assign({}, opts, { lng: language[0] }) : opts)
 
 		const addInvoiceRow = () => {
 			runInAction(() => invoice_rows.push(['', 0]))
@@ -148,7 +147,6 @@ export default class InvoiceView extends React.Component {
 
 						<div className='invoice-grid-full-width'>
 							<Text className='invoice-logo' text={logo} />
-							{/* <Text tag='h1' text={`${t('invoice.invoice')} ${order_number}`} /> */}
 							<Text tag='h1' text={t('invoice.invoice_#', { number: order_number || '' })} />
 						</div>
 						<div className='invoice-grid-full-width'>
@@ -241,7 +239,7 @@ export default class InvoiceView extends React.Component {
 								<tbody>
 									{this.state.invoice_rows.map((item, index) => (
 										<tr key={index}>
-											<td contentEditable suppressContentEditableWarning={true} ref={el => this.assignRow(el, index, 0)} onInput={e => this.handleCEInput(e, 'invoice_row', { index, rowIndex: 0 } )}>
+											<td style={{ width: '80%' }} contentEditable suppressContentEditableWarning={true} ref={el => this.assignRow(el, index, 0)} onInput={e => this.handleCEInput(e, 'invoice_row', { index, rowIndex: 0 } )}>
 												{item[0]}
 											</td>
 											<td contentEditable suppressContentEditableWarning={true} className='text-align-right' ref={el => this.assignRow(el, index, 1)} onInput={e => this.handleCEInput(e, 'invoice_row', { index, rowIndex: 1 } )}>

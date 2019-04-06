@@ -21,12 +21,12 @@ i18n
 		backend: {
 			loadPath: '/static/locales/{{lng}}/{{ns}}.json',
 		},
-		// fallbackLng: {
-		// 	'cs_CZ': [DEFAULT_LANGUAGE],
-		// 	'en-GB': ['en'],
-		// 	'en-US': ['en'],
-		// 	'default': ['cs']
-		// },
+		fallbackLng: {
+			'cs_CZ': [DEFAULT_LANGUAGE],
+			'en-GB': ['en'],
+			'en-US': ['en'],
+			'default': ['cs']
+		},
 		debug: true,
 
 		interpolation: {

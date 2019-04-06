@@ -70,7 +70,6 @@
 		"list_loading": "Načítám faktury",
 		"order_number": "Číslo faktury",
 		"order_number_autocalc": "Počítat pořadové číslo automaticky",
-		"order_number_of_the_day": "Pořadové číslo daný den",
 		"order_number_format": "Formát pořadového čísla",
 		"order_number_format_helper": "Můžete vybíraz z těchto skupin [YYYY | YYY | YY] [MM] [DD] [NNNNNN | NNNNN | NNNN | NNN | NN]",
 		"row_text": "Text řádku",

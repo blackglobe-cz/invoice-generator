@@ -1,4 +1,4 @@
-import { computed, observable, runInAction } from 'mobx'
+import { observable, runInAction } from 'mobx'
 
 import {
 	DEFAULT_ORDER_NUMBER_FORMAT,

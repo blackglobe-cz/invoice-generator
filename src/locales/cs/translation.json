@@ -74,6 +74,7 @@
 		"order_number_format_helper": "Můžete vybíraz z těchto skupin [YYYY | YYY | YY] [MM] [DD] [NNNNNN | NNNNN | NNNN | NNN | NN]",
 		"row_text": "Text řádku",
 		"row_price": "Cena řádku",
+		"rows_heading": "Invoice items",
 		"to_other_eu_country": "Do zahraničí (EU)"
 	},
 	"label": "Popisek",
@@ -122,6 +123,10 @@
 		"save": "Uložit dodavatele",
 		"supplier": "Dodavatel",
 		"suppliers": "Dodavatelé"
+	},
+	"tax": {
+		"base": "Základ daně",
+		"tax_#": "DPH ({{amount}})"
 	},
 	"text": "Text"
 }

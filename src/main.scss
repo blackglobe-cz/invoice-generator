@@ -91,18 +91,18 @@ $h6: 'h6, .heading-6';
 	.layout-grid {
 		width: 100%;
 		display: grid;
-	    grid-gap: $size-large;
+		grid-gap: $size-large;
 		grid-template-columns: 200px auto 68px;
 
-		& > * {
-			overflow: hidden;
-		}
+		// & > * {
+		// 	overflow: hidden;
+		// }
 	}
 }
 
 .block {
 	display: block;
-    margin-bottom: $size-medium;
+		margin-bottom: $size-medium;
 }
 .empty {
 	text-align: center;
@@ -119,8 +119,6 @@ $h6: 'h6, .heading-6';
 }
 
 .project-logo {
-	/* position: absolute; */
-	/* vertical-align: top; */
 	display: inline-block;
 	left: 0; top: -.6rem;
 	width: 2rem; height: 2rem;
@@ -137,6 +135,7 @@ $h6: 'h6, .heading-6';
 	@media screen {
 		padding: 0 0 141.4285%;
 		min-width: 700px;
+		box-shadow: $box-shadow-std;
 	}
 }
 .invoice-grid {

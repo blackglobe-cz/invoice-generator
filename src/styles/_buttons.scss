@@ -1,29 +1,29 @@
 .mdc-button {
 
-    &.button-danger {
-        color: #555;
+		&.button-danger {
+				color: #555;
 
-        &:focus,
-        &:hover {
-          color: #f44336;
-        }
+				&:focus,
+				&:hover {
+					color: #f44336;
+				}
 
-        &::before {
-            background-color: #f44336;
-        }
-    }
+				&::before {
+						background-color: #f44336;
+				}
+		}
 }
 
 // .button {
-//     border: 0;
-//     background: #555;
-//     border: 1px solid #555;
-//     color: #fff;
-//     padding: calc(.625rem - 2px) 2.5rem;
-//     white-space: nowrap;
-//     border-radius: .3125rem;
-//     font-weight: bold;
-//     font-size: 1rem;
+//		 border: 0;
+//		 background: #555;
+//		 border: 1px solid #555;
+//		 color: #fff;
+//		 padding: calc(.625rem - 2px) 2.5rem;
+//		 white-space: nowrap;
+//		 border-radius: .3125rem;
+//		 font-weight: bold;
+//		 font-size: 1rem;
 // 	line-height: 1rem;
 // 	cursor: pointer;
 //

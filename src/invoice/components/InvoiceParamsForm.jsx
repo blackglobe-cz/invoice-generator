@@ -12,6 +12,8 @@ import FormControl from 'form/components/FormControl'
 import logger from 'logger'
 import { getInvoiceBasedOnSupplier } from '../helpers/invoiceHelpers'
 
+const languages = [['cs', 'Česky'], ['en', 'English']]
+
 @inject('SettingsStore', 'PaymentTypeStore', 'InvoiceStore')
 @withTranslation()
 @observer
@@ -105,7 +107,7 @@ export default class InvoiceParamsForm extends React.Component {
 
 		const formConfig = [
 			[
-				{ type: 'select', name: 'invoice.language', prop: 'language', opts: [['cs', 'Česky'], ['en', 'English']] }
+				{ type: 'select', name: 'invoice.language', prop: 'language', opts: languages, optSrc: languages.map(i => i[0]) }
 			], [
 				{ type: 'date', name: 'date.issue', prop: 'issue_date' },
 				{ type: 'date', name: 'date.due', prop: 'due_date' },
@@ -120,7 +122,7 @@ export default class InvoiceParamsForm extends React.Component {
 				{ type: 'number', name: 'price.total_to_pay', prop: 'price', props: { min: '0', step: '10.00', disabled: data.autocalc } },
 				{ type: 'checkbox', name: 'price.autocalc', prop: 'autocalc' }
 			], [
-				{ type: 'select', name: 'payment_type.payment_type', prop: 'payment_type', optSrc: paymentTypes, opts: paymentTypes.map(item => [t(item.label), t(item.label)]) },
+				{ type: 'select', name: 'payment_type.payment_type', prop: 'payment_type', optSrc: paymentTypes, opts: paymentTypes.map(item => [t(item.label, { lng: data.language }), t(item.label, { lng: data.language })]) },
 				{ type: 'select', name: 'currency.currency', prop: 'currency', opts: [['CZK', 'Kč'], ['EUR', 'Euro']] },
 				{ type: 'select', name: 'bank.account', prop: 'bank_account', optSrc: bank_accounts, opts: bank_accounts.map(item => [item, item.label]) }
 			]

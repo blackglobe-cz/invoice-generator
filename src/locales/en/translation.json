@@ -74,6 +74,7 @@
 		"order_number_format_helper": "You can choose from these groups [YYYY | YYY | YY] [MM] [DD] [NNNNNN | NNNNN | NNNN | NNN | NN]",
 		"row_text": "Row text",
 		"row_price": "Row price",
+		"rows_heading": "Fakturujeme Vám",
 		"to_other_eu_country": "Purchaser abroad (EU)"
 	},
 	"label": "Label",
@@ -86,7 +87,7 @@
 		"language": "Language"
 	},
 	"payment_type": {
-		"bank_transfer": "Banktransfer",
+		"bank_transfer": "Bank transfer",
 		"cash": "Cash",
 		"payment_type": "Payment type"
 	},
@@ -122,6 +123,10 @@
 		"save": "Save supplier",
 		"supplier": "Supplier",
 		"suppliers": "Suppliers"
+	},
+	"tax": {
+		"base": "Tax base",
+		"tax_#": "VAT ({{amount}})"
 	},
 	"text": "Text"
 }

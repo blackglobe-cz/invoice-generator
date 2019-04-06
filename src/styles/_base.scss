@@ -5,8 +5,8 @@
 }
 html,
 body {
-    margin: 0;
-    font-family: $font-family;
+		margin: 0;
+		font-family: $font-family;
 	color: #000;
 
 	@media screen {
@@ -15,9 +15,9 @@ body {
 	}
 }
 ul, li {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+		margin: 0;
+		padding: 0;
+		list-style: none;
 }
 hr {
 	margin: 0;

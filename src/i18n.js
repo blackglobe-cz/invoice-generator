@@ -22,7 +22,9 @@ i18n
 			loadPath: '/static/locales/{{lng}}/{{ns}}.json',
 		},
 		fallbackLng: {
+			'cs': [DEFAULT_LANGUAGE],
 			'cs_CZ': [DEFAULT_LANGUAGE],
+			'en': ['en'],
 			'en-GB': ['en'],
 			'en-US': ['en'],
 			'default': ['cs']

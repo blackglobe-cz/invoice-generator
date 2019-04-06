@@ -10,6 +10,10 @@ import formatDate from 'date/helpers/formatter'
 import formatPrice from 'currency/helpers/formatter'
 import QRCode from 'qrcode.react'
 
+import {
+	VAT_AMOUNT,
+} from 'consts'
+
 @withTranslation()
 @observer
 export default class InvoiceView extends React.Component {
@@ -119,8 +123,7 @@ export default class InvoiceView extends React.Component {
 			},
 		} = this.props
 
-		console.log('lng', language);
-		const t = (tString, opts) => this.props.t(tString, language ? Object.assign({}, opts, { lng: language[0] }) : opts)
+		const t = (tString, opts) => this.props.t(tString, language ? Object.assign({}, opts, { lng: language }) : opts)
 
 		const addInvoiceRow = () => {
 			runInAction(() => invoice_rows.push(['', 0]))
@@ -230,9 +233,7 @@ export default class InvoiceView extends React.Component {
 						</div>
 
 						<div className='invoice-grid-full-width'>
-							<div>
-								Fakturujeme Vám
-							</div>
+							<Text text={t('invoice.rows_heading')} />
 
 							<hr className='margin-vertical-small' />
 							<table className='invoice-rows'>
@@ -266,17 +267,17 @@ export default class InvoiceView extends React.Component {
 							{isTaxDocument && (
 								<div>
 									<div className='flex flex-space-between'>
-										<Text text='Základ daně' />
+										<Text text={t('tax.base')} />
 										<Text text={formatPrice(price, currency)} />
 									</div>
 									<div className='flex flex-space-between'>
-										<Text text='DPH (21%)' />
+										<Text text={t('tax.tax_#', { amount: VAT_AMOUNT })} />
 										<Text text={formatPrice(vat_amount, currency)} />
 									</div>
 								</div>
 							)}
 							<div className='flex flex-space-between text-emphasize'>
-								<Text text='Celkem k úhradě' />
+								<Text text={t('price.total_to_pay')} />
 								<Text text={formatPrice(total_price, currency)} />
 							</div>
 						</div>

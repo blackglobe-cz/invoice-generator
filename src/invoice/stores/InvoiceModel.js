@@ -1,6 +1,7 @@
 import { computed, observable, runInAction } from 'mobx'
 
 import {
+	DEFAULT_LANGUAGE,
 	DEFAULT_CURRENCY,
 	DEFAULT_DUE_PERIOD,
 } from 'consts'
@@ -77,7 +78,7 @@ export default class InvoiceModel {
 		runInAction(() => {
 			this.id = id || (new Date()).getTime()
 			this.logo = logo
-			this.language = language
+			this.language = language || DEFAULT_LANGUAGE
 			this.issue_date = issue_date || (new Date()).toISOString().slice(0, 10)
 			this.tax_date = tax_date || (new Date()).toISOString().slice(0, 10)
 			this.due_date = due_date || (new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * DEFAULT_DUE_PERIOD))).toISOString().slice(0, 10) // + 14 days

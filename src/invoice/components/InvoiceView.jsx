@@ -1,7 +1,7 @@
 import React from 'react'
 import { action, runInAction } from 'mobx'
 import { observer } from 'mobx-react'
-import { withNamespaces, WithNamespaces } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 import MaterialIcon from '@material/react-material-icon'
 
@@ -10,7 +10,7 @@ import formatDate from 'date/helpers/formatter'
 import formatPrice from 'currency/helpers/formatter'
 import QRCode from 'qrcode.react'
 
-@withNamespaces()
+@withTranslation()
 @observer
 export default class InvoiceView extends React.Component {
 
@@ -99,9 +99,9 @@ export default class InvoiceView extends React.Component {
 
 	render() {
 		const {
-			t,
 			data: {
 				logo,
+				language,
 				bank_account = {},
 				order_number,
 				supplier = {},
@@ -120,6 +120,8 @@ export default class InvoiceView extends React.Component {
 				qr_code_value,
 			},
 		} = this.props
+
+		const t = tString => this.props.t(tString, language ? { lng: language } : void 0)
 
 		const addInvoiceRow = () => {
 			runInAction(() => invoice_rows.push(['', 0]))
@@ -146,7 +148,8 @@ export default class InvoiceView extends React.Component {
 
 						<div className='invoice-grid-full-width'>
 							<Text className='invoice-logo' text={logo} />
-							<Text tag='h1' text={`${t('invoice.invoice')} ${order_number}`} />
+							{/* <Text tag='h1' text={`${t('invoice.invoice')} ${order_number}`} /> */}
+							<Text tag='h1' text={t('invoice.invoice_#', { number: order_number || '' })} />
 						</div>
 						<div className='invoice-grid-full-width'>
 							<div className='flex flex-space-between'>

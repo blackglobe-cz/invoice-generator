@@ -1,8 +1,6 @@
 $mdc-theme-primary: #5b97e6;
-// $mdc-theme-secondary: #feeae6;
 $mdc-theme-secondary: #5b97e6;
 $mdc-theme-on-primary: #fff;
-// $mdc-theme-on-secondary: #442b2d;
 $mdc-theme-on-secondary: #fff;
 
 $font-family: 'arsenalregular', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -16,7 +14,7 @@ $size-big: $size-base * 6;
 $size-large: $size-base * 8;
 
 $color-light-gray: #dedede;
-$color-medium-gray: #ccc;
+$color-medium-gray: #bbb;
 $color-text: #555;
 
 $box-shadow-std: 0 .0625rem $size-tiny rgba(0,0,0,.4);
@@ -40,8 +38,6 @@ $h6: 'h6, .heading-6';
 @import '@material/react-tab-indicator/index.scss';
 @import '@material/react-select/index.scss';
 
-// @import '@material/button/mixins';
-
 @import './styles/prototyping';
 @import './styles/base';
 @import './styles/box';
@@ -56,6 +52,7 @@ $h6: 'h6, .heading-6';
 @import './styles/tables';
 @import './styles/modal';
 @import './styles/mdc-lists';
+@import './styles/print-placeholder';
 
 @media print {
 	.screen-only {
@@ -81,6 +78,14 @@ $h6: 'h6, .heading-6';
 		max-width: 960px;
 		max-width: 1096px;
 		margin: 2rem auto;
+
+	}
+	footer > .wrapper {
+		margin-top: $size-small;
+
+		a:hover {
+			text-decoration: underline;
+		}
 	}
 
 	.layout-grid {
@@ -100,13 +105,13 @@ $h6: 'h6, .heading-6';
     margin-bottom: $size-medium;
 }
 .empty {
-    text-align: center;
-    padding: 4rem;
-    color: #bbb;
+	text-align: center;
+	padding: 4rem;
+	color: $color-medium-gray;
 }
 
 .cursor-pointer {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .controls > * {

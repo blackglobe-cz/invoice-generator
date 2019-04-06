@@ -104,10 +104,20 @@ class InvoiceStore {
 			})
 		})
 	}
-	
+
 	@action
-	getNextOrderNumber(supplierId, date) {
-		return agent.invoice.getNextOrderNumber({ supplierId, date })
+	getNextOrderNumber(supplierId, date, ignoreSupplier) {
+		return agent.invoice.getNextOrderNumber({ supplierId, date, ignoreSupplier })
+	}
+
+	@action
+	exportInvoices() {
+		return agent.invoice.export()
+	}
+
+	@action
+	importInvoices(importString) {
+		return agent.invoice.import(importString)
 	}
 
 }

@@ -1,12 +1,17 @@
 import React from 'react'
 import { Switch, Route, withRouter } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
+import { withTranslation } from 'react-i18next'
 
+import Text from 'text/components/Text'
 import Header from './layout/components/Header'
+import Footer from './layout/components/Footer'
 import InvoiceList from './invoice/components/InvoiceList'
 import InvoiceDetail from './invoice/components/InvoiceDetail'
+import PageNotFound from './common/PageNotFound'
 
 @inject('SettingsStore')
+@withTranslation()
 @withRouter
 @observer
 export default class App extends React.Component {
@@ -31,6 +36,7 @@ export default class App extends React.Component {
 	render() {
 
 		const {
+			t,
 			SettingsStore: {
 				suppliers,
 			},
@@ -41,18 +47,18 @@ export default class App extends React.Component {
 				<Header />
 
 				{this.state.loaded && !suppliers.length && (
-					<div className='wrapper alert info screen-only-a'>
-						It seems like you don't have any preferences or issuers. Set them up in settings!
-						{/* <button className='button primary-button' type='button'>
-							Let's do it!
-						</button> */}
+					<div className='wrapper alert info screen-only'>
+						<Text text={t('settings.no_settings_yet')} />
 					</div>
 				)}
 
 				<Switch>
 					<Route exact path='/' component={InvoiceList} />
 					<Route path='/invoice/:id' component={InvoiceDetail} />
+					<Route component={PageNotFound} />
 				</Switch>
+
+				<Footer />
 			</div>
 		)
 	}

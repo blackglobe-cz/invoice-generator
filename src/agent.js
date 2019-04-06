@@ -1,3 +1,7 @@
+import {
+	DEFAULT_ORDER_NUMBER_FORMAT,
+} from 'consts'
+
 const INVOICE_STORAGE_KEY = 'bg-invoice-generator-invoices'
 let invoiceStorage = { invoices: [] }
 const SETTINGS_STORAGE_KEY = 'bg-invoice-generator-settings'
@@ -8,17 +12,11 @@ export const STORAGE_KEYS = {
 	'SETTINGS': SETTINGS_STORAGE_KEY,
 }
 
-const DEFAULT_ORDER_NUMBER_RECIPE = 'YYYYNNN'
 
 export default {
 	invoice: {
 		query: () => {
 			invoiceStorage = JSON.parse(window.localStorage.getItem(INVOICE_STORAGE_KEY)) || { invoices: [] }
-
-			// if (!(invoiceStorage && invoiceStorage.invoices && invoiceStorage.invoices.length)) {
-			// 	invoiceStorage.invoices.push(getMockInvoice())
-			// }
-
 			return Promise.resolve(invoiceStorage.invoices || [])
 		},
 		create: item => {
@@ -48,23 +46,36 @@ export default {
 			return Promise.resolve(item)
 		},
 		getNextOrderNumber,
+		export: () => Promise.resolve(window.localStorage.getItem(INVOICE_STORAGE_KEY) || '{ invoices: [] }'),
+		import: importString => {
+			return new Promise((resolve, reject) => {
+				try {
+					const importObject = JSON.parse(importString)
+					if (importObject.invoices.length === 0) return reject('error_importing_invoices_no_data')
+					window.localStorage.setItem(INVOICE_STORAGE_KEY, importString)
+					return resolve({ ok: true })
+				} catch(e) {
+					return reject('error_importing_invoices', e)
+				}
+			})
+		},
 	},
 	settings: {
 		query: () => {
 			return new Promise((resolve, reject) => {
 				settingsStorage = JSON.parse(window.localStorage.getItem(SETTINGS_STORAGE_KEY)) || { suppliers: [] }
-				setTimeout(() => {
+				// setTimeout(() => {
 					resolve(settingsStorage.suppliers || [])
-				}, 500)
+				// }, 500)
 			})
 		},
 		create: item => {
 			settingsStorage.suppliers.push(item)
 			return new Promise((resolve, reject) => {
-				setTimeout(() => {
+				// setTimeout(() => {
 					window.localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settingsStorage))
 					return resolve(item)
-				}, 500)
+				// }, 500)
 			})
 		},
 		update: item => {
@@ -75,10 +86,10 @@ export default {
 				}
 			}
 			return new Promise((resolve, reject) => {
-				setTimeout(() => {
+				// setTimeout(() => {
 					window.localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settingsStorage))
 					return resolve({ ok: true })
-				}, 500)
+				// }, 500)
 			})
 		},
 		delete: id => {
@@ -89,28 +100,43 @@ export default {
 				}
 			}
 			return new Promise((resolve, reject) => {
-				setTimeout(() => {
+				// setTimeout(() => {
 					window.localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settingsStorage))
 					return resolve({ ok: true })
-				}, 500)
+				// }, 500)
 			})
-		}
+		},
+		export: () => Promise.resolve(window.localStorage.getItem(SETTINGS_STORAGE_KEY) || '{ suppliers: [] }'),
+		import: importString => {
+			return new Promise((resolve, reject) => {
+				try {
+					const importObject = JSON.parse(importString)
+					if (importObject.suppliers.length === 0) return reject('error_importing_settings_no_suppliers')
+					window.localStorage.setItem(SETTINGS_STORAGE_KEY, importString)
+					return resolve({ ok: true })
+				} catch(e) {
+					return reject('error_importing_settings', e)
+				}
+			})
+		},
 	}
 }
 
 ///////////////////
 
-function getNextOrderNumber({ supplierId, date }) {
+function getNextOrderNumber({ supplierId, date, ignoreSupplier }) {
 	return new Promise((resolve, reject) => {
 		const issueDate = new Date(date)
 	  if (!(issueDate && typeof issueDate.getDate === 'function')) return reject('error_invalid_date')
 
-		const supplier = settingsStorage.suppliers.find(item => item.id === supplierId)
-		if (!supplier) return reject('error_supplier_not_found')
-		// console.log('supplier found', supplier);
-		let orderNumber = supplier.order_number_recipe || DEFAULT_ORDER_NUMBER_RECIPE
-
-	  const invoices = invoiceStorage.invoices.filter(item => item.supplier.id === supplierId)
+		let supplier = {}
+		let invoices = []
+		if (!ignoreSupplier) {
+			supplier = settingsStorage.suppliers.find(item => item.id === supplierId)
+			if (!(supplier && supplier.id)) return reject('error_supplier_not_found')
+			invoices = invoiceStorage.invoices.filter(item => item.supplier.id === supplierId)
+		}
+		let orderNumber = supplier.order_number_format || DEFAULT_ORDER_NUMBER_FORMAT
 
 		const oNDate = ('0' + issueDate.getDate()).slice(-2)
 	  const oNMonth = ('0' + (issueDate.getMonth() + 1)).slice(-2)
@@ -133,14 +159,11 @@ function getNextOrderNumber({ supplierId, date }) {
 	  if (hasYearGroup && yearGroup[0].length === 3) replaceString(regex, orderNumber.indexOf(yearGroup[0]), oNYearMedium)
 	  if (hasYearGroup && yearGroup[0].length === 2) replaceString(regex, orderNumber.indexOf(yearGroup[0]), oNYearShort)
 
-	  // oNGroup[0].length
-
 		let orderNumberOfTheDay = 1
 		const onotdPosition = regex.indexOf('.')
 		const onotdLength = regex.replace(/\d/g, '').length
 		if (invoices.length) {
 			invoices.forEach(invoice => {
-				// console.log('checking', invoice);
 				const match = invoice.order_number && invoice.order_number.match(regex)
 				if (match && match.length) {
 					const oN = parseInt(invoice.order_number.slice(onotdPosition, onotdPosition + onotdLength))
@@ -155,13 +178,15 @@ function getNextOrderNumber({ supplierId, date }) {
 	  orderNumber = orderNumber.replace(/MM/g, oNMonth)
 	  orderNumber = orderNumber.replace(/DD/g, oNDate)
 
+		console.log('on', orderNumber);
+
 		// this can be simplified
 	  orderNumber = orderNumber.replace(/NNNNNN/g, ('00000' + orderNumberOfTheDay).slice(-6))
 	  orderNumber = orderNumber.replace(/NNNNN/g, ('0000' + orderNumberOfTheDay).slice(-5))
 	  orderNumber = orderNumber.replace(/NNNN/g, ('000' + orderNumberOfTheDay).slice(-4))
 	  orderNumber = orderNumber.replace(/NNN/g, ('00' + orderNumberOfTheDay).slice(-3))
 	  orderNumber = orderNumber.replace(/NN/g, ('0' + orderNumberOfTheDay).slice(-2))
-		
+
 		return resolve(orderNumber)
 	})
 }

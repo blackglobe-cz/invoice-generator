@@ -21,7 +21,7 @@
 		"import": "Import",
 		"import_invoices": "Import faktur",
 		"import_settings": "Import nastavení",
-		"import_invoices_submit": "Import faktury",
+		"import_invoices_submit": "Importovat faktury",
 		"import_settings_submit": "Importovat nastavení",
 		"import_export": "Import a export dat",
 		"invoice_export": "Export faktur",
@@ -43,6 +43,10 @@
 		"save": "Uložit",
 		"tax_document": " - daňový doklad"
 	},
+	"error": {
+		"generic": "Jejda! Někde se stala chyba :/",
+		"page_not_found": "Tato stránka, zdá se, neexistuje."
+	},
 	"footer": "Patička faktury",
 	"form": {
 		"error": "Formulář obsahuje chyby"
@@ -58,18 +62,24 @@
 		"detail_loading": "Načítám detail",
 		"detail_loading_failed": "Načítání detailu selhalo",
 		"empty_list": "Zatím nemáte žádné faktury",
+		"export": "Export faktury",
+		"import_export": "Import/Export",
 		"invoice": "Faktura",
+		"invoice_#": "Faktura {{number}}",
+		"language": "Jazyk faktury",
+		"list_loading": "Načítám faktury",
 		"order_number": "Číslo faktury",
 		"order_number_autocalc": "Počítat pořadové číslo automaticky",
 		"order_number_of_the_day": "Pořadové číslo daný den",
-		"order_number_recipe": "Formát pořadového čísla",
-		"order_number_recipe_helper": "Můžete vybíraz z těchto skupin [YYYY | YYY | YY] [MM] [DD] [NNNNNN | NNNNN | NNNN | NNN | NN]",
+		"order_number_format": "Formát pořadového čísla",
+		"order_number_format_helper": "Můžete vybíraz z těchto skupin [YYYY | YYY | YY] [MM] [DD] [NNNNNN | NNNNN | NNNN | NNN | NN]",
 		"row_text": "Text řádku",
 		"row_price": "Cena řádku",
 		"to_other_eu_country": "Do zahraničí (EU)"
 	},
 	"label": "Popisek",
 	"loading": "Načítám",
+	"loading_data": "Načítám data",
 	"logo": {
 		"logo": "Logo"
 	},
@@ -101,6 +111,7 @@
 	"save": "Uložit",
 	"settings": {
 		"general": "Obecné",
+		"no_settings_yet": "Vypadá to, že zatím nemáš nastaveny žádné preference ani dodavatele. Nastavit si je, nebo naimportovat již existující konfiguraci, můžeš v Nastavení",
 		"settings": "Nastavení"
 	},
 	"supplier": {

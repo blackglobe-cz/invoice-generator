@@ -1,13 +1,10 @@
 import i18n from 'i18next'
-// import { initReactI18next } from 'react-i18next/hooks'
-const initReactI18next = require('react-i18next/hooks').initReactI18next
-// import { reactI18nextModule } from 'react-i18next/hooks'
+import { initReactI18next } from 'react-i18next'
 
 import Backend from 'i18next-xhr-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
-// not like to use this?
-// have a look at the Quick start guide 
-// for passing in lng and translations on init
+
+import { DEFAULT_LANGUAGE } from 'consts'
 
 i18n
 	// load translation using xhr -> see /public/locales
@@ -24,7 +21,12 @@ i18n
 		backend: {
 			loadPath: '/static/locales/{{lng}}/{{ns}}.json',
 		},
-		fallbackLng: 'cs',
+		// fallbackLng: {
+		// 	'cs_CZ': [DEFAULT_LANGUAGE],
+		// 	'en-GB': ['en'],
+		// 	'en-US': ['en'],
+		// 	'default': ['cs']
+		// },
 		debug: true,
 
 		interpolation: {

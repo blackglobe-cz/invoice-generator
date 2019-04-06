@@ -1,6 +1,6 @@
 import InvoiceModel from 'invoice/stores/InvoiceModel'
 import InvoiceStore from 'invoice/stores/InvoiceStore'
-// import SettingsStore from 'settings/stores/SettingsStore'
+import SupplierModel from 'settings/stores/SupplierModel'
 
 export {
   getInvoiceBasedOnSupplier,
@@ -8,6 +8,11 @@ export {
 
 function getInvoiceBasedOnSupplier(supplier, id) {
   return new Promise((resolve, reject) => {
+		let ignoreSupplier
+		if (!supplier) {
+			supplier = new SupplierModel()
+			ignoreSupplier = true
+		}
     const due_date = (new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * parseInt(supplier.default_due_date_period || 14)))).toISOString().slice(0, 10)
     const invoice_rows = []
     let price = 0
@@ -17,8 +22,8 @@ function getInvoiceBasedOnSupplier(supplier, id) {
     })
 
     supplier = prepareForContentEditable(copy(supplier))
-    
-    InvoiceStore.getNextOrderNumber(supplier.id, (new Date()).toISOString().slice(0, 10)).then(res => {
+
+    InvoiceStore.getNextOrderNumber(supplier.id, (new Date()).toISOString().slice(0, 10), ignoreSupplier).then(res => {
       return resolve(new InvoiceModel({
         id,
         order_number: res,

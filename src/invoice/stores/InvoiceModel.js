@@ -1,8 +1,12 @@
 import { computed, observable, runInAction } from 'mobx'
 
+import {
+	DEFAULT_CURRENCY,
+	DEFAULT_DUE_PERIOD,
+} from 'consts'
+
 import isoCurrencies from 'currency/helpers/list'
 import PaymentTypeStore from 'payment-type/stores/PaymentTypeStore'
-// import InvoiceStore from 'invoice/stores/InvoiceStore'
 
 export default class InvoiceModel {
 	id
@@ -11,21 +15,8 @@ export default class InvoiceModel {
 	@observable issue_date
 	@observable tax_date
 	@observable due_date
-	@observable order_number_of_the_day
 	@observable order_number
 	@observable order_number_autocalc
-	// @observable order_number_fn
-	// @computed get order_number() {
-	// 	if (this.order_number_fn) {
-	// 		return this.order_number_fn(this)
-	// 	} else {
-	// 		return defaultOrderNumberFn(this)
-	// 	}
-	// 	// my order number fn
-	// 	// if (!this.issue_date) return ''
-	// 	// const date = new Date(this.issue_date)
-	// 	// return ('' + date.getFullYear()).slice(-2) + ('0' + (date.getMonth() + 1)).slice(-2) + ('0' + date.getDate()).slice(-2) + ('000' + this.order_number_of_the_day).slice(-4)
-	// }
 	@observable to_other_eu_country
 	@observable price
 	@computed get vat_amount() {
@@ -70,7 +61,6 @@ export default class InvoiceModel {
 		issue_date,
 		tax_date,
 		due_date,
-		// order_number_of_the_day,
 		order_number,
 		order_number_autocalc,
 		to_other_eu_country,
@@ -90,13 +80,12 @@ export default class InvoiceModel {
 			this.language = language
 			this.issue_date = issue_date || (new Date()).toISOString().slice(0, 10)
 			this.tax_date = tax_date || (new Date()).toISOString().slice(0, 10)
-			this.due_date = due_date || (new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 14))).toISOString().slice(0, 10) // + 14 days
-			// this.order_number_of_the_day = order_number_of_the_day || 1
+			this.due_date = due_date || (new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * DEFAULT_DUE_PERIOD))).toISOString().slice(0, 10) // + 14 days
 			this.order_number = order_number
 			this.order_number_autocalc = typeof order_number_autocalc !== 'undefined' ? order_number_autocalc : false
 			this.to_other_eu_country = to_other_eu_country || false
 			this.price = price || 0
-			this.currency = currency || 'CZK'
+			this.currency = currency || DEFAULT_CURRENCY
 			this.supplier = supplier
 			this.purchaser = purchaser
 			this.bank_account = bank_account

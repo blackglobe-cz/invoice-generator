@@ -1,24 +1,23 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 export default function Text(props) {
+
 	const {
-		// align,
 		children,
 		className,
-		// color,
 		tag,
+		t: toBeTranslated,
 		text,
 		title,
-		// type,
-		// wrapper,
-		// weight,
 	} = props
 
-	let content = children || text
+	const { t, i18n } = useTranslation()
+
+	let content = children || text || t(toBeTranslated)
 
 	if (!content) return ''
 
-	
 	const Tag = tag || 'div'
 
 	if (typeof content === 'string') {

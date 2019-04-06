@@ -1,0 +1,12 @@
+.print-placeholder {
+	text-align: center;
+
+	@media screen {
+		display: none !important;
+	}
+
+	.bg-logo {
+		width: 50vmin;
+		height: 50vmin;
+	}
+}

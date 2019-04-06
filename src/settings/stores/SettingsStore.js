@@ -84,6 +84,17 @@ class SettingsStore {
 			this.items.splice(tempIndex, 0 ,temp)
 		})
 	}
+
+	@action
+	exportSettings() {
+		return agent.settings.export()
+	}
+
+	@action
+	importSettings(importString) {
+		return agent.settings.import(importString)
+	}
+
 }
 
 export default new SettingsStore()

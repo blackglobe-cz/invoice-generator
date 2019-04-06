@@ -1,7 +1,7 @@
 import React from 'react'
 import { action, runInAction } from 'mobx'
 import { observer, inject } from 'mobx-react'
-import { withNamespaces } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 import MaterialIcon from '@material/react-material-icon'
 import IconButton from '@material/react-icon-button'
@@ -16,7 +16,7 @@ import currencyList from 'currency/helpers/list'
 import SupplierModel from '../stores/SupplierModel'
 
 @inject('SettingsStore')
-@withNamespaces()
+@withTranslation()
 @observer
 export default class Settings extends React.Component {
 
@@ -164,14 +164,14 @@ export default class Settings extends React.Component {
 							</label>
 						</div><div className='block'>
 							<label>
-								<Text text={t('invoice.order_number_recipe')} />
-								<FormControl value={activeSupplier.order_number_recipe} type='input' name='invoice.order_number_recipe' prop='order_number_recipe' placeholder='YYYYNNN' onChange={this.handleInput.bind(this)} />
-								<Text tag='small' class='' text={t('invoice.order_number_recipe_helper')} />
+								<Text text={t('invoice.order_number_format')} />
+								<FormControl value={activeSupplier.order_number_format} type='input' name='invoice.order_number_format' prop='order_number_format' placeholder='YYYYNNN' onChange={this.handleInput.bind(this)} />
+								<Text tag='small' class='' text={t('invoice.order_number_format_helper')} />
 							</label>
 						</div><div className='block'>
 							<label>
-								<Text text={t('language.language') + '*'} />
-								<FormControl value={languageList.findIndex(item => item[0] === activeSupplier.default_language)} type='select' name='language.language' prop='default_language' onChange={this.handleInput.bind(this)} optSrc={languageList.map(i => i[0])} opts={languageList} />
+								<Text text={t('invoice.language') + '*'} />
+								<FormControl value={languageList.findIndex(item => item[0] === activeSupplier.default_language)} type='select' name='invoice.language' prop='default_language' onChange={this.handleInput.bind(this)} optSrc={languageList.map(i => i[0])} opts={languageList} />
 							</label>
 						</div><div className='block'>
 							<label>

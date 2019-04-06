@@ -1,7 +1,7 @@
 import React from 'react'
 import { runInAction } from 'mobx'
 import { inject, observer } from 'mobx-react'
-import { withNamespaces } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import { Route, Redirect } from 'react-router'
 
 import Button from '@material/react-button'
@@ -14,7 +14,7 @@ import { isNull } from 'util'
 import { getInvoiceBasedOnSupplier, calculateOrderNumber } from '../helpers/invoiceHelpers'
 
 @inject('SettingsStore', 'PaymentTypeStore', 'InvoiceStore')
-@withNamespaces()
+@withTranslation()
 @observer
 export default class InvoiceParamsForm extends React.Component {
 
@@ -40,10 +40,9 @@ export default class InvoiceParamsForm extends React.Component {
 		const creating = location.pathname.indexOf('/invoice/new') > -1
 		console.log('c', creating);
 		this.props.InvoiceStore.save(this.props.data, creating).then(res => {
-			console.log('asdf?');
 			if (creating) this.setState({ redirectTo: `/invoice/${this.props.data.id}` })
 		}).catch(err => {
-			console.log('err?', err);
+			console.log('err saving invoice', err);
 		})
 	}
 
@@ -53,9 +52,13 @@ export default class InvoiceParamsForm extends React.Component {
 			data[prop] = value
 
 			// if we change any prop that might affect order number, we recalculate
-			if (data.order_number_autocalc && ['issue_date'].indexOf(prop)) {
+			if (data.order_number_autocalc && ['issue_date'].indexOf(prop) > -1) {
+				console.log('recalc', data);
+				this.props.InvoiceStore.getNextOrderNumber(data.supplier.id, data.issue_date).then(res => {
+					data.order_number = res
+				})
 				// data.order_number = .calculateOrderNumber(data.supplier)
-				data.order_number = '1234'
+				// data.order_number = '1234'
 			}
 		})
 	}
@@ -103,11 +106,11 @@ export default class InvoiceParamsForm extends React.Component {
 
 		if (redirectTo) return (<Redirect to={redirectTo} />)
 
-		if (!data) return (<div>wat</div>)
+		if (!data) return (<Text text={t('error.generic')} />)
 
 		const formConfig = [
 			[
-				{ type: 'select', name: 'language.language', prop: 'language', opts: [['cs', 'Česky'], ['en', 'English']] }
+				{ type: 'select', name: 'invoice.language', prop: 'language', opts: [['cs', 'Česky'], ['en', 'English']] }
 			], [
 				{ type: 'date', name: 'date.issue', prop: 'issue_date' },
 				{ type: 'date', name: 'date.due', prop: 'due_date' },

@@ -1,11 +1,12 @@
 import React from 'react'
-import { withNamespaces } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 import TextField, { HelperText, Input } from '@material/react-text-field'
 import Select from '@material/react-select'
 import Checkbox from '@material/react-checkbox'
 
-class FormControl extends React.Component {
+@withTranslation()
+export default class FormControl extends React.Component {
 	render() {
 
 		const {
@@ -25,7 +26,7 @@ class FormControl extends React.Component {
 			onChange,
 			opts,
 			optSrc,
-			...otherProps,
+			...otherProps
 		} = this.props
 
 		if (type === 'select') {
@@ -41,7 +42,6 @@ class FormControl extends React.Component {
 					{opts.map((opt, index) => {
 						const val = typeof opt !== 'string' && opt.length >= 1 ? opt[0] : opt
 						const label = typeof opt !== 'string' && opt.length > 1 ? opt[1] : opt
-						// <option key={index} value={index}>{label}</option>
 						return (
 							<option key={index} value={index}>{label}</option>
 						)
@@ -59,23 +59,6 @@ class FormControl extends React.Component {
 					{...otherProps}
 				></textarea>
 			)
-			// return (
-			// 	<TextField
-	    //     // label='Dogo'
-	    //     // helperText={<HelperText>Help Me!</HelperText>}
-	    //     // onTrailingIconSelect={() => this.setState({value: ''})}
-	    //     // trailingIcon={<MaterialIcon role="button" icon="delete"/>}
-			// 		dense
-			// 		fullWidth
-			// 		textarea
-	    //   >
-			// 		<Input
-			// 			type={type === 'input' ? 'text' : type}
-	    //       value={value}
-	    //       onChange={e => onChange(prop || name, type === 'checkbox' ? e.target.checked : e.target.value, e)}
-			// 		/>
-			// 	</TextField>
-			// )
 		}
 
 		if (type === 'checkbox') {
@@ -83,7 +66,6 @@ class FormControl extends React.Component {
 				<Checkbox
           checked={!!value}
 					name={name}
-          // indeterminate={this.state.indeterminate}
           onChange={e => onChange(prop || name, type === 'checkbox' ? e.target.checked : e.target.value, e)}
 					{...otherProps}
         />
@@ -102,22 +84,5 @@ class FormControl extends React.Component {
 			/>
 		)
 
-		// return (
-		// 	<TextField
-    //     // label='Dogo'
-    //     // helperText={<HelperText>Help Me!</HelperText>}
-    //     // onTrailingIconSelect={() => this.setState({value: ''})}
-    //     // trailingIcon={<MaterialIcon role="button" icon="delete"/>}
-		// 		dense
-		// 		fullWidth
-    //   >
-		// 		<Input
-		// 			type={type === 'input' ? 'text' : type}
-    //       value={value}
-    //       onChange={e => onChange(prop || name, type === 'checkbox' ? e.target.checked : e.target.value, e)}
-		// 		/>
-		// 	</TextField>
-		// )
 	}
 }
-export default withNamespaces()(FormControl)

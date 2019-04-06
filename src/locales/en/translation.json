@@ -1,6 +1,13 @@
 {
-    "invoice": {
+	"error": {
+		"generic": "Oops! This was not supposed to happen :/"
+	},
+	"invoice": {
 		"add": "Add new invoice",
-		"asdfqwer": "LKJH"
-    }
+		"asdfqwer": "LKJH",
+		"list_loading": "Loading invoices..."
+	},
+	"settings": {
+		"no_settings_yet": "It seems like you don't have any preferences or issuers. Set them up in settings!"
+	}
 }

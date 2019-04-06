@@ -4,9 +4,9 @@
 	border: 1px solid #0e91e3;
 	transition: .4s all;
 
-	&:hover {
-		box-shadow: 0 .15625rem .15625rem rgba(0,0,0,.2);
-	}
+	// &:hover {
+	// 	box-shadow: 0 .15625rem .15625rem rgba(0,0,0,.2);
+	// }
 	&.success {
 		background: lightgreen;
 		border-color: #22ee22;

@@ -1,8 +1,11 @@
 .grid {
-    width: 100%;
+	width: 100%;
 	display: grid;
-    grid-template-columns: 1fr 1fr;
+	// grid-template-columns: 1fr 1fr;
+}
+.grid-medium {
+	grid-gap: $size-medium;
 }
 .grid-large {
-    grid-gap: 1.25rem;
+	grid-gap: $size-large;
 }

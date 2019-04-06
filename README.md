@@ -12,4 +12,4 @@ npm install
 npm start
 ```
 
-Browser should open automatically. If not, go to localhost:8080
+Browser should open automatically. If not, go to localhost:7000

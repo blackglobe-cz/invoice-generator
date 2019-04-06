@@ -1,7 +1,7 @@
 import React from 'react'
 import { toJS } from 'mobx'
 import { inject, observer } from 'mobx-react'
-import { withNamespaces } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 import { Route, Redirect } from 'react-router'
 import Modal from 'react-modal'
 
@@ -28,7 +28,7 @@ const customStyles = {
 }
 
 @inject('InvoiceStore', 'SettingsStore')
-@withNamespaces()
+@withTranslation()
 @observer
 export default class InvoiceDetail extends React.Component {
 
@@ -70,7 +70,7 @@ export default class InvoiceDetail extends React.Component {
 		if (!(InvoiceStore.loaded && loaded)) return
 
 		if (match.params.id === 'new') {
-			this.getBlankInvoice(suppliers[0]).then(newInvoice => {
+			this.getBlankInvoice(suppliers.length && suppliers[0]).then(newInvoice => {
 				this.setState({
 					detail: newInvoice,
 				})

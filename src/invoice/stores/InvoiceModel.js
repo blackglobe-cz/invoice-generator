@@ -4,6 +4,7 @@ import {
 	DEFAULT_LANGUAGE,
 	DEFAULT_CURRENCY,
 	DEFAULT_DUE_PERIOD,
+	VAT_AMOUNT,
 } from 'consts'
 
 import isoCurrencies from 'currency/helpers/list'
@@ -21,14 +22,16 @@ export default class InvoiceModel {
 	@observable to_other_eu_country
 	@observable price
 	@computed get vat_amount() {
-		return 0.21 * (this.price || 0)
+		return (VAT_AMOUNT / 100) * (this.price || 0)
 	}
 	@computed get total_price() {
 		return this.price + (((this.supplier && this.supplier.registered_for_vat) || this.to_other_eu_country) ? this.vat_amount : 0)
 	}
 	@observable currency
 	@observable supplier
+	@observable supplier_id
 	@observable purchaser
+	@observable purchaser_id
 	@observable bank_account
 	@observable payment_type
 	@observable qr_code
@@ -68,7 +71,9 @@ export default class InvoiceModel {
 		price,
 		currency,
 		supplier,
+		supplier_id,
 		purchaser,
+		purchaser_id,
 		bank_account,
 		payment_type,
 		qr_code,
@@ -88,7 +93,9 @@ export default class InvoiceModel {
 			this.price = price || 0
 			this.currency = currency || DEFAULT_CURRENCY
 			this.supplier = supplier
+			this.supplier_id = supplier_id
 			this.purchaser = purchaser
+			this.purchaser_id = purchaser_id
 			this.bank_account = bank_account
 			this.payment_type = payment_type || PaymentTypeStore.paymentTypes[0]
 			this.qr_code = typeof qr_code !== void 0 ? qr_code : true

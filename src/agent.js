@@ -12,7 +12,6 @@ export const STORAGE_KEYS = {
 	'SETTINGS': SETTINGS_STORAGE_KEY,
 }
 
-
 export default {
 	invoice: {
 		query: () => {
@@ -124,14 +123,14 @@ export default {
 
 ///////////////////
 
-function getNextOrderNumber({ supplierId, date, ignoreSupplier }) {
+function getNextOrderNumber({ supplierId, date }) {
 	return new Promise((resolve, reject) => {
 		const issueDate = new Date(date)
 		if (!(issueDate && typeof issueDate.getDate === 'function')) return reject('error_invalid_date')
 
 		let supplier = {}
 		let invoices = []
-		if (!ignoreSupplier) {
+		if (supplierId) {
 			supplier = settingsStorage.suppliers.find(item => item.id === supplierId)
 			if (!(supplier && supplier.id)) return reject('error_supplier_not_found')
 			invoices = invoiceStorage.invoices.filter(item => item.supplier.id === supplierId)

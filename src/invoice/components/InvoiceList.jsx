@@ -10,6 +10,7 @@ import Text from 'text/components/Text'
 import formatCurrency from 'currency/helpers/formatter'
 import formatDate from 'date/helpers/formatter'
 import PrintPlaceholder from 'common/PrintPlaceholder'
+import InvoiceHistoryGraph from './InvoiceHistoryGraph'
 
 @inject('InvoiceStore')
 @withTranslation()
@@ -49,6 +50,8 @@ export default class InvoiceList extends React.Component {
 			</>
 		)
 
+		console.log(InvoiceStore.items);
+
 		return (
 			<>
 				<PrintPlaceholder />
@@ -58,6 +61,9 @@ export default class InvoiceList extends React.Component {
 							<Link to='/invoice/new'>
 								<Button outlined type='button'><Text text={t('invoice.add')} /></Button>
 							</Link>
+						</div>
+						<div>
+							<InvoiceHistoryGraph invoices={InvoiceStore.items} type={'std'} />
 						</div>
 						<List className='mdc-list-anchors'>
 							<li className='flex mdc-list-heading'>
@@ -71,11 +77,11 @@ export default class InvoiceList extends React.Component {
 							{InvoiceStore.items.map((item, index) => (
 								<ListItem key={index}>
 									<Link to={`/invoice/${item.id}`} className='flex flex-1 flex-align-center'>
-										<Text className='flex-1' text={formatDate(item.issue_date)} />
-										<Text className='flex-1' text={item.order_number} />
-										<Text className='flex-1' text={item.supplier ? item.supplier.label : '??'} />
-										<Text className='flex-1' text={item.purchaser ? item.purchaser.label : '??'} />
-										<Text className='flex-1 text-align-right' text={formatCurrency(item.total_price, item.currency)} />
+										<Text className='flex-1' text={formatDate(item.issue_date) || '-'} />
+										<Text className='flex-1' text={item.order_number || '-'} />
+										<Text className='flex-1' text={(item.supplier && item.supplier.label) ? item.supplier.label : '-'} />
+										<Text className='flex-1' text={(item.purchaser && item.purchaser.label) ? item.purchaser.label : '-'} />
+										<Text className='flex-1 text-align-right' text={formatCurrency(item.total_price, item.currency) || '-'} />
 									</Link>
 								</ListItem>
 							))}

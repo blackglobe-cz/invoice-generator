@@ -49,7 +49,15 @@ export default class InvoiceParamsForm extends React.Component {
 	handleInput(prop, value) {
 		runInAction(() => {
 			const data = this.props.data
-			data[prop] = value
+
+			// I can encounter nested properties
+			const propertyChain = prop.split('.')
+			let target = data
+			propertyChain.forEach((propertyName, index) => {
+				if (index === (propertyChain.length - 1)) return // don't assign the last one, because it will be a primitive
+				target = data[propertyName] || {} // it might be an undefined for all I know..
+			})
+			target[propertyChain[propertyChain.length - 1]] = value
 
 			// if we change any prop that might affect order number, we recalculate
 			if (data.order_number_autocalc && ['issue_date'].indexOf(prop) > -1) {
@@ -70,6 +78,10 @@ export default class InvoiceParamsForm extends React.Component {
 				Object.assign(this.props.data, getInvoiceBasedOnSupplier(supplier, this.props.data.id))
 			})
 		})
+	}
+
+	bankAccountShouldBeVisible(data) {
+		return data.payment_type && data.payment_type.includes_bank_transfer
 	}
 
 	render() {
@@ -105,13 +117,26 @@ export default class InvoiceParamsForm extends React.Component {
 
 		if (!data) return (<Text text={t('error.generic')} />)
 
+		const bankFormControls = []
+		if (bank_accounts.length) {
+			bankFormControls.push(
+				{ type: 'select', name: 'bank.account', prop: 'bank_account', optSrc: bank_accounts, opts: bank_accounts.map(item => [item, item.label]), if: this.bankAccountShouldBeVisible }
+			)
+		} else {
+			bankFormControls.push(
+				{ type: 'input', name: 'bank.account_number', prop: 'bank_account.account_number', if: this.bankAccountShouldBeVisible },
+				{ type: 'input', name: 'bank.bank', prop: 'bank_account.bank', if: this.bankAccountShouldBeVisible },
+				{ type: 'input', name: 'bank.iban', prop: 'bank_account.iban', if: this.bankAccountShouldBeVisible },
+				{ type: 'input', name: 'bank.swift', prop: 'bank_account.swift', if: this.bankAccountShouldBeVisible }
+			)
+		}
+
 		const formConfig = [
 			[
 				{ type: 'select', name: 'invoice.language', prop: 'language', opts: languages, optSrc: languages.map(i => i[0]) }
 			], [
 				{ type: 'date', name: 'date.issue', prop: 'issue_date' },
 				{ type: 'date', name: 'date.due', prop: 'due_date' },
-				// { type: 'number', name: 'invoice.order_number_of_the_day', prop: 'order_number_of_the_day' }
 				{ type: 'text', name: 'invoice.order_number', prop: 'order_number' },
 				{ type: 'checkbox', name: 'invoice.order_number_autocalc', prop: 'order_number_autocalc' }
 			], [
@@ -124,30 +149,32 @@ export default class InvoiceParamsForm extends React.Component {
 			], [
 				{ type: 'select', name: 'payment_type.payment_type', prop: 'payment_type', optSrc: paymentTypes, opts: paymentTypes.map(item => [t(item.label, { lng: data.language }), t(item.label, { lng: data.language })]) },
 				{ type: 'select', name: 'currency.currency', prop: 'currency', opts: [['CZK', 'Kč'], ['EUR', 'Euro']] },
-				{ type: 'select', name: 'bank.account', prop: 'bank_account', optSrc: bank_accounts, opts: bank_accounts.map(item => [item, item.label]) }
+				...bankFormControls
 			]
 		]
 
 		return (
 			<div className='controls screen-only'>
 				<form onSubmit={e => this.handleFormSubmit(e)}>
-					<li>
-						<div className='control-block'>
-							<label className='control-input-select'>
-								<Text tag='span' text={t('supplier.supplier')} />
-								<div>
-									<select value={supplier} name='supplier' onChange={this.handleSupplierChange.bind(this)} autoFocus>
-										{suppliers.map((opt, index) => (
-											<option key={index} value={opt.id}>{opt.label}</option>
-										))}
-									</select>
-								</div>
-							</label>
-						</div>
-					</li>
+					{suppliers.length > 1 && (
+						<li>
+							<div className='control-block'>
+								<label className='control-input-select'>
+									<Text tag='span' text={t('supplier.supplier')} />
+									<div>
+										<select value={supplier} name='supplier' onChange={this.handleSupplierChange.bind(this)} autoFocus>
+											{suppliers.map((opt, index) => (
+												<option key={index} value={opt.id}>{opt.label}</option>
+											))}
+										</select>
+									</div>
+								</label>
+							</div>
+						</li>
+					)}
 					{formConfig.map((section, index) => (
 						<li key={index}>
-							{section.map(control => (
+							{section.map(control => (control.if !== void 0 ? control.if(data) : true) && (
 								<div className='control-block' key={control.name}>
 									<label className={'control-input-' + control.type}>
 										<Text tag='span' text={t(control.name)} {...(control.labelProps || {})} />

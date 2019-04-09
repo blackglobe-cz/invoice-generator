@@ -31,6 +31,20 @@
 		"due": "Datum splatnosti",
 		"due_default_period": "Standardní splatnost",
 		"issue": "Datum vystavení",
+		"month": {
+			"1": "Leden",
+			"2": "Únor",
+			"3": "Březen",
+			"4": "Duben",
+			"5": "Květen",
+			"6": "Červen",
+			"7": "Červenec",
+			"8": "Srpen",
+			"9": "Září",
+			"10": "Říjen",
+			"11": "Listopad",
+			"12": "Prosinec"
+		},
 		"tax": "Datum zdanitelného plnění",
 		"tax_long": "Datum uskutečnění zdanitelného plnění",
 		"tax_short": "DUZP"

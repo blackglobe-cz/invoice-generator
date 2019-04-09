@@ -6,4 +6,6 @@ export const DEFAULT_CURRENCY = 'CZK'
 
 export const DEFAULT_DUE_PERIOD = 14
 
-export const VAT_AMOUNT = '21%'
+export const VAT_AMOUNT = 21
+
+export const COLORS = ['#0088fe', '#00c49f', '#ff8042', '#ffbb28', '#8884d8', '#82ca9d']

@@ -192,24 +192,28 @@ export default class InvoiceView extends React.Component {
 								<Text text={t(payment_type.label)} />
 							</div>
 
-							<div className='flex flex-space-between'>
-								<Text text={t('bank.bank')} />
-								<Text text={bank_account.bank} />
-							</div>
-							<div className='flex flex-space-between'>
-								<Text text={t('bank.account_number')} />
-								<Text className={to_other_eu_country ? '' : 'text-emphasize'} text={bank_account.account_number} />
-							</div>
-							{to_other_eu_country && [
-								<div key='iban' className='flex flex-space-between text-emphasize'>
-									<Text text={t('bank.iban')} />
-									<Text text={bank_account.iban} />
-								</div >,
-								<div key='swift' className='flex flex-space-between'>
-									<Text text={t('bank.swift')} />
-									<Text text={bank_account.swift} />
-								</div >
-							]}
+							{payment_type && payment_type.includes_bank_transfer && (
+								<>
+									<div className='flex flex-space-between'>
+										<Text text={t('bank.bank')} />
+										<Text text={bank_account.bank} />
+									</div>
+									<div className='flex flex-space-between'>
+										<Text text={t('bank.account_number')} />
+										<Text className={to_other_eu_country ? '' : 'text-emphasize'} text={bank_account.account_number} />
+									</div>
+									{to_other_eu_country && [
+										<div key='iban' className='flex flex-space-between text-emphasize'>
+											<Text text={t('bank.iban')} />
+											<Text text={bank_account.iban} />
+										</div >,
+										<div key='swift' className='flex flex-space-between'>
+											<Text text={t('bank.swift')} />
+											<Text text={bank_account.swift} />
+										</div >
+									]}
+								</>
+							)}
 							<div className='flex flex-space-between'>
 								<Text text={t('bank.variable_symbol')} />
 								<Text className='text-emphasize' text={order_number} />
@@ -271,7 +275,7 @@ export default class InvoiceView extends React.Component {
 										<Text text={formatPrice(price, currency)} />
 									</div>
 									<div className='flex flex-space-between'>
-										<Text text={t('tax.tax_#', { amount: VAT_AMOUNT })} />
+										<Text text={t('tax.tax_#', { amount: VAT_AMOUNT + '%' })} />
 										<Text text={formatPrice(vat_amount, currency)} />
 									</div>
 								</div>

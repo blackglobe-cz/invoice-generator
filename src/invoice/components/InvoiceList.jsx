@@ -50,7 +50,7 @@ export default class InvoiceList extends React.Component {
 			</>
 		)
 
-		console.log(InvoiceStore.items);
+		console.log('invoice list', InvoiceStore.items);
 
 		return (
 			<>
@@ -62,7 +62,7 @@ export default class InvoiceList extends React.Component {
 								<Button outlined type='button'><Text text={t('invoice.add')} /></Button>
 							</Link>
 						</div>
-						<div>
+						<div className='padding-top-large'>
 							<InvoiceHistoryGraph invoices={InvoiceStore.items} type={'std'} />
 						</div>
 						<List className='mdc-list-anchors'>

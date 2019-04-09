@@ -86,9 +86,9 @@ export default class InvoiceModel {
 			this.language = language || DEFAULT_LANGUAGE
 			this.issue_date = issue_date || (new Date()).toISOString().slice(0, 10)
 			this.tax_date = tax_date || (new Date()).toISOString().slice(0, 10)
-			this.due_date = due_date || (new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * DEFAULT_DUE_PERIOD))).toISOString().slice(0, 10) // + 14 days
+			this.due_date = due_date || (new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * DEFAULT_DUE_PERIOD))).toISOString().slice(0, 10)
 			this.order_number = order_number
-			this.order_number_autocalc = typeof order_number_autocalc !== 'undefined' ? order_number_autocalc : false
+			this.order_number_autocalc = order_number_autocalc !== void 0 ? order_number_autocalc : true
 			this.to_other_eu_country = to_other_eu_country || false
 			this.price = price || 0
 			this.currency = currency || DEFAULT_CURRENCY
@@ -98,7 +98,7 @@ export default class InvoiceModel {
 			this.purchaser_id = purchaser_id
 			this.bank_account = bank_account
 			this.payment_type = payment_type || PaymentTypeStore.paymentTypes[0]
-			this.qr_code = typeof qr_code !== void 0 ? qr_code : true
+			this.qr_code = qr_code !== void 0 ? qr_code : true
 			this.invoice_rows = invoice_rows || []
 			this.footer = footer || ''
 

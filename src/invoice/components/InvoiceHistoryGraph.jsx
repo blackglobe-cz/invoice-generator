@@ -40,7 +40,7 @@ export default function InvoiceHistoryGraph(props) {
 		// throw away invoices older than a year
 		if (dataYear < thisYear && dataMonth < thisMonth) return
 
-		const dataIndex = 11 - ((thisYear - dataYear) * 12) + Math.abs(thisMonth - dataMonth)
+		const dataIndex = 11 - ((thisYear - dataYear) * 12) - Math.abs(thisMonth - dataMonth)
 		data[dataIndex][dataKey] = data[dataIndex][dataKey] || 0
 		data[dataIndex][dataKey] += item.total_price
 	})

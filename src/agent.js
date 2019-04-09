@@ -133,7 +133,6 @@ function getNextOrderNumber({ supplierId, date }) {
 		if (supplierId) {
 			supplier = settingsStorage.suppliers.find(item => item.id === supplierId)
 			if (!(supplier && supplier.id)) return reject('error_supplier_not_found')
-			invoices = invoiceStorage.invoices.filter(item => item.supplier.id === supplierId)
 		}
 		let orderNumber = supplier.order_number_format || DEFAULT_ORDER_NUMBER_FORMAT
 
@@ -161,6 +160,16 @@ function getNextOrderNumber({ supplierId, date }) {
 		let orderNumberOfTheDay = 1
 		const onotdPosition = regex.indexOf('.')
 		const onotdLength = regex.replace(/\d/g, '').length
+		if (supplierId) {
+			invoices = invoiceStorage.invoices.filter(item => {
+				let ok = true
+				if (item.supplier.id !== supplierId) ok = false
+				if (hasYearGroup && item.issue_date.slice(0, 4) !== date.slice(0, 4)) ok = false
+				if (hasMonthGroup && item.issue_date.slice(5, 7) !== date.slice(5, 7)) ok = false
+				if (hasDateGroup && item.issue_date.slice(8, 10) !== date.slice(8, 10)) ok = false
+				return ok
+			})
+		}
 		if (invoices.length) {
 			invoices.forEach(invoice => {
 				const match = invoice.order_number && invoice.order_number.match(regex)

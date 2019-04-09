@@ -51,10 +51,15 @@ export default class Settings extends React.Component {
 				&& supplier.bank_accounts[0].swift
 			&& Number.isInteger(Number.parseInt(supplier.default_due_date_period))
 		)) return this.setState({
-			formError: true
+			formError: true,
+			formSuccess: false,
 		})
 		this.props.SettingsStore.save(supplier, !!this.state.creatingNewSupplier).then(() => {
-			this.setState({ formSuccess: true, creatingNewSupplier: false })
+			this.setState({
+				formError: false,
+				formSuccess: true,
+				creatingNewSupplier: false,
+			})
 		}).catch(err => {
 			logger.log('err settings form submit', err)
 		})
@@ -165,7 +170,7 @@ export default class Settings extends React.Component {
 						</div><div className='block'>
 							<label>
 								<Text text={t('invoice.order_number_format')} />
-								<FormControl value={activeSupplier.order_number_format} type='input' name='invoice.order_number_format' prop='order_number_format' placeholder='YYYYNNN' onChange={this.handleInput.bind(this)} />
+								<FormControl value={activeSupplier.order_number_format} type='input' name='invoice.order_number_format' prop='order_number_format' placeholder='YYYYNNN' onChange={this.handleInput.bind(this)} maxLength='10' />
 								<Text tag='small' class='' text={t('invoice.order_number_format_helper')} />
 							</label>
 						</div><div className='block'>

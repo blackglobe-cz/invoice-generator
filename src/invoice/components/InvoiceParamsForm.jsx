@@ -60,9 +60,11 @@ export default class InvoiceParamsForm extends React.Component {
 			target[propertyChain[propertyChain.length - 1]] = value
 
 			// if we change any prop that might affect order number, we recalculate
-			if (data.order_number_autocalc && ['issue_date'].indexOf(prop) > -1) {
+			if (data.order_number_autocalc && ['issue_date', 'order_number_autocalc'].indexOf(prop) > -1) {
 				this.props.InvoiceStore.getNextOrderNumber(data.supplier.id, data.issue_date).then(res => {
-					data.order_number = res
+					runInAction(() => {
+						data.order_number = res
+					})
 				})
 			}
 		})
@@ -137,7 +139,7 @@ export default class InvoiceParamsForm extends React.Component {
 			], [
 				{ type: 'date', name: 'date.issue', prop: 'issue_date' },
 				{ type: 'date', name: 'date.due', prop: 'due_date' },
-				{ type: 'text', name: 'invoice.order_number', prop: 'order_number' },
+				{ type: 'text', name: 'invoice.order_number', prop: 'order_number', props: { disabled: data.order_number_autocalc } },
 				{ type: 'checkbox', name: 'invoice.order_number_autocalc', prop: 'order_number_autocalc' }
 			], [
 				{ type: 'checkbox', name: 'invoice.to_other_eu_country', prop: 'to_other_eu_country' },

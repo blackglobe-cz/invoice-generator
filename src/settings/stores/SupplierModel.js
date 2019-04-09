@@ -41,8 +41,7 @@ export default class SupplierModel {
 		default_invoice_rows,
 	} = {}) {
 		runInAction(() => {
-			const idIsDefined = typeof id !== void 0
-			console.log('idd', id);
+			const idIsDefined = id !== void 0
 			this.id = idIsDefined ? id : (new Date()).getTime()
 			this.logo = logo || ''
 			this.order_number_format = order_number_format || DEFAULT_ORDER_NUMBER_FORMAT
@@ -62,7 +61,7 @@ export default class SupplierModel {
 				swift: '',
 			}] )
 			this.footer = footer || ''
-			this.show_qr_code = typeof show_qr_code !== void 0 ? show_qr_code : true
+			this.show_qr_code = show_qr_code !== void 0 ? show_qr_code : true
 			this.default_invoice_rows = default_invoice_rows || ( idIsDefined ? [] : [{ text: '', price: 0 }] )
 		})
 	}

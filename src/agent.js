@@ -19,6 +19,7 @@ export default {
 			return Promise.resolve(invoiceStorage.invoices || [])
 		},
 		create: item => {
+			item.id = generateId('invoice')
 			invoiceStorage.invoices.unshift(item)
 			window.localStorage.setItem(INVOICE_STORAGE_KEY, JSON.stringify(invoiceStorage))
 			return Promise.resolve(item)
@@ -69,6 +70,7 @@ export default {
 			})
 		},
 		create: item => {
+			item.id = generateId('supplier')
 			settingsStorage.suppliers.push(item)
 			return new Promise(resolve => {
 				// setTimeout(() => {
@@ -122,6 +124,10 @@ export default {
 }
 
 ///////////////////
+
+function generateId() {
+	return (new Date()).getTime()
+}
 
 function getNextOrderNumber({ supplierId, date }) {
 	return new Promise((resolve, reject) => {

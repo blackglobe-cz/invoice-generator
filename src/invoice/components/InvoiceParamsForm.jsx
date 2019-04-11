@@ -12,7 +12,7 @@ import FormControl from 'form/components/FormControl'
 import logger from 'logger'
 import { getInvoiceBasedOnSupplier } from '../helpers/invoiceHelpers'
 
-const languages = [['cs', 'Česky'], ['en', 'English']]
+import { LANGUAGES } from 'consts'
 
 @inject('SettingsStore', 'PaymentTypeStore', 'InvoiceStore')
 @withTranslation()
@@ -39,10 +39,10 @@ export default class InvoiceParamsForm extends React.Component {
 	handleFormSubmit(event) {
 		event.preventDefault()
 		const creating = location.pathname.indexOf('/invoice/new') > -1
-		this.props.InvoiceStore.save(this.props.data, creating).then(() => {
-			if (creating) this.setState({ redirectTo: `/invoice/${this.props.data.id}` })
+		this.props.InvoiceStore.save(this.props.data, creating).then(res => {
+			if (creating) this.setState({ redirectTo: `/invoice/${res.id}` })
 		}).catch(err => {
-			logger.log('err saving invoice', err);
+			logger.log('err saving invoice', err)
 		})
 	}
 
@@ -135,7 +135,7 @@ export default class InvoiceParamsForm extends React.Component {
 
 		const formConfig = [
 			[
-				{ type: 'select', name: 'invoice.language', prop: 'language', opts: languages, optSrc: languages.map(i => i[0]) }
+				{ type: 'select', name: 'invoice.language', prop: 'language', opts: LANGUAGES, optSrc: LANGUAGES.map(i => i[0]) }
 			], [
 				{ type: 'date', name: 'date.issue', prop: 'issue_date' },
 				{ type: 'date', name: 'date.due', prop: 'due_date' },

@@ -1,6 +1,7 @@
 import React from 'react'
 import { action, runInAction } from 'mobx'
 import { observer, inject } from 'mobx-react'
+import { createViewModel } from 'mobx-utils'
 import { withTranslation } from 'react-i18next'
 
 import MaterialIcon from '@material/react-material-icon'
@@ -33,28 +34,33 @@ export default class Settings extends React.Component {
 
 	openSupplier(supplier = new SupplierModel(), creating) {
 		if (this.state.creatingNewSupplier && creating) return
-		this.setState({ activeSupplier: supplier, creatingNewSupplier: !!creating })
+		this.setState({
+			activeSupplier: createViewModel(supplier),
+			creatingNewSupplier: !!creating,
+		})
 	}
 
-	handleFormSubmit(e, supplier) {
+	handleFormSubmit(e, supplierViewModel) {
 		e.preventDefault()
 
+		// TODO: needs to be revisited
 		if (!(
-			supplier.label
-			&& supplier.identification_text
-			&& supplier.purchasers.length && supplier.purchasers[0].label && supplier.purchasers[0].text
-			&& supplier.bank_accounts.length
-				&& supplier.bank_accounts[0].label
-				&& supplier.bank_accounts[0].bank
-				&& supplier.bank_accounts[0].account_number
-				&& supplier.bank_accounts[0].iban
-				&& supplier.bank_accounts[0].swift
-			&& Number.isInteger(Number.parseInt(supplier.default_due_date_period))
+			supplierViewModel.label
+			&& supplierViewModel.identification_text
+			&& supplierViewModel.purchasers.length && supplierViewModel.purchasers[0].label && supplierViewModel.purchasers[0].text
+			&& supplierViewModel.bank_accounts.length
+				&& supplierViewModel.bank_accounts[0].label
+				&& supplierViewModel.bank_accounts[0].bank
+				&& supplierViewModel.bank_accounts[0].account_number
+				&& supplierViewModel.bank_accounts[0].iban
+				&& supplierViewModel.bank_accounts[0].swift
+			&& Number.isInteger(Number.parseInt(supplierViewModel.default_due_date_period))
 		)) return this.setState({
 			formError: true,
 			formSuccess: false,
 		})
-		this.props.SettingsStore.save(supplier, !!this.state.creatingNewSupplier).then(() => {
+		supplierViewModel.submit() // mobx submit
+		this.props.SettingsStore.save(supplierViewModel, !!this.state.creatingNewSupplier).then(() => {
 			this.setState({
 				formError: false,
 				formSuccess: true,
@@ -67,7 +73,6 @@ export default class Settings extends React.Component {
 
 	handleInput(prop, value, event, target) {
 		runInAction(() => { (target || this.state.activeSupplier)[prop] = value })
-		// console.log(this.props.SettingsStore.suppliers[0]);
 	}
 
 	componentDidUpdate() {
@@ -80,9 +85,9 @@ export default class Settings extends React.Component {
 	init() {
 		if (this.props.SettingsStore.loaded && !this.state.activeSupplier.id) {
 			if (!this.props.SettingsStore.suppliers.length) {
-				this.setState({ activeSupplier: new SupplierModel(), creatingNewSupplier: true })
+				this.openSupplier(void 0, true)
 			} else {
-				this.setState({ activeSupplier: this.props.SettingsStore.suppliers[0], creatingNewSupplier: false })
+				this.openSupplier(this.props.SettingsStore.suppliers[0], false)
 			}
 		}
 	}

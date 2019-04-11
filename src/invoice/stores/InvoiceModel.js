@@ -81,7 +81,7 @@ export default class InvoiceModel {
 		footer,
 	} = {}) {
 		runInAction(() => {
-			this.id = id || (new Date()).getTime()
+			this.id = id
 			this.logo = logo
 			this.language = language || DEFAULT_LANGUAGE
 			this.issue_date = issue_date || (new Date()).toISOString().slice(0, 10)
@@ -106,9 +106,3 @@ export default class InvoiceModel {
 		})
 	}
 }
-
-// function defaultOrderNumberFn(invoice) {
-// 	const lastOrderNumber = '?'
-// 	const orderNumbers = InvoiceStore.items.map(invoice => invoice.order_number)
-// 	return '112567'
-// }

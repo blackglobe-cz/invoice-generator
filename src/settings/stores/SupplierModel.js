@@ -42,7 +42,7 @@ export default class SupplierModel {
 	} = {}) {
 		runInAction(() => {
 			const idIsDefined = id !== void 0
-			this.id = idIsDefined ? id : (new Date()).getTime()
+			this.id = id
 			this.logo = logo || ''
 			this.order_number_format = order_number_format || DEFAULT_ORDER_NUMBER_FORMAT
 			this.label = label || ''

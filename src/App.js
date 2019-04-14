@@ -24,11 +24,11 @@ export default class App extends React.Component {
 		}
 	}
 
-	issuers = []
+	// issuers = []
 
 	componentDidMount() {
 		this.props.SettingsStore.load().then(res => {
-			this.issuers = res.issuers
+			// this.issuers = res.issuers
 			this.setState({ loaded: true })
 		})
 	}
@@ -54,6 +54,7 @@ export default class App extends React.Component {
 
 				<Switch>
 					<Route exact path='/' component={InvoiceList} />
+					<Route exact path='*./index.html' component={InvoiceList} />
 					<Route path='/invoice/:id' component={InvoiceDetail} />
 					<Route component={PageNotFound} />
 				</Switch>

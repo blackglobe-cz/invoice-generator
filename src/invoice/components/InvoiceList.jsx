@@ -47,7 +47,7 @@ export default class InvoiceList extends React.Component {
 		if (!InvoiceStore.loaded) return (
 			<>
 				<PrintPlaceholder />
-				<Text className='screen-only' text={t('invoice.list_loading')} />
+				<Text className='screen-only' t='invoice.list_loading' />
 			</>
 		)
 
@@ -56,9 +56,9 @@ export default class InvoiceList extends React.Component {
 				<PrintPlaceholder />
 				<div className='screen-only'>
 					<div className='wrapper box empty'>
-						<Text className='block' text={t('invoice.empty_list')}></Text>
+						<Text className='block' t='invoice.empty_list'></Text>
 						<Link to='/invoice/new'>
-							<Button raised type='button' className='button button-primary'><Text text={t('invoice.add')} /></Button>
+							<Button raised type='button' className='button button-primary'><Text t='invoice.add_first' /></Button>
 						</Link>
 					</div>
 				</div>

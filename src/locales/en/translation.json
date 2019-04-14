@@ -67,6 +67,7 @@
 	},
   "invoice": {
 		"add": "Add new invoice",
+		"add_first": "Add first invoice",
 		"default_invoice_row": {
 			"add": "Add row",
 			"rows": "Default invoice rows"

@@ -1,0 +1,148 @@
+{
+	"are_you_sure": "Jste si jisti?",
+	"bank": {
+		"account": "Bankovní účet",
+		"accounts": "Bankovní účty",
+		"account_number": "Číslo účtu",
+		"add_account": "Přidat bankovní účet",
+		"bank": "Banka",
+		"bank_name": "Název banky",
+		"iban": "IBAN",
+		"label": "Popisek",
+		"swift": "BIC/SWIFT",
+		"variable_symbol": "Variabilní symbol"
+	},
+	"currency": {
+		"currency": "Měna",
+		"default": "Výchozí měna"
+	},
+	"data": {
+		"export": "Export",
+		"import": "Import",
+		"import_invoices": "Import faktur",
+		"import_settings": "Import nastavení",
+		"import_invoices_submit": "Importovat faktury",
+		"import_settings_submit": "Importovat nastavení",
+		"import_export": "Import a export dat",
+		"invoice_export": "Export faktur",
+		"settings_export": "Export nastavení"
+	},
+	"date": {
+		"due": "Datum splatnosti",
+		"due_default_period": "Standardní splatnost",
+		"issue": "Datum vystavení",
+		"month": {
+			"1": "Leden",
+			"2": "Únor",
+			"3": "Březen",
+			"4": "Duben",
+			"5": "Květen",
+			"6": "Červen",
+			"7": "Červenec",
+			"8": "Srpen",
+			"9": "Září",
+			"10": "Říjen",
+			"11": "Listopad",
+			"12": "Prosinec"
+		},
+		"tax": "Datum zdanitelného plnění",
+		"tax_long": "Datum uskutečnění zdanitelného plnění",
+		"tax_short": "DUZP"
+	},
+	"document": {
+		"document": "Dokument",
+		"document_number": "Číslo dokumentu",
+		"not_a_tax_document": "Není daňový doklad",
+		"print": "Tisknout",
+		"save": "Uložit",
+		"tax_document": " - daňový doklad"
+	},
+	"error": {
+		"generic": "Jejda! Někde se stala chyba :/",
+		"page_not_found": "Tato stránka, zdá se, neexistuje."
+	},
+	"footer": "Patička faktury",
+	"form": {
+		"error": "Formulář obsahuje chyby"
+	},
+  "invoice": {
+		"add": "Vytvořit novou fakturu",
+		"add_first": "Vytvořit první fakturu",
+		"default_invoice_row": {
+			"add": "Přidat řádek",
+			"rows": "Výchozí řádky na faktuře"
+		},
+		"delete": "Odstranit fakturu",
+		"delete_confirm": "Opravdu si přejete tuto fakturu odstranit?",
+		"detail_loading": "Načítám detail",
+		"detail_loading_failed": "Načítání detailu selhalo",
+		"empty_list": "Zatím nemáte žádné faktury",
+		"export": "Export faktury",
+		"import_export": "Import/Export",
+		"invoice": "Faktura",
+		"invoice_#": "Faktura {{number}}",
+		"language": "Jazyk faktury",
+		"list": "Seznam faktur",
+		"list_loading": "Načítám faktury",
+		"order_number": "Číslo faktury",
+		"order_number_autocalc": "Počítat pořadové číslo automaticky",
+		"order_number_format": "Formát pořadového čísla",
+		"order_number_format_helper": "Můžete vybíraz z těchto skupin [YYYY | YYY | YY] [MM] [DD] [NNNNNN | NNNNN | NNNN | NNN | NN]",
+		"row_text": "Text řádku",
+		"row_price": "Cena řádku",
+		"rows_heading": "Fakturuji Vám",
+		"to_other_eu_country": "Do zahraničí (EU)"
+	},
+	"label": "Popisek",
+	"loading": "Načítám",
+	"loading_data": "Načítám data",
+	"logo": {
+		"logo": "Logo"
+	},
+	"language": {
+		"language": "Jazyk"
+	},
+	"payment_type": {
+		"bank_transfer": "Bankovním převodem",
+		"cash": "Hotově",
+		"payment_type": "Způsob úhrady"
+	},
+	"price": {
+		"autocalc": "Počítat automaticky",
+		"price": "Cena",
+		"total_to_pay": "Celkem k úhradě"
+	},
+	"purchaser": {
+		"add": "Přidat odběratele",
+		"label": "Popisek",
+		"purchaser": "Odběratel",
+		"purchasers": "Odběratelé",
+		"registered_for_vat": "Plátce DPH",
+		"text": "Text"
+	},
+	"qr": {
+		"code": "QR kód",
+		"show": "Zobrazovat QR kód"
+	},
+	"save": "Uložit",
+	"settings": {
+		"general": "Obecné",
+		"no_settings_yet": "Vypadá to, že zatím nemáš nastaveny žádné preference ani dodavatele. Nastavit si je, nebo naimportovat již existující konfiguraci, můžeš v Nastavení",
+		"settings": "Nastavení"
+	},
+	"supplier": {
+		"add": "Přidat dodavatele",
+		"delete": "Smazat dodavatele",
+		"identification_text": "Jméno a adresa na faktuře",
+		"new": "Nový dodavatel",
+		"registered_for_vat": "Dodavatel registrován k DPH",
+		"save": "Uložit dodavatele",
+		"supplier": "Dodavatel",
+		"suppliers": "Dodavatelé"
+	},
+	"tax": {
+		"base": "Základ daně",
+		"tax_#": "DPH ({{amount}})"
+	},
+	"text": "Text"
+}

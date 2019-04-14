@@ -1,6 +1,6 @@
-import React, {Suspense} from 'react'
+import React, { Suspense } from 'react'
 import { render } from 'react-dom'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, HashRouter } from 'react-router-dom'
 
 import DevTools from 'mobx-react-devtools'
 import { configure } from 'mobx'
@@ -8,10 +8,7 @@ import { Provider } from 'mobx-react'
 
 import './main.scss'
 
-// import localization for bundling
-// asdf-eslint-disable-next-line
 import './i18n'
-// import i18n from './i18n'
 
 import App from './App'
 
@@ -30,16 +27,18 @@ const stores = {
 	PaymentTypeStore,
 }
 
+const SuitableRouter = location.protocol === 'file:' ? HashRouter : BrowserRouter
+
 render(
 	<div>
 		<DevTools />
 		<Provider {...stores}>
 
-			<BrowserRouter>
+			<SuitableRouter>
 				<Suspense fallback={<div>Loading...</div>}>
 					<App />
 				</Suspense>
-			</BrowserRouter>
+			</SuitableRouter>
 
 		</Provider>
 	</div>,

@@ -7,10 +7,13 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import config from '../config'
 import { DEFAULT_LANGUAGE } from 'consts'
 
+import enT from './locales/en/translation.json'
+import csT from './locales/cs/translation.json'
+
 i18n
 	// load translation using xhr -> see /public/locales
 	// learn more: https://github.com/i18next/i18next-xhr-backend
-	.use(Backend)
+	// .use(Backend)
 	// detect user language
 	// learn more: https://github.com/i18next/i18next-browser-languageDetector
 	.use(LanguageDetector)
@@ -19,8 +22,12 @@ i18n
 	// init i18next
 	// for all options read: https://www.i18next.com/overview/configuration-options
 	.init({
+		resources: {
+			en: { translation: enT },
+			cs: { translation: csT },
+		},
 		backend: {
-			loadPath: '/static/locales/{{lng}}/{{ns}}.json',
+			loadPath: './dist/locales/{{lng}}/{{ns}}.json',
 		},
 		fallbackLng: {
 			'cs': ['cs'],

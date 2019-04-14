@@ -67,6 +67,7 @@
 	},
   "invoice": {
 		"add": "Vytvořit novou fakturu",
+		"add_first": "Vytvořit první fakturu",
 		"default_invoice_row": {
 			"add": "Přidat řádek",
 			"rows": "Výchozí řádky na faktuře"

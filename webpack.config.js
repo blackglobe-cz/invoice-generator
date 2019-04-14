@@ -12,7 +12,7 @@ module.exports = {
 	output: {
 		path: path.join(__dirname, 'dist'),
 		filename: 'bundle.js',
-		publicPath: '/static/',
+		publicPath: '/dist/',
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
@@ -36,7 +36,19 @@ module.exports = {
 			},
 			{
 				test: /\.scss$/,
-				use: ['style-loader', 'css-loader', 'sass-loader'],
+				use: [
+					'style-loader',
+					{
+						loader: 'css-loader',
+						options: {
+		          url: function(url, resourcePath) {
+		            // resourcePath - path to css file
+		            return url.includes('./dist/fonts')
+		          },
+		        },
+					},
+					'sass-loader'
+				],
 			},
 			{
 				test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
@@ -48,20 +60,21 @@ module.exports = {
 					},
 				}],
 			},
-			{
-				test: /\.json$/,
-				use: [{
-					loader: 'json-loader',
-					options: {
-						outputPath: 'locales/',
-					},
-				}],
-			}
+			// {
+			// 	test: /\.json$/,
+			// 	use: [{
+			// 		loader: 'json-loader',
+			// 		options: {
+			// 			outputPath: 'locales/',
+			// 		},
+			// 	}],
+			// },
 		],
 	},
 	devServer: {
 		hot: true,
 		port: 7000,
 		historyApiFallback: true,
+		contentBase: path.join(__dirname, '.'),
 	},
 }

@@ -39,6 +39,9 @@ class InvoiceStore {
 
 					runInAction(() => invoices.forEach(inv => {
 						inv.supplier_ref = suppliers.find(supplier => supplier.id === inv.supplier_id)
+						if (inv.supplier_ref && inv.purchaser_id) {
+							inv.purchaser_ref = (inv.supplier_ref.purchasers || []).find(purchaser => purchaser.id === inv.purchaser_id)
+						}
 						this.items.push(new InvoiceModel(inv))
 					}))
 

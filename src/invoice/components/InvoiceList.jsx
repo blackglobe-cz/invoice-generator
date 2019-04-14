@@ -12,6 +12,8 @@ import formatDate from 'date/helpers/formatter'
 import PrintPlaceholder from 'common/PrintPlaceholder'
 import InvoiceHistoryGraph from './InvoiceHistoryGraph'
 
+import setDocumentTitle from 'docTitle'
+
 @inject('InvoiceStore')
 @withTranslation()
 @withRouter
@@ -20,6 +22,7 @@ export default class InvoiceList extends React.Component {
 
 	componentDidMount() {
 		this.props.InvoiceStore.load()
+		setDocumentTitle(this.props.t('invoice.list'))
 	}
 
 	getCleanFirstLine(str) {
@@ -61,8 +64,6 @@ export default class InvoiceList extends React.Component {
 				</div>
 			</>
 		)
-
-		console.log('invoice list', InvoiceStore.items);
 
 		const invoices = InvoiceStore.items.slice().sort((i1, i2) => new Date(i1.issue_date) > new Date(i2.issue_date) ? -1 : 1)
 

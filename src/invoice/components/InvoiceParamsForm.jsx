@@ -10,6 +10,8 @@ import Text from 'text/components/Text'
 import FormControl from 'form/components/FormControl'
 
 import logger from 'logger'
+import setDocumentTitle from 'docTitle'
+import { currencies } from 'currency/helpers/formatter'
 import { getInvoiceBasedOnSupplier } from '../helpers/invoiceHelpers'
 
 import { LANGUAGES } from 'consts'
@@ -73,6 +75,7 @@ export default class InvoiceParamsForm extends React.Component {
 				InvoiceStore.getNextOrderNumber(data.supplier_ref.id, data.issue_date).then(res => {
 					runInAction(() => {
 						data.order_number = res
+						setDocumentTitle(null, { invoiceModel: data })
 					})
 				})
 			}
@@ -164,7 +167,7 @@ export default class InvoiceParamsForm extends React.Component {
 				{ type: 'checkbox', name: 'price.autocalc', prop: 'autocalc' }
 			], [
 				{ type: 'select', name: 'payment_type.payment_type', prop: 'payment_type', optSrc: paymentTypes, opts: paymentTypes.map(item => [t(item.label, { lng: data.language }), t(item.label, { lng: data.language })]) },
-				{ type: 'select', name: 'currency.currency', prop: 'currency', opts: [['CZK', 'Kč'], ['EUR', 'Euro']] },
+				{ type: 'select', name: 'currency.currency', prop: 'currency', opts: Object.values(currencies).map(i => [i, i.label]), optSrc: Object.values(currencies).map(i => i.code) },
 				...bankFormControls
 			]
 		]

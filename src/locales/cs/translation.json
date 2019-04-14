@@ -81,6 +81,7 @@
 		"invoice": "Faktura",
 		"invoice_#": "Faktura {{number}}",
 		"language": "Jazyk faktury",
+		"list": "Seznam faktur",
 		"list_loading": "Načítám faktury",
 		"order_number": "Číslo faktury",
 		"order_number_autocalc": "Počítat pořadové číslo automaticky",

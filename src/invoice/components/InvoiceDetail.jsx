@@ -9,6 +9,7 @@ import MaterialIcon from '@material/react-material-icon'
 import IconButton from '@material/react-icon-button'
 
 import logger from 'logger'
+import setDocumentTitle from 'docTitle'
 
 import Text from 'text/components/Text'
 import InvoiceParamsForm from './InvoiceParamsForm'
@@ -74,10 +75,13 @@ export default class InvoiceDetail extends React.Component {
 				this.setState({
 					detail: newInvoice,
 				})
+				setDocumentTitle(null, { invoiceModel: newInvoice })
 			})
 		} else {
 			this.setState({
 				detail: new InvoiceModel(toJS(InvoiceStore.invoice(parseInt(match.params.id)))),
+			}, () => {
+				setDocumentTitle(null, { invoiceModel: this.state.detail })
 			})
 		}
 	}

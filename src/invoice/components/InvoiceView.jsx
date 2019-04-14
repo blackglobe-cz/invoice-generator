@@ -7,7 +7,7 @@ import MaterialIcon from '@material/react-material-icon'
 
 import Text from 'text/components/Text'
 import formatDate from 'date/helpers/formatter'
-import formatPrice from 'currency/helpers/formatter'
+import formatPrice, { currencies, isSuffixed } from 'currency/helpers/formatter'
 import QRCode from 'qrcode.react'
 
 import {
@@ -43,7 +43,6 @@ export default class InvoiceView extends React.Component {
 
 	resetLocalState() {
 		const data = this.props.data
-		console.log('d', data);
 		this.setState({
 			supplier_id: data.supplier_id,
 			supplier_text: data.supplier_ref ? data.supplier_ref.identification_text : '',
@@ -250,9 +249,15 @@ export default class InvoiceView extends React.Component {
 											<td style={{ width: '80%' }} contentEditable suppressContentEditableWarning={true} ref={el => this.assignRow(el, index, 0)} onInput={e => this.handleCEInput(e, 'invoice_row', { index, rowIndex: 0 } )}>
 												{item[0]}
 											</td>
-											<td contentEditable suppressContentEditableWarning={true} className='text-align-right' ref={el => this.assignRow(el, index, 1)} onInput={e => this.handleCEInput(e, 'invoice_row', { index, rowIndex: 1 } )}>
+											{!isSuffixed(currency) && (
+												<td className='addon'>{currencies[currency] ? currencies[currency].short + '\u00A0' : (currency + '\u00A0')}</td>
+											)}
+											<td contentEditable suppressContentEditableWarning={true} className='text-align-right addon' ref={el => this.assignRow(el, index, 1)} onInput={e => this.handleCEInput(e, 'invoice_row', { index, rowIndex: 1 } )}>
 												{item[1]}
 											</td>
+											{isSuffixed(currency) && (
+												<td className='addon'>{currencies[currency] ? '\u00A0' + currencies[currency].short : ('\u00A0' + currency)}</td>
+											)}
 											<td className='screen-only addon'>
 												<div>
 													<MaterialIcon icon='close' className='icon-small cursor-pointer invoice-rows-icon' onClick={() => removeInvoiceRow(index)} />

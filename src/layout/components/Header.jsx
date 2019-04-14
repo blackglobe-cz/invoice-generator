@@ -67,7 +67,7 @@ export default class Header extends React.Component {
 		return (
 			<div className='screen-only'>
 				<div className='wrapper flex flex-space-between'>
-					<div className='flex-1'>
+					<div>
 						<Link to='/' className='grid grid-large' style={{gridTemplateColumns: 'auto 1fr'}}>
 							<BlackGlobeLogo className='project-logo' />
 							<Text style={{ alignSelf: 'center' }} text='Lo and behold - Black Globe&apos;s Invoice Generator!' />

@@ -81,6 +81,7 @@
 		"invoice": "Invoice",
 		"invoice_#": "Invoice {{number}}",
 		"language": "Invoice language",
+		"list": "Invoice list",
 		"list_loading": "Loading invoices...",
 		"order_number": "Invoice number",
 		"order_number_autocalc": "Calculate the invoice number automatically",

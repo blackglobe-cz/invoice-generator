@@ -36,7 +36,6 @@ function getInvoiceBasedOnSupplier(supplier, id) {
 		const purchaser = supplier.purchasers.length ? supplier.purchasers.find(p => p.default) || supplier.purchasers[0] : { text: '' }
 
 		InvoiceStore.getNextOrderNumber(supplier.id, (new Date()).toISOString().slice(0, 10)).then(res => {
-			console.log('gnon', res, supplier);
 			return resolve(new InvoiceModel({
 				id,
 				order_number: res,

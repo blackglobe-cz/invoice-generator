@@ -30,11 +30,11 @@ export default class InvoiceList extends React.Component {
 	}
 
 	getSupplierText(item) {
-		return this.getCleanFirstLine(item.supplier) || (item.supplier_ref && item.supplier_ref.label) ||  '-'
+		return (item.supplier_ref && item.supplier_ref.label) || this.getCleanFirstLine(item.supplier) || '-'
 	}
 
 	getPurchaserText(item) {
-		return this.getCleanFirstLine(item.purchaser) || (item.purchaser_ref && item.purchaser_ref.label) || '-'
+		return (item.purchaser_ref && item.purchaser_ref.label) || this.getCleanFirstLine(item.purchaser) || '-'
 	}
 
 	render() {

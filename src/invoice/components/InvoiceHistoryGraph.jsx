@@ -32,7 +32,7 @@ export default function InvoiceHistoryGraph(props) {
 
 	// prepare data
 	invoices.forEach(item => {
-		const dataKey = (item.supplier && item.supplier.id) ? (item.supplier.label || item.supplier.id) : 'undefined'
+		const dataKey = (item.supplier_ref && item.supplier_ref.id) ? (item.supplier_ref.label || item.supplier_ref.id) : 'undefined'
 		if (dataKeys.indexOf(dataKey) === -1) dataKeys.push(dataKey)
 		const dataYear = parseInt(item.issue_date.slice(0, 4), 10)
 		const dataMonth = parseInt(item.issue_date.slice(5, 7), 10) - 1

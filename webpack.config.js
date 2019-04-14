@@ -1,9 +1,10 @@
 const path = require('path')
 const webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const config = require('./config')
 
 module.exports = {
-	devtool: 'eval',
+	devtool: config.debug ? 'eval' : false,
 	mode: 'development',
 	entry: [
 		'./src/index',

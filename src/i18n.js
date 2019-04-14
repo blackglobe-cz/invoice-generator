@@ -4,6 +4,7 @@ import { initReactI18next } from 'react-i18next'
 import Backend from 'i18next-xhr-backend'
 import LanguageDetector from 'i18next-browser-languagedetector'
 
+import config from '../config'
 import { DEFAULT_LANGUAGE } from 'consts'
 
 i18n
@@ -22,14 +23,14 @@ i18n
 			loadPath: '/static/locales/{{lng}}/{{ns}}.json',
 		},
 		fallbackLng: {
-			'cs': [DEFAULT_LANGUAGE],
-			'cs_CZ': [DEFAULT_LANGUAGE],
+			'cs': ['cs'],
+			'cs_CZ': ['cs'],
 			'en': ['en'],
 			'en-GB': ['en'],
 			'en-US': ['en'],
-			'default': ['cs']
+			'default': [DEFAULT_LANGUAGE]
 		},
-		debug: true,
+		debug: config.i18nDebug,
 
 		interpolation: {
 			escapeValue: false, // not needed for react as it escapes by default

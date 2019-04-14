@@ -5,6 +5,7 @@ import { invoiceSerializer } from '../helpers/invoiceHelpers'
 import InvoiceModel from './InvoiceModel'
 import agent from 'agent'
 import logger from 'logger'
+import SettingsStore from 'settings/stores/SettingsStore'
 
 class InvoiceStore {
 
@@ -30,14 +31,22 @@ class InvoiceStore {
 				if (this.fetchRunning) return this.q.push({ resolve, reject })
 				this.fetchRunning = true
 
-				agent.invoice.query().then(invoices => {
-					runInAction(() => invoices.forEach(inv => this.items.push(new InvoiceModel(inv))))
+				Promise.all([
+					agent.invoice.query(),
+					SettingsStore.load()
+				]).then(res => {
+					const [invoices, suppliers] = res
+
+					runInAction(() => invoices.forEach(inv => {
+						inv.supplier_ref = suppliers.find(supplier => supplier.id === inv.supplier_id)
+						this.items.push(new InvoiceModel(inv))
+					}))
 
 					this.q.forEach(item => item.resolve(item.id ? this.items.find(inv => inv.id = item.id) : this.items))
 
 					return resolve(id ? invoices.find(inv => inv.id === id) : invoices)
 				}).catch(e => {
-					logger.log('invoice list fetch faiiled', e)
+					logger.log('invoice list fetch failed', e)
 					this.q.forEach(item => item.reject(e))
 					return reject(e)
 				}).finally(() => {

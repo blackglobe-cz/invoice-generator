@@ -40,8 +40,8 @@ export default class DataImportExport extends React.Component {
 		} = this.props
 
 		Promise.all([
-			SettingsStore.exportSettings(),
-			InvoiceStore.exportInvoices()
+			InvoiceStore.exportInvoices(),
+			SettingsStore.exportSettings()
 		]).then(res => {
 			this.setState({
 				loaded: true,
@@ -80,7 +80,6 @@ export default class DataImportExport extends React.Component {
 
 		if (error) return (<Text t='error.generic' />)
 		if (!loaded) return (<Text className='empty' t='loading_data' />)
-		// console.log(valueInvoices, valueSettings);
 
 		return (
 			<div className='grid grid-large' style={{ gridTemplateColumns: '260px auto' }}>

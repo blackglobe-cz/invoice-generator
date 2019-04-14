@@ -35,7 +35,7 @@ class SettingsStore {
 					this.q.forEach(item => item.resolve(item.id ? this.items.find(it => it.id = item.id) : this.items))
 					return resolve(id ? items.find(it => it.id === id) : items)
 				}).catch(e => {
-					logger.log('invoice list fetch faiiled', e);
+					logger.log('settings fetch failed', e);
 					this.q.forEach(item => item.reject(e))
 					return reject(e)
 				}).finally(() => {

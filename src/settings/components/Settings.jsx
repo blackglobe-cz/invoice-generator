@@ -15,6 +15,11 @@ import Text from 'text/components/Text'
 import FormControl from 'form/components/FormControl'
 import currencyList from 'currency/helpers/list'
 import SupplierModel from '../stores/SupplierModel'
+import PurchaserModel from '../stores/PurchaserModel'
+import BankAccountModel from '../stores/BankAccountModel'
+import InvoiceRowModel from '../stores/InvoiceRowModel'
+
+import { LANGUAGES } from 'consts'
 
 @inject('SettingsStore')
 @withTranslation()
@@ -25,7 +30,7 @@ export default class Settings extends React.Component {
 		super()
 
 		this.state = {
-			activeSupplier: {},
+			activeSupplier: null,
 			creatingNewSupplier: false,
 			formError: false,
 			formSuccess: false,
@@ -83,7 +88,7 @@ export default class Settings extends React.Component {
 	}
 
 	init() {
-		if (this.props.SettingsStore.loaded && !this.state.activeSupplier.id) {
+		if (this.props.SettingsStore.loaded && !this.state.activeSupplier) {
 			if (!this.props.SettingsStore.suppliers.length) {
 				this.openSupplier(void 0, true)
 			} else {
@@ -124,9 +129,7 @@ export default class Settings extends React.Component {
 			suppliers,
 		} = SettingsStore
 
-		const languageList = [['cs', 'Česky'], ['en', 'English']]
-
-		if (!(loaded && activeSupplier.id)) return (
+		if (!(loaded && activeSupplier)) return (
 			<Text tag='div' className='empty' text={t('loading')} />
 		)
 
@@ -136,7 +139,7 @@ export default class Settings extends React.Component {
 					<Drawer className='settings-drawer'>
 						{creatingNewSupplier && (
 							<ListItem disabled={true} className='mdc-list-item--disabled mdc-list-item--disabled-selected'>
-								<Text text={t('supplier.new')} />
+								<Text t='supplier.new' />
 							</ListItem>
 						)}
 						<List>
@@ -148,15 +151,16 @@ export default class Settings extends React.Component {
 						</List>
 						<hr />
 						<Button outlined type='button' className='button button-alt button-primary wrap' onClick={() => this.openSupplier(void 0, true)}>
-							<Text text={t('supplier.add')} />
+							<Text t='supplier.add' />
 						</Button>
 					</Drawer>
 				</div>
+
 				<div>
 					{!creatingNewSupplier && (
 						<div className='text-align-right'>
 							<Button icon={<MaterialIcon icon='delete' />} type='button' className='button button-alt button-danger' onClick={() => this.deleteSupplier()}>
-								<Text text={t('supplier.delete')} />
+								<Text t='supplier.delete' />
 							</Button>
 						</div>
 					)}
@@ -169,23 +173,23 @@ export default class Settings extends React.Component {
 							</label>
 						</div><div className='block'>
 							<label>
-								<Text text={t('logo.logo')} />
+								<Text t='logo.logo' />
 								<FormControl value={activeSupplier.logo} type='input' name='logo.logo' prop='logo' placeholder='<svg ... />' onChange={this.handleInput.bind(this)} />
 							</label>
 						</div><div className='block'>
 							<label>
-								<Text text={t('invoice.order_number_format')} />
+								<Text t='invoice.order_number_format' />
 								<FormControl value={activeSupplier.order_number_format} type='input' name='invoice.order_number_format' prop='order_number_format' placeholder='YYYYNNN' onChange={this.handleInput.bind(this)} maxLength='10' />
 								<Text tag='small' class='' text={t('invoice.order_number_format_helper')} />
 							</label>
 						</div><div className='block'>
 							<label>
 								<Text text={t('invoice.language') + '*'} />
-								<FormControl value={languageList.findIndex(item => item[0] === activeSupplier.default_language)} type='select' name='invoice.language' prop='default_language' onChange={this.handleInput.bind(this)} optSrc={languageList.map(i => i[0])} opts={languageList} />
+								<FormControl value={LANGUAGES.findIndex(item => item[0] === activeSupplier.default_language)} type='select' name='invoice.language' prop='default_language' onChange={this.handleInput.bind(this)} optSrc={LANGUAGES.map(i => i[0])} opts={LANGUAGES} />
 							</label>
 						</div><div className='block'>
 							<label>
-								<Text text={t('supplier.identification_text')} />
+								<Text t='supplier.identification_text' />
 								<FormControl value={activeSupplier.identification_text} type='textarea' rows='6' name='supplier.identification_text' prop='identification_text' onChange={this.handleInput.bind(this)} />
 							</label>
 						</div><div className='block'>
@@ -205,12 +209,12 @@ export default class Settings extends React.Component {
 							</label>
 						</div><div className='block'>
 							<label>
-								<Text text={t('footer')} />
+								<Text t='footer' />
 								<FormControl value={activeSupplier.footer} type='textarea' name='footer' onChange={this.handleInput.bind(this)} />
 							</label>
 						</div><div className='block'>
 							<label className='flex flex-space-between flex-align-center'>
-								<Text text={t('qr.show')} />
+								<Text t='qr.show' />
 								<FormControl value={activeSupplier.show_qr_code} type='checkbox' name='qr.show' prop='show_qr_code' onChange={this.handleInput.bind(this)} />
 							</label>
 						</div><div className='block'>
@@ -244,26 +248,26 @@ export default class Settings extends React.Component {
 
 									<div className='block'>
 										<label>
-											<Text text={t('purchaser.label')} />
+											<Text t='purchaser.label' />
 											<FormControl value={item.label} type='input' name='label' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
 										</label>
 									</div>
 									<div className='block'>
 										<label>
-											<Text text={t('purchaser.text')} />
+											<Text t='purchaser.text' />
 											<FormControl value={item.text} type='textarea' rows='6' name='text' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
 										</label>
 									</div>
-									<div className='flex flex-align-center'>
-										<label>
-											<Text text={t('purchaser.registered_for_vat')} />
+									<div className=''>
+										<label className='flex flex-space-between flex-align-center'>
+											<Text t='purchaser.registered_for_vat' />
 											<FormControl value={item.registered_for_vat} type='checkbox' name='purchaser.registered_for_vat' prop='registered_for_vat' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
 										</label>
 									</div>
 								</div>
 							))}
-							<Button type='button' onClick={action(() => activeSupplier.purchasers.push({ label: '', text: '' }))}>
-								<Text text={t('purchaser.add')} />
+							<Button type='button' onClick={action(() => activeSupplier.purchasers.push(new PurchaserModel()))}>
+								<Text t='purchaser.add' />
 							</Button>
 						</div><div className='block'>
 							<Text tag='h2' className='heading-4' text={t('bank.accounts')} />
@@ -295,39 +299,39 @@ export default class Settings extends React.Component {
 									<hr className='block' />
 
 									<label className='block'>
-										<Text text={t('bank.label')} />
+										<Text t='bank.label' />
 										<FormControl value={item.label} type='input' name='label' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
 									</label>
 									<label className='block'>
-										<Text text={t('bank.bank_name')} />
+										<Text t='bank.bank_name' />
 										<FormControl value={item.bank} type='input' name='bank.bank' prop='bank' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
 									</label>
 									<label className='block'>
-										<Text text={t('bank.account_number')} />
+										<Text t='bank.account_number' />
 										<FormControl value={item.account_number} type='input' name='bank.account_number' prop='account_number' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
 									</label>
 									<div className='flex block'>
 										<label className='flex-1'>
-											<Text text={t('bank.iban')} />
+											<Text t='bank.iban' />
 											<FormControl value={item.iban} type='number' name='bank.iban' prop='iban' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
 										</label>
 										<label className='flex-1'>
-											<Text text={t('bank.swift')} />
+											<Text t='bank.swift' />
 											<FormControl value={item.swift} type='input' name='bank.swift' prop='swift' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
 										</label>
 									</div>
 								</div>
 							))}
-							<Button type='button' className='button' onClick={action(() => activeSupplier.bank_accounts.push({ label: '', bank: '', account_number: '', iban: '', swift: '' }))}>
-								<Text text={t('bank.add_account')} />
+							<Button type='button' className='button' onClick={action(() => activeSupplier.bank_accounts.push(new BankAccountModel()))}>
+								<Text t='bank.add_account' />
 							</Button>
 						</div><div className='block'>
 							<Text tag='h2' className='heading-4 margin-bottom-large' text={t('invoice.default_invoice_row.rows')} />
 
 							<div className='flex flex-align-center'>
 								<Text text='#' className='margin-horizontal-medium' />
-								<Text text={t('invoice.row_text')} className='flex-1' />
-								<Text text={t('invoice.row_price')} className='flex-1' />
+								<Text t='invoice.row_text' className='flex-1' />
+								<Text t='invoice.row_price' className='flex-1' />
 								<div style={{minWidth: '48px'}} />
 							</div>
 							<hr className='block' />
@@ -342,25 +346,25 @@ export default class Settings extends React.Component {
 									</IconButton>
 								</div>
 							))}
-							<Button type='button' className='button' onClick={action(() => activeSupplier.default_invoice_rows.push({ text: '', price: '' }))}>
-								<Text text={t('invoice.default_invoice_row.add')} />
+							<Button type='button' className='button' onClick={action(() => activeSupplier.default_invoice_rows.push(new InvoiceRowModel()))}>
+								<Text t='invoice.default_invoice_row.add' />
 							</Button>
 						</div>
 						{formError && (
 							<div className='block flex flex-space-between alert danger'>
-								<Text text={t('form.error')} />
+								<Text t='form.error' />
 								<i onClick={() => this.setState({ formError: false })}>&times;</i>
 							</div>
 						)}
 						{formSuccess && (
 							<div className='block flex flex-space-between alert success'>
-								<Text text={t('form.success')} />
+								<Text t='form.success' />
 								<i onClick={() => this.setState({ formSuccess: false })}>&times;</i>
 							</div>
 						)}
 						<div className='block'>
 							<Button raised type='submit' className='button button-primary'>
-								<Text text={t('supplier.save')} />
+								<Text t='supplier.save' />
 							</Button>
 						</div>
 					</form>

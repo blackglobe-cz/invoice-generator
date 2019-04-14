@@ -37,29 +37,30 @@ export default class InvoiceView extends React.Component {
 	componentDidMount() {
 		this.resetLocalState()
 		this.setState({
-			purchaser_label: this.props.data.purchaser.label,
+			purchaser_label: this.props.data.purchaser_ref ? this.props.data.purchaser_ref.label : '',
 		})
 	}
 
 	resetLocalState() {
 		const data = this.props.data
+		console.log('d', data);
 		this.setState({
-			supplier_id: data.supplier.id,
-			supplier_text: data.supplier.identification_text,
-			purchaser_text: data.purchaser.text,
+			supplier_id: data.supplier_id,
+			supplier_text: data.supplier_ref ? data.supplier_ref.identification_text : '',
+			purchaser_text: data.purchaser_ref ? data.purchaser_ref.text : '',
 			invoice_rows: JSON.parse(JSON.stringify(data.invoice_rows)),
 		})
 	}
 
 	componentDidUpdate() {
 		const data = this.props.data
-		if (this.state.supplier_id !== data.supplier.id) {
+		if (this.state.supplier_id !== data.supplier_id) {
 			this.resetLocalState()
 		}
-		if (data.purchaser.label !== this.state.purchaser_label) {
+		if (data.purchaser_ref && data.purchaser_ref.label !== this.state.purchaser_label) {
 			this.setState({
-				purchaser_text: data.purchaser.text,
-				purchaser_label: data.purchaser.label,
+				purchaser_text: data.purchaser_ref.text,
+				purchaser_label: data.purchaser_ref.label,
 			})
 		}
 	}
@@ -83,9 +84,9 @@ export default class InvoiceView extends React.Component {
 	handleCEInput = (e, prop, opts) => {
 		runInAction(() => {
 			if (prop === 'supplier') {
-				this.props.data.supplier.identification_text = this.supplier_node.current.innerHTML
+				this.props.data.supplier = this.supplier_node.current.innerHTML
 			} else if (prop === 'purchaser') {
-				this.props.data.purchaser.text = this.purchaser_node.current.innerHTML
+				this.props.data.purchaser = this.purchaser_node.current.innerHTML
 			} else if (prop === 'invoice_row') {
 				this.props.data.invoice_rows[opts.index] = this.props.data.invoice_rows[opts.index] || []
 				this.props.data.invoice_rows[opts.index][opts.rowIndex] = this.invoice_rows_nodes[opts.index][opts.rowIndex].innerHTML
@@ -107,7 +108,7 @@ export default class InvoiceView extends React.Component {
 				language,
 				bank_account = {},
 				order_number,
-				supplier = {},
+				supplier_ref = {},
 				payment_type,
 				issue_date,
 				due_date,
@@ -141,7 +142,7 @@ export default class InvoiceView extends React.Component {
 			})
 		}
 
-		const isTaxDocument = (supplier && supplier.registered_for_vat) || to_other_eu_country
+		const isTaxDocument = (supplier_ref && supplier_ref.registered_for_vat) || to_other_eu_country
 
 		return (
 			<div>
@@ -202,16 +203,18 @@ export default class InvoiceView extends React.Component {
 										<Text text={t('bank.account_number')} />
 										<Text className={to_other_eu_country ? '' : 'text-emphasize'} text={bank_account.account_number} />
 									</div>
-									{to_other_eu_country && [
-										<div key='iban' className='flex flex-space-between text-emphasize'>
-											<Text text={t('bank.iban')} />
-											<Text text={bank_account.iban} />
-										</div >,
-										<div key='swift' className='flex flex-space-between'>
-											<Text text={t('bank.swift')} />
-											<Text text={bank_account.swift} />
-										</div >
-									]}
+									{to_other_eu_country && (
+										<>
+											<div className='flex flex-space-between text-emphasize'>
+												<Text text={t('bank.iban')} />
+												<Text text={bank_account.iban} />
+											</div>
+											<div key='swift' className='flex flex-space-between'>
+												<Text text={t('bank.swift')} />
+												<Text text={bank_account.swift} />
+											</div>
+										</>
+									)}
 								</>
 							)}
 							<div className='flex flex-space-between'>

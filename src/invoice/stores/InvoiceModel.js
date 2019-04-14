@@ -28,11 +28,18 @@ export default class InvoiceModel {
 		return this.price + (((this.supplier && this.supplier.registered_for_vat) || this.to_other_eu_country) ? this.vat_amount : 0)
 	}
 	@observable currency
-	@observable supplier
-	@observable supplier_id
+	@observable supplier // the text on invoice
+	@observable supplier_id // the id (so that I don't save the whole object in db)
+	@observable supplier_ref // the enriched supplier object
 	@observable purchaser
 	@observable purchaser_id
-	@observable bank_account
+	@observable purchaser_ref
+	@observable bank_account_id // if true, I don't check any other bank_account fields and I prefill them from the supplier
+	@observable bank_account // {}
+	// @observable bank_account_number
+	// @observable bank_account_bank
+	// @observable bank_account_swift
+	// @observable bank_account_iban
 	@observable payment_type
 	@observable qr_code
 	@observable footer
@@ -72,8 +79,10 @@ export default class InvoiceModel {
 		currency,
 		supplier,
 		supplier_id,
+		supplier_ref,
 		purchaser,
 		purchaser_id,
+		purchaser_ref,
 		bank_account,
 		payment_type,
 		qr_code,
@@ -94,8 +103,10 @@ export default class InvoiceModel {
 			this.currency = currency || DEFAULT_CURRENCY
 			this.supplier = supplier
 			this.supplier_id = supplier_id
+			this.supplier_ref = supplier_ref
 			this.purchaser = purchaser
 			this.purchaser_id = purchaser_id
+			this.purchaser_ref = purchaser_ref
 			this.bank_account = bank_account
 			this.payment_type = payment_type || PaymentTypeStore.paymentTypes[0]
 			this.qr_code = qr_code !== void 0 ? qr_code : true

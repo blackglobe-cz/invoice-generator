@@ -32,21 +32,23 @@ function getInvoiceBasedOnSupplier(supplier, id) {
 			invoice_rows.push([item.text, item.price])
 		})
 
-		console.log('s', supplier);
 		supplier = prepareForContentEditable(copy(supplier))
-
+		const purchaser = supplier.purchasers.length ? supplier.purchasers.find(p => p.default) || supplier.purchasers[0] : { text: '' }
 
 		InvoiceStore.getNextOrderNumber(supplier.id, (new Date()).toISOString().slice(0, 10)).then(res => {
+			console.log('gnon', res, supplier);
 			return resolve(new InvoiceModel({
 				id,
 				order_number: res,
-				supplier: supplier,
-				supplier_id: supplier.id,
+				supplier: supplier.identification_text,
+				supplier_id: supplier.id ? supplier.id : void 0,
+				supplier_ref: supplier,
 				logo: supplier.logo,
 				language: supplier.language,
 				currency: supplier.default_currency,
-				// purchaser: supplier.purchasers.length ? supplier.purchasers[0].text : '',
-				purchaser: supplier.purchasers.length ? supplier.purchasers[0] : {text: ''},
+				purchaser: purchaser.text,
+				purchaser_id: supplier.id ? purchaser.id : void 0,
+				purchaser_ref: supplier.id ? purchaser : void 0,
 				bank_account: supplier.bank_accounts.length ? copy(supplier.bank_accounts[0]) : {},
 				invoice_rows,
 				qr_code: !!supplier.show_qr_code,

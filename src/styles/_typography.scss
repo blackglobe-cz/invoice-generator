@@ -43,6 +43,12 @@
 	white-space: normal !important;
 }
 
+.one-liner {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 .text-muted {
 	color: $color-medium-gray;
 }

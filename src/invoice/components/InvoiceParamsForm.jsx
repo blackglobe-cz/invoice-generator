@@ -39,7 +39,13 @@ export default class InvoiceParamsForm extends React.Component {
 	handleFormSubmit(event) {
 		event.preventDefault()
 		const creating = location.pathname.indexOf('/invoice/new') > -1
-		this.props.InvoiceStore.save(this.props.data, creating).then(res => {
+
+		const {
+			InvoiceStore,
+			data,
+		} = this.props
+
+		InvoiceStore.save(data, creating).then(res => {
 			if (creating) this.setState({ redirectTo: `/invoice/${res.id}` })
 		}).catch(err => {
 			logger.log('err saving invoice', err)
@@ -48,7 +54,10 @@ export default class InvoiceParamsForm extends React.Component {
 
 	handleInput(prop, value) {
 		runInAction(() => {
-			const data = this.props.data
+			const {
+				InvoiceStore,
+				data,
+			} = this.props
 
 			// I can encounter nested properties
 			const propertyChain = prop.split('.')
@@ -61,7 +70,7 @@ export default class InvoiceParamsForm extends React.Component {
 
 			// if we change any prop that might affect order number, we recalculate
 			if (data.order_number_autocalc && ['issue_date', 'order_number_autocalc'].indexOf(prop) > -1) {
-				this.props.InvoiceStore.getNextOrderNumber(data.supplier.id, data.issue_date).then(res => {
+				InvoiceStore.getNextOrderNumber(data.supplier_ref.id, data.issue_date).then(res => {
 					runInAction(() => {
 						data.order_number = res
 					})
@@ -72,12 +81,17 @@ export default class InvoiceParamsForm extends React.Component {
 
 	handleSupplierChange(e) {
 		const value = e.target.value
+		const {
+			SettingsStore,
+			data,
+		} = this.props
+
 		this.setState({
 			supplier: value,
 		}, () => {
-			const supplier = this.props.SettingsStore.suppliers.find(item => ('' + item.id) === ('' + value))
+			const supplier = SettingsStore.suppliers.find(item => ('' + item.id) === ('' + value))
 			runInAction(() => {
-				Object.assign(this.props.data, getInvoiceBasedOnSupplier(supplier, this.props.data.id))
+				Object.assign(data, getInvoiceBasedOnSupplier(supplier, data.id))
 			})
 		})
 	}
@@ -110,9 +124,9 @@ export default class InvoiceParamsForm extends React.Component {
 
 		let bank_accounts = []
 		let purchasers = []
-		if (data && data.supplier) {
-			bank_accounts = data.supplier.bank_accounts
-			purchasers = data.supplier.purchasers
+		if (data && data.supplier_ref) {
+			bank_accounts = data.supplier_ref.bank_accounts
+			purchasers = data.supplier_ref.purchasers
 		}
 
 		if (redirectTo) return (<Redirect to={redirectTo} />)

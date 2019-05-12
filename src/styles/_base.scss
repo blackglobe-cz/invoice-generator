@@ -22,6 +22,7 @@ ul, li {
 hr {
 	margin: 0;
 	border: none;
-	height: 1px;
-	background-color: $color-light-gray;
+	border-bottom: 1px solid $color-light-gray;
+	height: 0px;
+	// background-color: $color-light-gray;
 }

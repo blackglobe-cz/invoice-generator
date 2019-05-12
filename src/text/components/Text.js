@@ -9,13 +9,14 @@ export default function Text(props) {
 		className,
 		tag,
 		t: toBeTranslated,
+		tOptions,
 		text,
 		title,
 	} = props
 
 	const { t } = useTranslation()
 
-	let content = children || text || t(toBeTranslated)
+	let content = children || text || t(toBeTranslated, tOptions)
 
 	if (!content) return ''
 

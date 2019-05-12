@@ -1,49 +1,34 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+// import { useTranslation } from 'react-i18next'
 
 import {
 	ResponsiveContainer,
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+	LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts'
 
 import { COLORS } from 'consts'
-import formatDate from 'date/helpers/formatter'
+// import formatDate from 'date/helpers/formatter'
 
 export default function InvoiceHistoryGraph(props) {
 
 	const {
-		invoices,
+		data,
+		dataKeys,
+		date: dateProp,
 	} = props
 
-	const { t } = useTranslation()
+	// const { t } = useTranslation()
 
-	const data = []
-	const dataKeys = []
-	let date = new Date()
-	const thisMonth = date.getMonth()
-	const thisYear = date.getFullYear()
-	date.setDate(15)
-
-	// prepare X axis
-	for (var i = 12;i--;) {
-		data.unshift({ name: t(`date.month.${date.getMonth() + 1}`) })
-		date = new Date(date.getFullYear(), date.getMonth() - 1, 15)
-	}
-
-	// prepare data
-	invoices.forEach(item => {
-		const dataKey = (item.supplier_ref && item.supplier_ref.id) ? (item.supplier_ref.label || item.supplier_ref.id) : 'undefined'
-		if (dataKeys.indexOf(dataKey) === -1) dataKeys.push(dataKey)
-		const dataYear = parseInt(item.issue_date.slice(0, 4), 10)
-		const dataMonth = parseInt(item.issue_date.slice(5, 7), 10) - 1
-
-		// throw away invoices older than a year
-		if (dataYear < thisYear && dataMonth < thisMonth) return
-
-		const dataIndex = 11 - ((thisYear - dataYear) * 12) - Math.abs(thisMonth - dataMonth)
-		data[dataIndex][dataKey] = data[dataIndex][dataKey] || 0
-		data[dataIndex][dataKey] += item.total_price
-	})
+	// const date = (dateProp && typeof dateProp.getTime === 'function') ? new Date(dateProp.getTime()) : (new Date())
+	// const thisMonth = date.getMonth()
+	// const thisYear = date.getFullYear()
+	// date.setDate(15)
+	//
+	// // prepare X axis
+	// for (var i = 12;i--;) {
+	// 	data.unshift({ name: t(`date.month.${date.getMonth() + 1}`) })
+	// 	date = new Date(date.getFullYear(), date.getMonth() - 1, 15)
+	// }
 
 	return (
 		<ResponsiveContainer

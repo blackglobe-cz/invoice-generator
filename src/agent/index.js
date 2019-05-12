@@ -128,7 +128,8 @@ export default {
 ///////////////////
 
 function generateId() {
-	return (new Date()).getTime()
+	const id = (new Date()).getTime()
+	return id
 }
 
 function getNextOrderNumber({ supplierId, date }) {

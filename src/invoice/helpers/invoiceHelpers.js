@@ -1,10 +1,13 @@
 import InvoiceModel from 'invoice/stores/InvoiceModel'
 import InvoiceStore from 'invoice/stores/InvoiceStore'
 import SupplierModel from 'settings/stores/SupplierModel'
+import { DEFAULT_DUE_PERIOD } from 'consts'
 
 export {
 	invoiceSerializer,
+	isPriceLike,
 	getInvoiceBasedOnSupplier,
+	prepareDataForGraph,
 }
 
 function invoiceSerializer(invoice) {
@@ -17,6 +20,10 @@ function invoiceSerializer(invoice) {
 	// return i
 }
 
+function isPriceLike(priceString) {
+	return /^(\s*[0-9]+\s*)+(\.\d+)?$/.test(priceString)
+}
+
 function getInvoiceBasedOnSupplier(supplier, id) {
 	return new Promise((resolve, reject) => {
 		if (!supplier) {
@@ -24,7 +31,7 @@ function getInvoiceBasedOnSupplier(supplier, id) {
 				id: null,
 			})
 		}
-		const due_date = (new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * parseInt(supplier.default_due_date_period || 14)))).toISOString().slice(0, 10)
+		const due_date = (new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * parseInt(supplier.default_due_date_period || DEFAULT_DUE_PERIOD)))).toISOString().slice(0, 10)
 		const invoice_rows = []
 		let price = 0
 		;(supplier.default_invoice_rows.length ? supplier.default_invoice_rows : [{ text: '', price: 0 }]).map(item => {
@@ -69,4 +76,45 @@ function prepareForContentEditable(supplier = {}) {
 	supplier.identification_text = supplier.identification_text.replace(/\n/g, '<br />')
 	supplier.purchasers.forEach(item => item.text = item.text.replace(/\n/g, '<br />'))
 	return supplier
+}
+
+/**
+ *	Prepares one-year of data from invoices
+ */
+function prepareDataForGraph(invoices, { date, t } = {}) {
+	const dateAlt = (date && typeof date.getTime === 'function') ? new Date(date.getTime()) : (new Date())
+	dateAlt.setDate(15)
+	const year = dateAlt.getFullYear()
+	const month = dateAlt.getMonth()
+
+	const data = []
+	const dataKeys = []
+	const totals = {}
+
+	// prepare X axis
+	for (var i = 12;i--;) {
+		data.unshift({ name: t(`date.month.${dateAlt.getMonth() + 1}`) })
+		date = new Date(dateAlt.getFullYear(), dateAlt.getMonth() - 1, 15)
+	}
+
+	// prepare data
+	invoices.forEach(item => {
+		const dataKey = (item.supplier_ref && item.supplier_ref.id) ? (item.supplier_ref.label || item.supplier_ref.id) : 'undefined'
+		if (dataKeys.indexOf(dataKey) === -1) dataKeys.push(dataKey)
+		const dataYear = parseInt(item.issue_date.slice(0, 4), 10)
+		const dataMonth = parseInt(item.issue_date.slice(5, 7), 10) - 1
+
+		// throw away invoices older than a year
+		if (dataYear < year && dataMonth < month) return
+
+		const dataIndex = 11 - ((year - dataYear) * 12) - Math.abs(month - dataMonth)
+		data[dataIndex][dataKey] = data[dataIndex][dataKey] || 0
+		data[dataIndex][dataKey] += item.total_price
+
+		totals[dataKey] = totals[dataKey] || {}
+		totals[dataKey][item.currency] = totals[dataKey][item.currency] || 0
+		totals[dataKey][item.currency] += item.total_price
+	})
+
+	return { data, dataKeys, totals }
 }

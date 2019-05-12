@@ -11,6 +11,7 @@ import formatCurrency from 'currency/helpers/formatter'
 import formatDate from 'date/helpers/formatter'
 import PrintPlaceholder from 'common/PrintPlaceholder'
 import InvoiceHistoryGraph from './InvoiceHistoryGraph'
+import { prepareDataForGraph } from '../helpers/invoiceHelpers'
 
 import setDocumentTitle from 'docTitle'
 
@@ -26,7 +27,7 @@ export default class InvoiceList extends React.Component {
 	}
 
 	getCleanFirstLine(str) {
-		return (str || '').replace(/<.?div>/g, '').split(/<br.*?>/).slice(0, 1)
+		return ('' + str || '').replace(/<.?div>/g, '').split(/<br.*?>/).slice(0, 1)
 	}
 
 	getSupplierText(item) {
@@ -40,8 +41,8 @@ export default class InvoiceList extends React.Component {
 	render() {
 
 		const {
-			t,
 			InvoiceStore,
+			t,
 		} = this.props
 
 		if (!InvoiceStore.loaded) return (
@@ -67,18 +68,32 @@ export default class InvoiceList extends React.Component {
 
 		const invoices = InvoiceStore.items.slice().sort((i1, i2) => new Date(i1.issue_date) > new Date(i2.issue_date) ? -1 : 1)
 
+		const date = new Date()
+		const { data, dataKeys, totals } = prepareDataForGraph(InvoiceStore.items, { date, t })
+		const totalsKeys = Object.keys(totals)
+		console.log('totals', totals, totalsKeys);
+
 		return (
 			<>
 				<PrintPlaceholder />
 				<div className='screen-only'>
 					<div className='wrapper box'>
-						<div className='block'>
+						<div className='flex flex-space-between block'>
 							<Link to='/invoice/new'>
 								<Button outlined type='button'><Text t='invoice.add' /></Button>
 							</Link>
+							<div className='flex'>
+								<Text t='invoice.invoiced_in_last_12_months' />
+								&nbsp;
+								{totalsKeys && totalsKeys.map(supplierKey => (
+									<div>
+										{supplierKey}: {Object.keys(totals[supplierKey]).map(currencyKey => formatCurrency(totals[supplierKey][currencyKey], currencyKey)).join(', ')}
+									</div>
+								))}
+							</div>
 						</div>
 						<div className='padding-top-large'>
-							<InvoiceHistoryGraph invoices={InvoiceStore.items} type={'std'} />
+							<InvoiceHistoryGraph data={data} dataKeys={dataKeys} date={date} type='std' />
 						</div>
 						<List className='mdc-list-anchors'>
 							<li className='flex mdc-list-heading'>

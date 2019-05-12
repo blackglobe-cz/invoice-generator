@@ -23,7 +23,10 @@ module.exports = {
     "no-unused-vars": 1,
 		"react/prop-types": false,
   },
-  "globals": {},
+  "globals": {
+		"require": "readonly",
+		"process": "readonly",
+	},
 	"settings": {
     "react": {
 			"version": "detect",

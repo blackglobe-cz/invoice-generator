@@ -9,6 +9,7 @@ import Text from 'text/components/Text'
 import formatDate from 'date/helpers/formatter'
 import formatPrice, { currencies, isSuffixed } from 'currency/helpers/formatter'
 import QRCode from 'qrcode.react'
+import { isPriceLike } from '../helpers/invoiceHelpers'
 
 import {
 	VAT_AMOUNT,
@@ -47,7 +48,10 @@ export default class InvoiceView extends React.Component {
 			supplier_id: data.supplier_id,
 			supplier_text: data.supplier_ref ? data.supplier_ref.identification_text : '',
 			purchaser_text: data.purchaser_ref ? data.purchaser_ref.text : '',
-			invoice_rows: JSON.parse(JSON.stringify(data.invoice_rows)),
+			invoice_rows: JSON.parse(JSON.stringify(data.invoice_rows)).map(row => {
+				row[1] = isPriceLike(row[1]) ? formatPrice((typeof row[1] !== 'undefined' ? '' + row[1] : '0').replace(/\s/g, ''), 0, { skipCurrency: true, decimals: void 0 }) : '' + row[1]
+				return row
+			}),
 		})
 	}
 
@@ -95,9 +99,21 @@ export default class InvoiceView extends React.Component {
 		})
 	}
 
+	formatIfPriceLike(e, { index }) {
+		const content = this.invoice_rows_nodes[index][1].innerText
+		const contentFormatted = isPriceLike(content) ? formatPrice(content.replace(/\s/g, ''), 0, { skipCurrency: true, decimals: void 0 }) : content
+		if (contentFormatted !== content) this.invoice_rows_nodes[index][1].innerHTML = contentFormatted
+	}
+
+	deformatIfPriceLike(e, { index }) {
+		const content = this.invoice_rows_nodes[index][1].innerText
+		const contentDeformatted = isPriceLike(content) ? content.replace(/\s/g, '') : content
+		if (contentDeformatted !== content) this.invoice_rows_nodes[index][1].innerHTML = contentDeformatted
+	}
+
 	// is expected to be run in a runInAction block
 	recalculatePrice() {
-		this.props.data.price = this.props.data.invoice_rows.reduce((acc, item) => acc + parseFloat(item[1] || '0'), 0)
+		this.props.data.price = this.props.data.invoice_rows.reduce((acc, item) => acc + parseFloat(item[1].replace(/\s/g, '') || '0'), 0)
 	}
 
 	render() {
@@ -252,7 +268,7 @@ export default class InvoiceView extends React.Component {
 											{!isSuffixed(currency) && (
 												<td className='addon'>{currencies[currency] ? currencies[currency].short + '\u00A0' : (currency + '\u00A0')}</td>
 											)}
-											<td contentEditable suppressContentEditableWarning={true} className='text-align-right addon' ref={el => this.assignRow(el, index, 1)} onInput={e => this.handleCEInput(e, 'invoice_row', { index, rowIndex: 1 } )}>
+											<td contentEditable suppressContentEditableWarning={true} className='text-align-right addon' ref={el => this.assignRow(el, index, 1)} onInput={e => this.handleCEInput(e, 'invoice_row', { index, rowIndex: 1 } )} onBlur={e => this.formatIfPriceLike(e, { index })} onFocus={e => this.deformatIfPriceLike(e, { index })}>
 												{item[1]}
 											</td>
 											{isSuffixed(currency) && (
@@ -296,7 +312,7 @@ export default class InvoiceView extends React.Component {
 
 						{qr_code && qr_code_value && (
 							<div className='invoice-grid-full-width qr-wrapper text-align-right'>
-								<QRCode renderAs='svg' size={100} value={qr_code_value} level='H' />
+								<QRCode renderAs='svg' size={110} value={qr_code_value} level='H' />
 							</div>
 						)}
 

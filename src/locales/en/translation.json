@@ -81,6 +81,7 @@
 		"import_export": "Import/Export",
 		"invoice": "Invoice",
 		"invoice_#": "Invoice {{number}}",
+		"invoiced_in_last_12_months": "Invoiced in the last 12 months:",
 		"language": "Invoice language",
 		"list": "Invoice list",
 		"list_loading": "Loading invoices...",

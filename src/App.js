@@ -1,7 +1,6 @@
 import React from 'react'
 import { Switch, Route, withRouter } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
-import { withTranslation } from 'react-i18next'
 
 import Text from 'text/components/Text'
 import Header from './layout/components/Header'
@@ -11,7 +10,6 @@ import InvoiceDetail from './invoice/components/InvoiceDetail'
 import PageNotFound from './common/PageNotFound'
 
 @inject('SettingsStore')
-@withTranslation()
 @withRouter
 @observer
 export default class App extends React.Component {
@@ -24,11 +22,8 @@ export default class App extends React.Component {
 		}
 	}
 
-	// issuers = []
-
 	componentDidMount() {
-		this.props.SettingsStore.load().then(res => {
-			// this.issuers = res.issuers
+		this.props.SettingsStore.load().then(() => {
 			this.setState({ loaded: true })
 		})
 	}
@@ -36,7 +31,6 @@ export default class App extends React.Component {
 	render() {
 
 		const {
-			t,
 			SettingsStore: {
 				suppliers,
 			},
@@ -48,7 +42,7 @@ export default class App extends React.Component {
 
 				{this.state.loaded && !suppliers.length && (
 					<div className='wrapper alert info screen-only'>
-						<Text text={t('settings.no_settings_yet')} />
+						<Text t='settings.no_settings_yet' />
 					</div>
 				)}
 

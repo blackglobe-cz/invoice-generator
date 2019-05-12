@@ -105,8 +105,6 @@ export default class InvoiceDetail extends React.Component {
 		this.setState({ importExportShown })
 	}
 
-	closeImportExport
-
 	render() {
 
 		const {
@@ -167,15 +165,11 @@ export default class InvoiceDetail extends React.Component {
 										<Text tag='h1' text={t('invoice.export')} />
 									</div>
 									<div>
-										{/*
-										<Button icon={<i className='material-icons'>close</i>} type='button' className='button button-phantom button-icon' onClick={this.closeModal}>&times;</Button>
-										*/}
 										<IconButton type='button' onClick={() => this.toggleImportExport(false)}>
 											<MaterialIcon icon='close' />
 										</IconButton>
 									</div>
 								</div>
-								{/*<textarea readOnly rows='10' value={JSON.stringify(toJS(detail), 2)} />*/}
 								<pre style={{whiteSpace: 'pre-wrap'}}>{JSON.stringify(toJS(detail), null, 2)}</pre>
 							</div>
 						</Modal>

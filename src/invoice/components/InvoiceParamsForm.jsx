@@ -40,12 +40,13 @@ export default class InvoiceParamsForm extends React.Component {
 
 	handleFormSubmit(event) {
 		event.preventDefault()
-		const creating = location.pathname.indexOf('/invoice/new') > -1
 
 		const {
 			InvoiceStore,
 			data,
 		} = this.props
+
+		const creating = !data.id
 
 		InvoiceStore.save(data, creating).then(res => {
 			if (creating) this.setState({ redirectTo: `/invoice/${res.id}` })

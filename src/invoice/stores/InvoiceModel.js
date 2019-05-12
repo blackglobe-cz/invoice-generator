@@ -25,7 +25,7 @@ export default class InvoiceModel {
 		return (VAT_AMOUNT / 100) * (this.price || 0)
 	}
 	@computed get total_price() {
-		return this.price + (((this.supplier && this.supplier.registered_for_vat) || this.to_other_eu_country) ? this.vat_amount : 0)
+		return this.price + (((this.supplier_ref && this.supplier_ref.registered_for_vat) || this.to_other_eu_country) ? this.vat_amount : 0)
 	}
 	@observable currency
 	@observable supplier // the text on invoice

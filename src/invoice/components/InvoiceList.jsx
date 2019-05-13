@@ -71,7 +71,7 @@ export default class InvoiceList extends React.Component {
 		const date = new Date()
 		const { data, dataKeys, totals } = prepareDataForGraph(InvoiceStore.items, { date, t })
 		const totalsKeys = Object.keys(totals)
-		console.log('totals', totals, totalsKeys);
+		// console.log('totals', totals, totalsKeys);
 
 		return (
 			<>
@@ -85,11 +85,13 @@ export default class InvoiceList extends React.Component {
 							<div className='flex'>
 								<Text t='invoice.invoiced_in_last_12_months' />
 								&nbsp;
-								{totalsKeys && totalsKeys.map(supplierKey => (
-									<div>
-										{supplierKey}: {Object.keys(totals[supplierKey]).map(currencyKey => formatCurrency(totals[supplierKey][currencyKey], currencyKey)).join(', ')}
-									</div>
-								))}
+								<div>
+									{totalsKeys && totalsKeys.map((supplierKey, index) => (
+										<div key={index}>
+											{supplierKey}: {Object.keys(totals[supplierKey]).map(currencyKey => formatCurrency(totals[supplierKey][currencyKey], currencyKey)).join(', ')}
+										</div>
+									))}
+								</div>
 							</div>
 						</div>
 						<div className='padding-top-large'>

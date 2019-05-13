@@ -17,15 +17,14 @@ const devConfig = {
 	output: {
 		path: path.join(__dirname, 'dist'),
 		filename: 'bundle.js',
-		publicPath: '/dist/',
+		publicPath: '/',
 	},
 	plugins: [
 		...plugins,
 		new HtmlWebpackPlugin({
-      template: 'index.html',
-      // bundlePath: '/bundle.js',
+			filename: path.resolve(__dirname, 'dist/index.html'),
+      template: path.resolve(__dirname, 'index.html'),
 			targetStatic: process.targetStatic,
-			// inject: false,
 		})
 	],
 	resolve: resolve,
@@ -34,8 +33,8 @@ const devConfig = {
 		hot: true,
 		port: 7000,
 		historyApiFallback: true,
-		contentBase: path.join(__dirname, './dist'),
-		// contentBase: path.join(__dirname, '.'),
+		contentBase: path.resolve(__dirname, 'dist'),
+		publicPath: '/',
 	},
 }
 

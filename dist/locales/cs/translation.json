@@ -81,6 +81,7 @@
 		"import_export": "Import/Export",
 		"invoice": "Faktura",
 		"invoice_#": "Faktura {{number}}",
+		"invoiced_in_last_12_months": "Za posledních 12 měsíců vyfakturováno:",
 		"language": "Jazyk faktury",
 		"list": "Seznam faktur",
 		"list_loading": "Načítám faktury",

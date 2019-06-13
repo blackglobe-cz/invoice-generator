@@ -1,0 +1,17 @@
+.qr-outer-wrapper {
+	display: inline-block;
+	padding-top: 3rem;
+}
+.qr-wrapper {
+	position: relative;
+	padding: .8rem;
+	border: .2rem solid $color-light-gray;
+}
+.qr-label {
+	position: absolute;
+	left: .5rem; bottom: -.5rem;
+	background-color: #fff;
+	padding: 0 .5rem;
+	font-size: .8rem;
+	font-weight: bold;
+}

@@ -46,8 +46,8 @@ export default class InvoiceView extends React.Component {
 		const data = this.props.data
 		this.setState({
 			supplier_id: data.supplier_id,
-			supplier_text: data.supplier_ref ? data.supplier_ref.identification_text : '',
-			purchaser_text: data.purchaser_ref ? data.purchaser_ref.text : '',
+			supplier_text: data.supplier || '',
+			purchaser_text: data.purchaser || '',
 			invoice_rows: JSON.parse(JSON.stringify(data.invoice_rows)).map(row => {
 				row[1] = isPriceLike(row[1]) ? formatPrice((typeof row[1] !== 'undefined' ? '' + row[1] : '0').replace(/\s/g, ''), 0, { skipCurrency: true, decimals: void 0 }) : '' + row[1]
 				return row
@@ -282,37 +282,47 @@ export default class InvoiceView extends React.Component {
 										</tr>
 									))}
 									<tr className='screen-only'>
-										<td colSpan='3'>
+										<td colSpan='4'>
 											<MaterialIcon icon='add' className='icon-small cursor-pointer invoice-rows-icon' onClick={addInvoiceRow} />
 										</td>
 									</tr>
 								</tbody>
 							</table>
-						</div>
 
-						<div>&nbsp;</div>
-						<div>
-							{isTaxDocument && (
-								<div>
-									<div className='flex flex-space-between'>
-										<Text text={t('tax.base')} />
-										<Text text={formatPrice(price, currency)} />
-									</div>
-									<div className='flex flex-space-between'>
-										<Text text={t('tax.tax_#', { amount: VAT_AMOUNT + '%' })} />
-										<Text text={formatPrice(vat_amount, currency)} />
+							{/* this can't be part of the grid because of the <hr /> vertical alignment */}
+							<div className='flex'>
+								<div className='flex-1'>&nbsp;</div>
+								<div className='flex-1 margin-left-large'>
+									<hr className='margin-vertical-small' />
+									{isTaxDocument && (
+										<div>
+											<div className='flex flex-space-between'>
+												<Text text={t('tax.base')} />
+												<Text text={formatPrice(price, currency)} />
+											</div>
+											<div className='flex flex-space-between'>
+												<Text text={t('tax.tax_#', { amount: VAT_AMOUNT + '%' })} />
+												<Text text={formatPrice(vat_amount, currency)} />
+											</div>
+										</div>
+									)}
+									<div className='flex flex-space-between text-emphasize'>
+										<Text text={t('price.total_to_pay')} />
+										<Text text={formatPrice(total_price, currency)} />
 									</div>
 								</div>
-							)}
-							<div className='flex flex-space-between text-emphasize'>
-								<Text text={t('price.total_to_pay')} />
-								<Text text={formatPrice(total_price, currency)} />
 							</div>
+
 						</div>
 
 						{qr_code && qr_code_value && (
-							<div className='invoice-grid-full-width qr-wrapper text-align-right'>
-								<QRCode renderAs='svg' size={110} value={qr_code_value} level='H' />
+							<div className='invoice-grid-full-width text-align-right'>
+								<div className='qr-outer-wrapper'>
+									<div className='qr-wrapper'>
+										<QRCode renderAs='svg' size={110} value={qr_code_value} level='H' />
+										<div className='qr-label'>{t('qr.label')}</div>
+									</div>
+								</div>
 							</div>
 						)}
 

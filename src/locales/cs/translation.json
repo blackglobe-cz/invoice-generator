@@ -50,8 +50,8 @@
 		"tax_short": "DUZP"
 	},
 	"document": {
-		"document": "Dokument",
-		"document_number": "Číslo dokumentu",
+		"document": "Doklad",
+		"document_number": "Číslo dokladu",
 		"not_a_tax_document": "Není daňový doklad",
 		"print": "Tisknout",
 		"save": "Uložit",
@@ -63,7 +63,8 @@
 	},
 	"footer": "Patička faktury",
 	"form": {
-		"error": "Formulář obsahuje chyby"
+		"error": "Formulář obsahuje chyby",
+		"success": "Úspěšně uloženo"
 	},
   "invoice": {
 		"add": "Vytvořit novou fakturu",
@@ -123,6 +124,7 @@
 	},
 	"qr": {
 		"code": "QR kód",
+		"label": "QR platba",
 		"show": "Zobrazovat QR kód"
 	},
 	"save": "Uložit",

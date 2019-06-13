@@ -63,7 +63,8 @@
 	},
 	"footer": "Invoice footer",
 	"form": {
-		"error": "Form contains errors"
+		"error": "Form contains errors",
+		"success": "Successfully saved"
 	},
   "invoice": {
 		"add": "Add new invoice",
@@ -123,6 +124,7 @@
 	},
 	"qr": {
 		"code": "QR code",
+		"label": "QR payment",
 		"show": "Show QR code"
 	},
 	"save": "Save",

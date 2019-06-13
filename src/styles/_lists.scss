@@ -1,6 +1,6 @@
 .list > li {
 	border-bottom: 1px solid #eee;
-	padding: .3125rem 0;
+	padding: $size-small 0;
 }
 .list > li:last-child {
 	border-bottom: none;
@@ -9,7 +9,7 @@
 	padding: 0 0;
 }
 .list.anchor-list > li > a {
-	padding: .3125rem 0;
+	padding: $size-small 0;
 	transition: .4s all;
 }
 .list.anchor-list > li > a:hover {

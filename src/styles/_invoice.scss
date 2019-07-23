@@ -1,7 +1,6 @@
 .invoice-wrapper {
 	position: relative;
-	// font-size: .9rem;
-	font-size: .9375rem;
+	font-size: $font-size-text;
 	width: 100%;
 
 	@media screen {
@@ -14,17 +13,24 @@
 	position: absolute;
 	top: 0; left: 0; right: 0;
 	display: grid;
-	grid-gap: .3125rem 1.25rem;
+	grid-gap: $size-small $size-large;
 	grid-template-columns: 1fr 1fr;
 
 	@media screen {
-		padding: 5rem;
+		padding: $paper-padding;
 	}
 }
 
 .invoice-grid-full-width {
 	grid-column-start: 1;
 	grid-column-end: 3;
+}
+
+.invoice-footer {
+	position: absolute;
+	bottom: $paper-padding; left: $paper-padding; right: $paper-padding;
+	font-size: $font-size-small;
+	line-height: .75rem;
 }
 
 .invoice-logo {
@@ -38,7 +44,8 @@
 	width: 100%;
 
 	// I don't know why I have to copy this..
-	font-size: .9rem;
+	// font-size: .9rem;
+	font-size: $font-size-text;
 
 	&-icon {
 		color: $color-medium-gray;

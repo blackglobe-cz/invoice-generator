@@ -26,6 +26,17 @@ $h4: 'h4, .heading-4';
 $h5: 'h5, .heading-5';
 $h6: 'h6, .heading-6';
 
+$font-size-text: .9375rem;
+$font-size-small: .7rem;
+$font-size-h1: 2.3rem;
+$font-size-h2: 1.4rem;
+$font-size-h3: 1.2rem;
+$font-size-h4: 1.15rem;
+$font-size-h5: 1rem;
+$font-size-h6: 0.875rem;
+
+$paper-padding: 5rem;
+
 @import '@material/react-button/index.scss';
 @import '@material/react-icon-button/index.scss';
 @import '@material/react-drawer/index.scss';

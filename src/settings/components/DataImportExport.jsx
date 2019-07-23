@@ -54,6 +54,7 @@ export default class DataImportExport extends React.Component {
 	}
 
 	handleFormSubmit(event, dataString, localStorageProp) {
+		event.preventDefault()
 		localStorage.setItem(localStorageProp, dataString)
 		this.props.history.push('/')
 	}

@@ -1,0 +1,151 @@
+{
+	"are_you_sure": "Are you sure?",
+	"bank": {
+		"account": "Bank account",
+		"accounts": "Bank accounts",
+		"account_number": "Account number",
+		"add_account": "Add bank account",
+		"bank": "Bank",
+		"bank_name": "Bank name",
+		"iban": "IBAN",
+		"label": "Label",
+		"swift": "BIC/SWIFT",
+		"variable_symbol": "Variable symbol"
+	},
+	"currency": {
+		"currency": "Currency",
+		"default": "Default currency"
+	},
+	"data": {
+		"export": "Export",
+		"import": "Import",
+		"import_invoices": "Invoices import",
+		"import_settings": "Settings import",
+		"import_invoices_submit": "Import invoices",
+		"import_settings_submit": "Import settings",
+		"import_export": "Data import and export",
+		"invoice_export": "Invoices export",
+		"settings_export": "Settings export"
+	},
+	"date": {
+		"due": "Due date",
+		"due_default_period": "Default due date",
+		"issue": "Issue date",
+		"month": {
+			"1": "January",
+			"2": "February",
+			"3": "March",
+			"4": "April",
+			"5": "May",
+			"6": "June",
+			"7": "July",
+			"8": "August",
+			"9": "September",
+			"10": "October",
+			"11": "November",
+			"12": "December"
+		},
+		"tax": "Tax date",
+		"tax_long": "When is the tax due in the supplier's country",
+		"tax_short": "Tax date"
+	},
+	"document": {
+		"document": "Document",
+		"document_number": "Document number",
+		"not_a_tax_document": "Not a tax document",
+		"print": "Print",
+		"save": "Save",
+		"tax_document": " - tax document"
+	},
+	"error": {
+		"generic": "Oops! This was not supposed to happen :/",
+		"page_not_found": "This is not the page you are looking for."
+	},
+	"footer": "Invoice footer",
+	"form": {
+		"error": "Form contains errors",
+		"success": "Successfully saved"
+	},
+  "invoice": {
+		"add": "Add new invoice",
+		"add_first": "Add first invoice",
+		"default_invoice_row": {
+			"add": "Add row",
+			"rows": "Default invoice rows"
+		},
+		"delete": "Delete invoice",
+		"delete_confirm": "Are you sure you wish to delete this invoice?",
+		"detail_loading": "Loading detail",
+		"detail_loading_failed": "Invoice detail failed to load",
+		"empty_list": "You have no invoices yet.",
+		"export": "Invoice export",
+		"import_export": "Import/Export",
+		"invoice": "Invoice",
+		"invoice_#": "Invoice {{number}}",
+		"invoiced_in_last_12_months": "Invoiced in the last 12 months:",
+		"language": "Invoice language",
+		"list": "Invoice list",
+		"list_loading": "Loading invoices...",
+		"order_number": "Invoice number",
+		"order_number_autocalc": "Calculate the invoice number automatically",
+		"order_number_format": "Invoice number format",
+		"order_number_format_helper": "You can choose from these groups [YYYY | YYY | YY] [MM] [DD] [NNNNNN | NNNNN | NNNN | NNN | NN]",
+		"row_text": "Row text",
+		"row_price": "Row price",
+		"rows_heading": "Fakturujeme Vám",
+		"to_other_eu_country": "Purchaser abroad (EU)"
+	},
+	"label": "Label",
+	"loading": "Loading",
+	"loading_data": "Loading data",
+	"logo": {
+		"logo": "Logo"
+	},
+	"language": {
+		"language": "Language"
+	},
+	"payment_type": {
+		"bank_transfer": "Bank transfer",
+		"cash": "Cash",
+		"payment_type": "Payment type"
+	},
+	"price": {
+		"autocalc": "Calculate automatically",
+		"price": "Price",
+		"total_to_pay": "Total price"
+	},
+	"purchaser": {
+		"add": "Add purchaser",
+		"label": "Label",
+		"purchaser": "Purchaser",
+		"purchasers": "Purchasers",
+		"registered_for_vat": "Taxpayer",
+		"text": "Text"
+	},
+	"qr": {
+		"code": "QR code",
+		"label": "QR payment",
+		"show": "Show QR code"
+	},
+	"save": "Save",
+	"settings": {
+		"general": "General",
+		"no_settings_yet": "It seems like you don't have any preferences or issuers. Set them up in settings!",
+		"settings": "Settings"
+	},
+	"supplier": {
+		"add": "Add supplier",
+		"delete": "Delete supplier",
+		"identification_text": "Name and address on an invoice",
+		"new": "New supplier",
+		"registered_for_vat": "Supplier registered for VAT",
+		"save": "Save supplier",
+		"supplier": "Supplier",
+		"suppliers": "Suppliers"
+	},
+	"tax": {
+		"base": "Tax base",
+		"tax_#": "VAT ({{amount}})"
+	},
+	"text": "Text"
+}

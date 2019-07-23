@@ -136,6 +136,7 @@ export default class InvoiceView extends React.Component {
 				invoice_rows,
 				qr_code,
 				qr_code_value,
+				footer,
 			},
 		} = this.props
 
@@ -326,8 +327,17 @@ export default class InvoiceView extends React.Component {
 							</div>
 						)}
 
+
 					</div>
-				</div >
+
+					{footer && (
+						<div className='invoice-footer'>
+							<hr className='margin-bottom-small' />
+							<Text text={footer.replace(/\n/g, '<br />')} />
+						</div>
+					)}
+
+				</div>
 			</div >
 		)
 	}

@@ -17,7 +17,7 @@ const staticConfig = {
 	output: {
 		path: path.join(__dirname, 'static'),
 		filename: 'bundle.js',
-		publicPath: '/static/',
+		publicPath: '',
 	},
 	plugins: [
 		...plugins,

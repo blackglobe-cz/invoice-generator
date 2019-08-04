@@ -172,7 +172,7 @@ function getNextOrderNumber({ supplierId, date }) {
 		if (supplierId) {
 			invoices = invoiceStorage.invoices.filter(item => {
 				let ok = true
-				if (item.supplier.id !== supplierId) ok = false
+				if (item.supplier_id !== supplierId) ok = false
 				if (hasYearGroup && item.issue_date.slice(0, 4) !== date.slice(0, 4)) ok = false
 				if (hasMonthGroup && item.issue_date.slice(5, 7) !== date.slice(5, 7)) ok = false
 				if (hasDateGroup && item.issue_date.slice(8, 10) !== date.slice(8, 10)) ok = false

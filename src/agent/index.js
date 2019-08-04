@@ -75,10 +75,8 @@ export default {
 			item.id = generateId('supplier')
 			settingsStorage.suppliers.push(item)
 			return new Promise(resolve => {
-				// setTimeout(() => {
 				window.localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settingsStorage))
 				return resolve(item)
-				// }, 500)
 			})
 		},
 		update: item => {
@@ -89,10 +87,8 @@ export default {
 				}
 			}
 			return new Promise(resolve => {
-				// setTimeout(() => {
 				window.localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settingsStorage))
 				return resolve({ ok: true })
-				// }, 500)
 			})
 		},
 		delete: id => {
@@ -103,10 +99,8 @@ export default {
 				}
 			}
 			return new Promise(resolve => {
-				// setTimeout(() => {
 				window.localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settingsStorage))
 				return resolve({ ok: true })
-				// }, 500)
 			})
 		},
 		export: () => Promise.resolve(window.localStorage.getItem(SETTINGS_STORAGE_KEY) || '{ suppliers: [] }'),
@@ -195,7 +189,6 @@ function getNextOrderNumber({ supplierId, date }) {
 		orderNumber = orderNumber.replace(/MM/g, oNMonth)
 		orderNumber = orderNumber.replace(/DD/g, oNDate)
 
-		// this can be simplified
 		orderNumber = orderNumber.replace(/NNNNNN/g, ('00000' + orderNumberOfTheDay).slice(-6))
 		orderNumber = orderNumber.replace(/NNNNN/g, ('0000' + orderNumberOfTheDay).slice(-5))
 		orderNumber = orderNumber.replace(/NNNN/g, ('000' + orderNumberOfTheDay).slice(-4))

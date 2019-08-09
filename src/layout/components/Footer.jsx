@@ -27,11 +27,11 @@ export default function Footer () {
 				<div className='grid grid-medium' style={{ width: 'unset', gridTemplateColumns: 'auto auto auto', alignItems: 'center' }}>
 					<span>{window.version}</span>
 					<span>|</span>
-					<a href='https://github.com/Gaspari/invoice-generator-v2' target='_blank' rel='noopener noreferrer' className='flex flex-align-center'>
+					<a href='https://github.com/blackglobe-cz/invoice-generator' target='_blank' rel='noopener noreferrer' className='flex flex-align-center'>
 						<div className='icon-svg'>
 							<Octocat />
 						</div>
-						<Text className='margin-left-medium' text={'Gaspari/invoice-generator-v2'} />
+						<Text className='margin-left-medium' text={'blackglobe-cz/invoice-generator'} />
 					</a>
 				</div>
 			</div>

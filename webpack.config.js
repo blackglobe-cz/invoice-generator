@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const package = require('./package.json')
 const config = require(process.targetStatic ? './config/static' : './config/dev')
 const {
 	entry,
@@ -25,6 +26,7 @@ const devConfig = {
 			filename: path.resolve(__dirname, 'dist/index.html'),
       template: path.resolve(__dirname, 'index.html'),
 			targetStatic: process.targetStatic,
+			version: package.version,
 		})
 	],
 	resolve: resolve,

@@ -13,6 +13,7 @@
   <body>
     <div id='root'></div>
 		<script>
+			window.version = '<%= htmlWebpackPlugin.options.version %>'
 			window.targetStatic = <%= htmlWebpackPlugin.options.targetStatic || false %>
 		</script>
     <!-- <script src='<%= htmlWebpackPlugin.options.bundlePath %>'></script> -->

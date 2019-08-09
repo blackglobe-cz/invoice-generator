@@ -19,16 +19,21 @@ export default function Footer () {
 					<Button type='button' onClick={() => i18n.changeLanguage('cs')} disabled={i18n.language === 'cs'}>
 						<Text text='Česky' />
 					</Button>
-					<Button type='button' onClick={() => i18n.changeLanguage('en')} disabled={i18n.language === 'en'}>
+					<Button type='button' onClick={() => i18n.changeLanguage('en')} disabled={i18n.language === 'en' || i18n.language === 'en-US'}>
 						<Text text='English' />
 					</Button>
 				</div>
-				<a href='https://github.com/Gaspari/invoice-generator-v2' target='_blank' rel='noopener noreferrer' className='flex flex-align-center'>
-					<div className='icon-svg'>
-						<Octocat />
-					</div>
-					<Text className='margin-left-medium' text={'Gaspari/invoice-generator-v2'} />
-				</a>
+				<div className='flex-1'>&nbsp;</div>
+				<div className='grid grid-medium' style={{ width: 'unset', gridTemplateColumns: 'auto auto auto', alignItems: 'center' }}>
+					<span>{window.version}</span>
+					<span>|</span>
+					<a href='https://github.com/Gaspari/invoice-generator-v2' target='_blank' rel='noopener noreferrer' className='flex flex-align-center'>
+						<div className='icon-svg'>
+							<Octocat />
+						</div>
+						<Text className='margin-left-medium' text={'Gaspari/invoice-generator-v2'} />
+					</a>
+				</div>
 			</div>
 		</footer>
 	)

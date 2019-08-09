@@ -26,11 +26,21 @@
 	grid-column-end: 3;
 }
 
+.invoice-heading {
+	margin: $size-medium 0;
+}
+
 .invoice-footer {
 	position: absolute;
 	bottom: $paper-padding; left: $paper-padding; right: $paper-padding;
 	font-size: $font-size-small;
 	line-height: .75rem;
+
+	@media print {
+		position: fixed;
+		width: auto;
+		left: 0; right: 0; bottom: 0;
+	}
 }
 
 .invoice-logo {

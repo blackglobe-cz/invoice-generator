@@ -167,7 +167,7 @@ export default class InvoiceView extends React.Component {
 
 						<div className='invoice-grid-full-width'>
 							<Text className='invoice-logo' text={logo} />
-							<Text tag='h1' text={t('invoice.invoice_#', { number: order_number || '' })} />
+							<Text className='invoice-heading' tag='h1' text={t('invoice.invoice_#', { number: order_number || '' })} />
 						</div>
 						<div className='invoice-grid-full-width'>
 							<div className='flex flex-space-between'>

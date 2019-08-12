@@ -313,7 +313,7 @@ export default class Settings extends React.Component {
 									<div className='flex block'>
 										<label className='flex-1'>
 											<Text t='bank.iban' />
-											<FormControl value={item.iban} type='number' name='bank.iban' prop='iban' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
+											<FormControl value={item.iban} type='input' name='bank.iban' prop='iban' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
 										</label>
 										<label className='flex-1'>
 											<Text t='bank.swift' />

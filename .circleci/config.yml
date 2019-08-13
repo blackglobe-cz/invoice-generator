@@ -66,7 +66,6 @@ jobs:
       - aws-s3/sync:
           from: build
           to: 's3://invoices.blackglobe.cz'
-          aws-region: eu-central-1
           arguments: |
             --acl public-read \
             --cache-control "max-age=86400"

@@ -2,7 +2,7 @@ version: 2.1
 
 base: &base
   docker:
-    - image: circleci/node:12
+    - image: circleci/node:8
 
 orbs:
   aws-s3: circleci/aws-s3@1.0.11

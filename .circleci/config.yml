@@ -62,10 +62,10 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-        at: ~/project
+          at: ~/project
       - aws-s3/sync:
-        from: build
-        to: 's3://invoices.blackglobe.cz'
+          from: build
+          to: 's3://invoices.blackglobe.cz'
         aws-region: eu-central-1
         arguments: |
           --acl public-read \
@@ -78,16 +78,16 @@ workflows:
     jobs:
       - install_dependencies
       - eslint:
-        requires:
-          - install_dependencies
+          requires:
+            - install_dependencies
       - build:
-        requires:
-          - install_dependencies
+          requires:
+            - install_dependencies
       - deploy:
-        requires:
-          - install_dependencies
-          - eslint
-          - build
+          requires:
+            - install_dependencies
+            - eslint
+            - build
         filters:
           branches:
             only:

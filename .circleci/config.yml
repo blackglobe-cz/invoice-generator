@@ -54,7 +54,7 @@ jobs:
           command: npm run build-static
       - persist_to_workspace:
           root: ~/project
-          paths: build
+          paths: static
 
   deploy:
     docker:
@@ -64,7 +64,7 @@ jobs:
       - attach_workspace:
           at: ~/project
       - aws-s3/sync:
-          from: build
+          from: static
           to: 's3://invoices.blackglobe.cz'
           arguments: |
             --acl public-read \

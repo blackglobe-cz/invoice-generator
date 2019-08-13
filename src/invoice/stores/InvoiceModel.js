@@ -56,7 +56,7 @@ export default class InvoiceModel {
 			+ '*ACC:' + this.bank_account.iban + '+' + this.bank_account.swift
 			+ '*AM:' + String(this.total_price.toFixed(2))
 			+ '*CC:' + String(this.currency).toUpperCase()
-			+ '*DT:' + due_date.toISOString().slice(0, 10).replace(/\-/g, '')
+			+ '*DT:' + due_date.toISOString().slice(0, 10).replace(/-/g, '')
 			+ '*X-VS:' + String(this.order_number.slice(0, 10))
 		// qrcode.makeCode(spayd)
 		// fe($('.qr-outer-wrapper'), el => (checkQRValidity() ? el.classList.remove('invalid') : el.classList.add('invalid')))

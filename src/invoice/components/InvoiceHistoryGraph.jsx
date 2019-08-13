@@ -14,7 +14,6 @@ export default function InvoiceHistoryGraph(props) {
 	const {
 		data,
 		dataKeys,
-		date: dateProp,
 	} = props
 
 	// const { t } = useTranslation()

@@ -82,7 +82,7 @@ function prepareForContentEditable(supplier = {}) {
  *	Prepares one-year of data from invoices
  */
 function prepareDataForGraph(invoices, { date, t } = {}) {
-	const dateAlt = (date && typeof date.getTime === 'function') ? new Date(date.getTime()) : (new Date())
+	let dateAlt = (date && typeof date.getTime === 'function') ? new Date(date.getTime()) : (new Date())
 	dateAlt.setDate(15)
 	const year = dateAlt.getFullYear()
 	const month = dateAlt.getMonth()
@@ -94,7 +94,7 @@ function prepareDataForGraph(invoices, { date, t } = {}) {
 	// prepare X axis
 	for (var i = 12;i--;) {
 		data.unshift({ name: t(`date.month.${dateAlt.getMonth() + 1}`) })
-		date = new Date(dateAlt.getFullYear(), dateAlt.getMonth() - 1, 15)
+		dateAlt = new Date(dateAlt.getFullYear(), dateAlt.getMonth() - 1, 15)
 	}
 
 	// prepare data

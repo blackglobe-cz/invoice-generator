@@ -23,7 +23,7 @@ export default function Text(props) {
 	const Tag = tag || 'div'
 
 	if (typeof content === 'string') {
-		content = <Tag className={className} style={style} title={title} dangerouslySetInnerHTML={{ __html: content.trim() }} />
+		content = <Tag className={className} style={style} title={title} dangerouslySetInnerHTML={{ __html: content }} />
 	} else {
 		content = <Tag className={className} style={style} title={title}>{content}</Tag>
 	}

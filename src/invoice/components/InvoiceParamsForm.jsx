@@ -135,7 +135,7 @@ export default class InvoiceParamsForm extends React.Component {
 
 		if (redirectTo) return (<Redirect to={redirectTo} />)
 
-		if (!data) return (<Text text={t('error.generic')} />)
+		if (!data) return (<Text t='error.generic' />)
 
 		const bankFormControls = []
 		if (bank_accounts.length) {
@@ -180,7 +180,7 @@ export default class InvoiceParamsForm extends React.Component {
 						<li>
 							<div className='control-block'>
 								<label className='control-input-select'>
-									<Text tag='span' text={t('supplier.supplier')} />
+									<Text tag='span' t='supplier.supplier' />
 									<div>
 										<select value={supplier} name='supplier' onChange={this.handleSupplierChange.bind(this)} autoFocus>
 											{suppliers.map((opt, index) => (
@@ -197,7 +197,7 @@ export default class InvoiceParamsForm extends React.Component {
 							{section.map(control => (control.if !== void 0 ? control.if(data) : true) && (
 								<div className='control-block' key={control.name}>
 									<label className={'control-input-' + control.type}>
-										<Text tag='span' text={t(control.name)} {...(control.labelProps || {})} />
+										<Text tag='span' t={control.name} {...(control.labelProps || {})} />
 										<FormControl type={control.type} name={control.name} prop={control.prop} onChange={(control.onChange || this.handleInput).bind(this)} optSrc={control.optSrc || control.opts} value={control.type === 'select' ? (control.optSrc || control.opts).indexOf(data[control.prop]) : data[control.prop]} opts={control.opts || null} {...(control.props || {})} />
 									</label>
 								</div>
@@ -206,10 +206,10 @@ export default class InvoiceParamsForm extends React.Component {
 					))}
 					<li>
 						<Button raised type='submit' className='full-width block'>
-							<Text text={t('document.save')} />
+							<Text t='document.save' />
 						</Button>
 						<Button outlined type='button' onClick={window.print} className='full-width'>
-							<Text text={t('document.print')} />
+							<Text t='document.print' />
 						</Button>
 					</li>
 				</form>

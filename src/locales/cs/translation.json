@@ -14,7 +14,16 @@
 	},
 	"currency": {
 		"currency": "Měna",
-		"default": "Výchozí měna"
+		"default": "Výchozí měna",
+		"exchange_amount": "Částka",
+		"exchange_currency_source": "Zdrojová měna",
+		"exchange_currency_target": "Cílová měna",
+		"exchange_date": "Datum",
+		"exchange_rate": "Kurz",
+		"exchange_rates": "Převod měn",
+		"exchange_rate_total": "Celkem",
+		"exchange_rates_info": "Převod měn dle denního kurzu ČNB",
+		"exchange_submit": "Načíst"
 	},
 	"data": {
 		"export": "Export",
@@ -47,7 +56,8 @@
 		},
 		"tax": "Datum zdanitelného plnění",
 		"tax_long": "Datum uskutečnění zdanitelného plnění",
-		"tax_short": "DUZP"
+		"tax_short": "DUZP",
+		"to_date": "K datu"
 	},
 	"document": {
 		"document": "Doklad",
@@ -145,7 +155,9 @@
 	},
 	"tax": {
 		"base": "Základ daně",
-		"tax_#": "DPH ({{amount}})"
+		"tax_#": "DPH ({{amount}})",
+		"vat_amount": "DPH",
+		"vat_percent": "DPH (v procentech)"
 	},
 	"text": "Text"
 }

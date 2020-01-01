@@ -9,22 +9,14 @@ import MaterialIcon from '@material/react-material-icon'
 import Tab from '@material/react-tab'
 import TabBar from '@material/react-tab-bar'
 
-import Text from '../../text/components/Text'
-import Settings from '../../settings/components/Settings'
-import DataImportExport from '../../settings/components/DataImportExport'
+import Text from 'text/components/Text'
+import Settings from 'settings/components/Settings'
+import DataImportExport from 'settings/components/DataImportExport'
+import CurrencyRatesModal from 'currency/components/CurrencyRatesModal'
 import BlackGlobeLogo from 'images/BlackGlobeLogo'
+import { STYLE_MODAL_DEF } from 'consts'
 
 Modal.setAppElement('#root')
-
-const customStyles = {
-	content: {
-		position: 'relative',
-		maxWidth: '800px',
-		padding: '0',
-		margin: '5% auto',
-		top: '0', right: '0', bottom: '0', left: '0',
-	}
-}
 
 @withRouter
 @withTranslation()
@@ -74,8 +66,10 @@ export default class Header extends React.Component {
 						</Link>
 					</div>
 					<div>
+						<CurrencyRatesModal />
+
 						<Button dense icon={<i className='material-icons'>settings</i>} type='button' onClick={this.openSettings}>
-							<Text text={t('settings.settings')} />
+							<Text t='settings.settings' />
 						</Button>
 					</div>
 				</div>
@@ -83,13 +77,13 @@ export default class Header extends React.Component {
 				<Modal
 					isOpen={this.state.modalIsOpen}
 					onRequestClose={this.closeModal}
-					style={customStyles}
+					style={STYLE_MODAL_DEF}
 					contentLabel={t('settings.settings')}
 				>
 					<div className='modal-wrapper'>
 						<div className='block flex flex-space-between flex-align-center'>
 							<div className='flex-1'>
-								<Text tag='h1' text={t('settings.settings')} />
+								<Text tag='h1' t='settings.settings' />
 							</div>
 							<div>
 								<IconButton type='button' onClick={this.closeModal}>
@@ -104,10 +98,10 @@ export default class Header extends React.Component {
 							className='margin-bottom-large'
 						>
 							<Tab>
-								<Text className='mdc-tab__text-label' text={t('supplier.suppliers')} />
+								<Text className='mdc-tab__text-label' t='supplier.suppliers' />
 							</Tab>
 							<Tab>
-								<Text className='mdc-tab__text-label' text={t('data.import_export')} />
+								<Text className='mdc-tab__text-label' t='data.import_export' />
 							</Tab>
 						</TabBar>
 						{activeIndex === 0 && (

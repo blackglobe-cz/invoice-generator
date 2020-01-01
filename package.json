@@ -1,6 +1,6 @@
 {
   "name": "black-globe-invoice-generator",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Black Globe's famous invoice generator",
   "scripts": {
     "start": "webpack-dev-server --hot --open",

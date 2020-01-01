@@ -99,21 +99,27 @@ function prepareDataForGraph(invoices, { date, t } = {}) {
 
 	// prepare data
 	invoices.forEach(item => {
-		const dataKey = (item.supplier_ref && item.supplier_ref.id) ? (item.supplier_ref.label || item.supplier_ref.id) : 'undefined'
+		const dataKeyTotals = (item.supplier_ref && item.supplier_ref.id) ? (item.supplier_ref.label || item.supplier_ref.id) : 'undefined'
+
+		// const dataKey = `${dataKeyTotals}_${item.currency}`
+		const dataKey = `${dataKeyTotals}`
+
 		if (dataKeys.indexOf(dataKey) === -1) dataKeys.push(dataKey)
 		const dataYear = parseInt(item.issue_date.slice(0, 4), 10)
 		const dataMonth = parseInt(item.issue_date.slice(5, 7), 10) - 1
 
 		// throw away invoices older than a year
-		if (dataYear < year && dataMonth < month) return
+		if ((dataYear < year && dataMonth < month) || dataYear > year) return
 
-		const dataIndex = 11 - ((year - dataYear) * 12) - Math.abs(month - dataMonth)
+		const dataIndex = 11 - ((year - dataYear) * 12) - (month - dataMonth)
+		if (dataIndex < 0 || dataIndex > 11) return
+
 		data[dataIndex][dataKey] = data[dataIndex][dataKey] || 0
 		data[dataIndex][dataKey] += item.total_price
 
-		totals[dataKey] = totals[dataKey] || {}
-		totals[dataKey][item.currency] = totals[dataKey][item.currency] || 0
-		totals[dataKey][item.currency] += item.total_price
+		totals[dataKeyTotals] = totals[dataKeyTotals] || {}
+		totals[dataKeyTotals][item.currency] = totals[dataKeyTotals][item.currency] || 0
+		totals[dataKeyTotals][item.currency] += item.total_price
 	})
 
 	return { data, dataKeys, totals }

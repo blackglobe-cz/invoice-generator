@@ -1,5 +1,4 @@
 import React from 'react'
-// import { useTranslation } from 'react-i18next'
 
 import {
 	ResponsiveContainer,
@@ -7,7 +6,7 @@ import {
 } from 'recharts'
 
 import { COLORS } from 'consts'
-// import formatDate from 'date/helpers/formatter'
+import formatCurrency from 'currency/helpers/formatter'
 
 export default function InvoiceHistoryGraph(props) {
 
@@ -15,19 +14,6 @@ export default function InvoiceHistoryGraph(props) {
 		data,
 		dataKeys,
 	} = props
-
-	// const { t } = useTranslation()
-
-	// const date = (dateProp && typeof dateProp.getTime === 'function') ? new Date(dateProp.getTime()) : (new Date())
-	// const thisMonth = date.getMonth()
-	// const thisYear = date.getFullYear()
-	// date.setDate(15)
-	//
-	// // prepare X axis
-	// for (var i = 12;i--;) {
-	// 	data.unshift({ name: t(`date.month.${date.getMonth() + 1}`) })
-	// 	date = new Date(date.getFullYear(), date.getMonth() - 1, 15)
-	// }
 
 	return (
 		<ResponsiveContainer
@@ -41,8 +27,8 @@ export default function InvoiceHistoryGraph(props) {
 			>
 				<CartesianGrid strokeDasharray='3 3' />
 				<XAxis dataKey='name' />
-				<YAxis />
-				<Tooltip />
+				<YAxis tickFormatter={val => formatCurrency(val, null, { skipCurrency: true, decimals: 0 })} />
+				<Tooltip formatter={val => formatCurrency(val, null, { skipCurrency: true })} />
 				{dataKeys.length > 1 && <Legend />}
 				{dataKeys.map((key, index) => (
 					<Line key={key} type='monotone' dataKey={key} stroke={COLORS[index % COLORS.length]} />

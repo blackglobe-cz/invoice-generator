@@ -14,7 +14,16 @@
 	},
 	"currency": {
 		"currency": "Currency",
-		"default": "Default currency"
+		"default": "Default currency",
+		"exchange_amount": "Amount",
+		"exchange_currency_source": "Source currency",
+		"exchange_currency_target": "Target currency",
+		"exchange_date": "Date",
+		"exchange_rate": "Rate",
+		"exchange_rates": "Currency exchange",
+		"exchange_rate_total": "Total",
+		"exchange_rates_info": "Currency exchange based on ČNB daily exchange rate",
+		"exchange_submit": "Load"
 	},
 	"data": {
 		"export": "Export",
@@ -47,7 +56,8 @@
 		},
 		"tax": "Tax date",
 		"tax_long": "When is the tax due in the supplier's country",
-		"tax_short": "Tax date"
+		"tax_short": "Tax date",
+		"to_date": "To date"
 	},
 	"document": {
 		"document": "Document",
@@ -145,7 +155,9 @@
 	},
 	"tax": {
 		"base": "Tax base",
-		"tax_#": "VAT ({{amount}})"
+		"tax_#": "VAT ({{amount}})",
+		"vat_amount": "VAT",
+		"vat_percent": "VAT (v procentech)"
 	},
 	"text": "Text"
 }

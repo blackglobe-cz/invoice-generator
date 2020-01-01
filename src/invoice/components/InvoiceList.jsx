@@ -71,7 +71,6 @@ export default class InvoiceList extends React.Component {
 		const date = new Date()
 		const { data, dataKeys, totals } = prepareDataForGraph(InvoiceStore.items, { date, t })
 		const totalsKeys = Object.keys(totals)
-		// console.log('totals', totals, totalsKeys);
 
 		return (
 			<>

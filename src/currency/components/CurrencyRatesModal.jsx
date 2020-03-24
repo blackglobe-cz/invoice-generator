@@ -140,7 +140,6 @@ export default function CurrencyRatesModal () {
 	}
 
 	function calculateExchangeRate(date, currency = 'EUR', amount = 1) {
-		console.log('c', date, currency, amount)
 		setLoadingRate(true)
 		fetchCNBRates(date).then(res => {
 			const currLines = res.split('\n')
@@ -175,9 +174,12 @@ export default function CurrencyRatesModal () {
 
 			fetch(`${CNB_PROXY_URL}?date=${CNBDate}`)
 				.then(resRaw => {
-					resRaw.json().then(({ body: res }) => {
+					resRaw.text().then(res => {
 						window.localStorage.setItem(key, res)
 						return resolve(res)
+					}).catch(err => {
+						console.log('Error fetching data', { err })
+						reject(err)
 					})
 				})
 				.catch(reject)

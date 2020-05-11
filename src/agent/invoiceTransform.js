@@ -12,6 +12,7 @@ export default {
 			to_other_eu_country: invoice.to_other_eu_country,
 			price: invoice.price,
 			currency: invoice.currency,
+			is_tax_document: invoice.is_tax_document,
 			supplier: invoice.supplier,
 			purchaser: invoice.purchaser,
 			payment_type: invoice.payment_type,

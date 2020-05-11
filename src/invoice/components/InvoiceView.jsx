@@ -123,6 +123,7 @@ export default class InvoiceView extends React.Component {
 				language,
 				bank_account = {},
 				order_number,
+				is_tax_document,
 				supplier_ref = {},
 				payment_type,
 				issue_date,
@@ -158,7 +159,8 @@ export default class InvoiceView extends React.Component {
 			})
 		}
 
-		const isTaxDocument = (supplier_ref && supplier_ref.registered_for_vat) || to_other_eu_country
+		// const isTaxDocument = (supplier_ref && supplier_ref.registered_for_vat) || to_other_eu_country
+		const isTaxDocument = is_tax_document || to_other_eu_country
 
 		return (
 			<div>

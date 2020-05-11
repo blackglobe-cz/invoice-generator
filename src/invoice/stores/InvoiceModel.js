@@ -25,9 +25,11 @@ export default class InvoiceModel {
 		return (VAT_AMOUNT / 100) * (this.price || 0)
 	}
 	@computed get total_price() {
-		return this.price + (((this.supplier_ref && this.supplier_ref.registered_for_vat) || this.to_other_eu_country) ? this.vat_amount : 0)
+		// return this.price + (((this.supplier_ref && this.supplier_ref.registered_for_vat) || this.to_other_eu_country) ? this.vat_amount : 0)
+		return this.price + ((this.is_tax_document || this.to_other_eu_country) ? this.vat_amount : 0)
 	}
 	@observable currency
+	@observable is_tax_document
 	@observable supplier // the text on invoice
 	@observable supplier_id // the id (so that I don't save the whole object in db)
 	@observable supplier_ref // the enriched supplier object
@@ -77,6 +79,7 @@ export default class InvoiceModel {
 		to_other_eu_country,
 		price,
 		currency,
+		is_tax_document,
 		supplier,
 		supplier_id,
 		supplier_ref,
@@ -101,6 +104,7 @@ export default class InvoiceModel {
 			this.to_other_eu_country = to_other_eu_country || false
 			this.price = price || 0
 			this.currency = currency || DEFAULT_CURRENCY
+			this.is_tax_document = is_tax_document
 			this.supplier = supplier
 			this.supplier_id = supplier_id
 			this.supplier_ref = supplier_ref

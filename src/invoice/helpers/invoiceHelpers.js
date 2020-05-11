@@ -49,6 +49,7 @@ function getInvoiceBasedOnSupplier(supplier, id) {
 				supplier: supplier.identification_text,
 				supplier_id: supplier.id ? supplier.id : void 0,
 				supplier_ref: supplier,
+				is_tax_document: !!supplier.registered_for_vat,
 				logo: supplier.logo,
 				language: supplier.language,
 				currency: supplier.default_currency,
@@ -93,7 +94,8 @@ function prepareDataForGraph(invoices, { date, t } = {}) {
 
 	// prepare X axis
 	for (var i = 12;i--;) {
-		data.unshift({ name: t(`date.month.${dateAlt.getMonth() + 1}`) })
+		let loopMonth = dateAlt.getMonth()
+		data.unshift({ name: t(`date.month.${loopMonth + 1}`) + (([11, 0].includes(i) || loopMonth === 0) ? ` ${dateAlt.getFullYear()}` : '') })
 		dateAlt = new Date(dateAlt.getFullYear(), dateAlt.getMonth() - 1, 15)
 	}
 
@@ -115,11 +117,13 @@ function prepareDataForGraph(invoices, { date, t } = {}) {
 		if (dataIndex < 0 || dataIndex > 11) return
 
 		data[dataIndex][dataKey] = data[dataIndex][dataKey] || 0
-		data[dataIndex][dataKey] += item.total_price
+		data[dataIndex][dataKey] += item.price
 
 		totals[dataKeyTotals] = totals[dataKeyTotals] || {}
-		totals[dataKeyTotals][item.currency] = totals[dataKeyTotals][item.currency] || 0
-		totals[dataKeyTotals][item.currency] += item.total_price
+		totals[dataKeyTotals][item.currency] = totals[dataKeyTotals][item.currency] || { total: 0, price: 0, vat: 0 }
+		totals[dataKeyTotals][item.currency].total += item.total_price
+		totals[dataKeyTotals][item.currency].price += item.price
+		totals[dataKeyTotals][item.currency].vat += item.vat_amount
 	})
 
 	return { data, dataKeys, totals }

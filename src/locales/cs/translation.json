@@ -1,4 +1,7 @@
 {
+	"amount": {
+		"amount": "Částka"
+	},
 	"are_you_sure": "Jste si jisti?",
 	"bank": {
 		"account": "Bankovní účet",

@@ -160,6 +160,7 @@ export default class InvoiceParamsForm extends React.Component {
 				{ type: 'text', name: 'invoice.order_number', prop: 'order_number', props: { disabled: data.order_number_autocalc } },
 				{ type: 'checkbox', name: 'invoice.order_number_autocalc', prop: 'order_number_autocalc' }
 			], [
+				{ type: 'checkbox', name: 'invoice.is_tax_document', prop: 'is_tax_document', if: () => !(data && data.supplier_ref) },
 				{ type: 'checkbox', name: 'invoice.to_other_eu_country', prop: 'to_other_eu_country' },
 				{ type: 'select', name: 'purchaser.purchaser', prop: 'purchaser', optSrc: purchasers, opts: purchasers.map(item => [item, item.label]) },
 				{ type: 'date', name: 'date.tax_short', prop: 'tax_date', labelProps: { title: t('date.tax_long') } }

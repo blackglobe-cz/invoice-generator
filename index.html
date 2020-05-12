@@ -13,6 +13,7 @@
   <body>
     <div id='root'></div>
 		<script>
+			window.debug = <%= htmlWebpackPlugin.options.debug || false %>
 			window.version = '<%= htmlWebpackPlugin.options.version %>'
 			window.targetStatic = <%= htmlWebpackPlugin.options.targetStatic || false %>
 		</script>

@@ -13,7 +13,8 @@ const {
 
 const devConfig = {
 	devtool: config.debug ? 'eval' : false,
-	mode: 'development',
+	// mode: 'development',
+	mode: process.env.WEBPACK_DEV_SERVER ? 'development' : 'production',
 	entry: entry,
 	output: {
 		path: path.join(__dirname, 'dist'),
@@ -27,6 +28,7 @@ const devConfig = {
       template: path.resolve(__dirname, 'index.html'),
 			targetStatic: process.targetStatic,
 			version: package.version,
+			debug: process.env.WEBPACK_DEV_SERVER,
 		})
 	],
 	resolve: resolve,

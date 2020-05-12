@@ -31,7 +31,7 @@ const SuitableRouter = (window.targetStatic || location.protocol === 'file:') ? 
 
 render(
 	<div>
-		<DevTools />
+		{window.debug && <DevTools />}
 		<Provider {...stores}>
 
 			<SuitableRouter>
@@ -45,5 +45,7 @@ render(
 	document.getElementById('root')
 )
 
-// playing around in the console
-window.store = stores
+if (window.debug) {
+	// playing around in the console
+	window.store = stores
+}

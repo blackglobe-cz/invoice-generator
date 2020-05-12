@@ -28,6 +28,7 @@ const staticConfig = {
 			targetStatic: true,
 			inject: false,
 			version: package.version,
+			debug: process.env.WEBPACK_DEV_SERVER,
 		}),
 		new CopyWebpackPlugin([ { from: 'src/fonts', to: './fonts', } ])
 	],

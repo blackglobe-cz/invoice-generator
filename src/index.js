@@ -27,7 +27,7 @@ const stores = {
 	PaymentTypeStore,
 }
 
-const SuitableRouter = location.protocol === 'file:' ? HashRouter : BrowserRouter
+const SuitableRouter = (window.targetStatic || location.protocol === 'file:') ? HashRouter : BrowserRouter
 
 render(
 	<div>

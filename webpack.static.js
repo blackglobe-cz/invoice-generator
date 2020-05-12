@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const package = require('./package.json')
 const {
 	entry,
 	plugins,
@@ -26,6 +27,7 @@ const staticConfig = {
       bundlePath: './bundle.js',
 			targetStatic: true,
 			inject: false,
+			version: package.version,
 		}),
 		new CopyWebpackPlugin([ { from: 'src/fonts', to: './fonts', } ])
 	],

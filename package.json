@@ -15,9 +15,10 @@
     "mobx",
     "invoice-generator"
   ],
-  "disabled-husky": {
+  "non-working-pre-commit": "pretty-quick --staged && npm run build-static",
+  "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "npm run build-static && git add ./static/*"
     }
   },
   "devDependencies": {
@@ -29,7 +30,7 @@
     "@babel/preset-react": "^7.9.4",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
-    "copy-webpack-plugin": "^4.6.0",
+    "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^2.1.1",
     "eslint": "^5.16.0",
     "eslint-nibble": "^5.1.0",
@@ -40,8 +41,8 @@
     "husky": "^1.3.1",
     "i18n-loader": "^0.3.0",
     "json-loader": "^0.5.7",
-    "mobx-utils": "^5.5.7",
     "mobx-react-devtools": "^6.1.1",
+    "mobx-utils": "^5.5.7",
     "node-sass": "^4.14.1",
     "prettier": "^1.19.1",
     "pretty-quick": "^1.11.1",

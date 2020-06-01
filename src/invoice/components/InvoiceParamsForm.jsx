@@ -100,6 +100,26 @@ export default class InvoiceParamsForm extends React.Component {
 		})
 	}
 
+	handlePurchaserChange(prop, value) {
+		const {
+			SettingsStore,
+			data,
+		} = this.props
+
+		const purchaser = data &&
+			data.supplier_ref &&
+			data.supplier_ref.purchasers &&
+			data.supplier_ref.purchasers.find(p => p.id === value)
+
+		runInAction(() => {
+			Object.assign(data, {
+				purchaser: purchaser.text.replace(/\n/g, '<br />'),
+				purchaser_id: purchaser.id,
+				purchaser_ref: purchaser,
+			})
+		})
+	}
+
 	bankAccountShouldBeVisible(data) {
 		return data.payment_type && data.payment_type.includes_bank_transfer
 	}
@@ -162,7 +182,7 @@ export default class InvoiceParamsForm extends React.Component {
 			], [
 				{ type: 'checkbox', name: 'invoice.is_tax_document', prop: 'is_tax_document', if: () => !(data && data.supplier_ref) },
 				{ type: 'checkbox', name: 'invoice.to_other_eu_country', prop: 'to_other_eu_country' },
-				{ type: 'select', name: 'purchaser.purchaser', prop: 'purchaser', optSrc: purchasers, opts: purchasers.map(item => [item, item.label]) },
+				{ type: 'select', name: 'purchaser.purchaser', prop: 'purchaser_id', optSrc: purchasers.map(p => p.id), opts: purchasers.map(item => [item.id, item.label]), onChange: this.handlePurchaserChange.bind(this) },
 				{ type: 'date', name: 'date.tax_short', prop: 'tax_date', labelProps: { title: t('date.tax_long') } }
 			], [
 				{ type: 'number', name: 'price.total_to_pay', prop: 'price', props: { min: '0', step: '10.00', disabled: data.autocalc } },

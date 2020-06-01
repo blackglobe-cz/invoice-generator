@@ -6,6 +6,7 @@ import { withTranslation } from 'react-i18next'
 import MaterialIcon from '@material/react-material-icon'
 
 import Text from 'text/components/Text'
+import ErrorBoundary from 'error-boundary/components/ErrorBoundary'
 import formatDate from 'date/helpers/formatter'
 import formatPrice, { currencies, isSuffixed } from 'currency/helpers/formatter'
 import QRCode from 'qrcode.react'
@@ -62,7 +63,7 @@ export default class InvoiceView extends React.Component {
 		}
 		if (data.purchaser_ref && data.purchaser_ref.label !== this.state.purchaser_label) {
 			this.setState({
-				purchaser_text: data.purchaser_ref.text,
+				purchaser_text: data.purchaser_ref.text.replace(/\n/g, '<br />'),
 				purchaser_label: data.purchaser_ref.label,
 			})
 		}
@@ -130,6 +131,7 @@ export default class InvoiceView extends React.Component {
 				due_date,
 				tax_date,
 				price,
+				purchaser_ref, // this isn't needed in render method, but I need it here so that componentDidUpdate will fire on it's change, duh
 				currency,
 				vat_amount,
 				total_price,
@@ -163,184 +165,186 @@ export default class InvoiceView extends React.Component {
 		const isTaxDocument = is_tax_document || to_other_eu_country
 
 		return (
-			<div>
-				<div className='box invoice-wrapper'>
-					<div className='invoice-grid'>
+			<ErrorBoundary>
+				<div>
+					<div className='box invoice-wrapper'>
+						<div className='invoice-grid'>
 
-						<div className='invoice-grid-full-width'>
-							<Text className='invoice-logo' text={logo} />
-							<Text className='invoice-heading' tag='h1' text={t('invoice.invoice_#', { number: order_number || '' })} />
-						</div>
-						<div className='invoice-grid-full-width'>
-							<div className='flex flex-space-between'>
-								<Text text={t('document.document')} />
-								<Text className={isTaxDocument ? 'text-emphasize' : ''} text={t('invoice.invoice') + (isTaxDocument ? t('document.tax_document') : '')} />
+							<div className='invoice-grid-full-width'>
+								<Text className='invoice-logo' text={logo} />
+								<Text className='invoice-heading' tag='h1' text={t('invoice.invoice_#', { number: order_number || '' })} />
 							</div>
-							<div className='flex flex-space-between'>
-								<Text text={t('document.document_number')} />
-								<Text tag='div' text={order_number} />
-							</div>
-							{!isTaxDocument && (
-								<div className='flex flex-space-between text-emphasize'>
-									<div></div>
-									<Text text={t('document.not_a_tax_document')} />
-								</div>
-							)}
-						</div>
-
-						<div className='invoice-grid-full-width margin-bottom-tiny'>
-							<hr />
-						</div>
-
-						<div className='invoice-side-wrapper'>
-							<div className='invoice-side-label'>{t('supplier.supplier')}</div>
-							<div className='invoice-side-text' id='invoice-supplier' ref={this.supplier_node} contentEditable suppressContentEditableWarning={true} onInput={e => this.handleCEInput(e, 'supplier')}><Text text={this.state.supplier_text} /></div>
-						</div>
-						<div className='invoice-side-wrapper'>
-							<div className='invoice-side-label'>{t('purchaser.purchaser')}</div>
-							<div className='invoice-side-text' id='invoice-purchaser' ref={this.purchaser_node} contentEditable suppressContentEditableWarning={true} onInput={e => this.handleCEInput(e, 'purchaser')}><Text text={this.state.purchaser_text} /></div>
-						</div>
-
-						<div className='invoice-grid-full-width margin-bottom-medium'>
-							<hr />
-						</div>
-
-						<div className='margin-bottom-medium'>
-							<div className='flex flex-space-between'>
-								<Text text={t('payment_type.payment_type')} />
-								<Text text={t(payment_type.label)} />
-							</div>
-
-							{payment_type && payment_type.includes_bank_transfer && (
-								<>
-									<div className='flex flex-space-between'>
-										<Text text={t('bank.bank')} />
-										<Text text={bank_account.bank} />
-									</div>
-									<div className='flex flex-space-between'>
-										<Text text={t('bank.account_number')} />
-										<Text className={to_other_eu_country ? '' : 'text-emphasize'} text={bank_account.account_number} />
-									</div>
-									{to_other_eu_country && (
-										<>
-											<div className='flex flex-space-between text-emphasize'>
-												<Text text={t('bank.iban')} />
-												<Text text={bank_account.iban} />
-											</div>
-											<div key='swift' className='flex flex-space-between'>
-												<Text text={t('bank.swift')} />
-												<Text text={bank_account.swift} />
-											</div>
-										</>
-									)}
-								</>
-							)}
-							<div className='flex flex-space-between'>
-								<Text text={t('bank.variable_symbol')} />
-								<Text className='text-emphasize' text={order_number} />
-							</div>
-						</div>
-						<div className='margin-bottom-medium'>
-							<div className='flex flex-space-between'>
-								<Text text={t('date.issue')} />
-								<Text text={formatDate(issue_date)} />
-							</div>
-							{isTaxDocument && (
+							<div className='invoice-grid-full-width'>
 								<div className='flex flex-space-between'>
-									<Text text={t('date.tax')} />
-									<Text text={formatDate(tax_date)} />
+									<Text text={t('document.document')} />
+									<Text className={isTaxDocument ? 'text-emphasize' : ''} text={t('invoice.invoice') + (isTaxDocument ? t('document.tax_document') : '')} />
 								</div>
-							)}
-							<div className='flex flex-space-between text-emphasize'>
-								<Text text={t('date.due')} />
-								<Text text={formatDate(due_date)} />
+								<div className='flex flex-space-between'>
+									<Text text={t('document.document_number')} />
+									<Text tag='div' text={order_number} />
+								</div>
+								{!isTaxDocument && (
+									<div className='flex flex-space-between text-emphasize'>
+										<div></div>
+										<Text text={t('document.not_a_tax_document')} />
+									</div>
+								)}
 							</div>
-						</div>
 
-						<div className='invoice-grid-full-width'>
-							<Text text={t('invoice.rows_heading')} />
+							<div className='invoice-grid-full-width margin-bottom-tiny'>
+								<hr />
+							</div>
 
-							<hr className='margin-vertical-small' />
-							<table className='invoice-rows'>
-								<tbody>
-									{this.state.invoice_rows.map((item, index) => (
-										<tr key={index}>
-											<td style={{ width: '80%' }} contentEditable suppressContentEditableWarning={true} ref={el => this.assignRow(el, index, 0)} onInput={e => this.handleCEInput(e, 'invoice_row', { index, rowIndex: 0 } )}>
-												{item[0]}
-											</td>
-											{!isSuffixed(currency) && (
-												<td className='addon'>{currencies[currency] ? currencies[currency].short + '\u00A0' : (currency + '\u00A0')}</td>
-											)}
-											<td contentEditable suppressContentEditableWarning={true} className='text-align-right addon' ref={el => this.assignRow(el, index, 1)} onInput={e => this.handleCEInput(e, 'invoice_row', { index, rowIndex: 1 } )} onBlur={e => this.formatIfPriceLike(e, { index })} onFocus={e => this.deformatIfPriceLike(e, { index })}>
-												{item[1]}
-											</td>
-											{isSuffixed(currency) && (
-												<td className='addon'>{currencies[currency] ? '\u00A0' + currencies[currency].short : ('\u00A0' + currency)}</td>
-											)}
-											<td className='screen-only addon'>
-												<div>
-													<MaterialIcon icon='close' className='icon-small cursor-pointer invoice-rows-icon' onClick={() => removeInvoiceRow(index)} />
+							<div className='invoice-side-wrapper'>
+								<div className='invoice-side-label'>{t('supplier.supplier')}</div>
+								<div className='invoice-side-text' id='invoice-supplier' ref={this.supplier_node} contentEditable suppressContentEditableWarning={true} onInput={e => this.handleCEInput(e, 'supplier')}><Text text={this.state.supplier_text} /></div>
+							</div>
+							<div className='invoice-side-wrapper'>
+								<div className='invoice-side-label'>{t('purchaser.purchaser')}</div>
+								<div className='invoice-side-text' id='invoice-purchaser' ref={this.purchaser_node} contentEditable suppressContentEditableWarning={true} onInput={e => this.handleCEInput(e, 'purchaser')}><Text text={this.state.purchaser_text} /></div>
+							</div>
+
+							<div className='invoice-grid-full-width margin-bottom-medium'>
+								<hr />
+							</div>
+
+							<div className='margin-bottom-medium'>
+								<div className='flex flex-space-between'>
+									<Text text={t('payment_type.payment_type')} />
+									<Text text={t(payment_type.label)} />
+								</div>
+
+								{payment_type && payment_type.includes_bank_transfer && (
+									<>
+										<div className='flex flex-space-between'>
+											<Text text={t('bank.bank')} />
+											<Text text={bank_account.bank} />
+										</div>
+										<div className='flex flex-space-between'>
+											<Text text={t('bank.account_number')} />
+											<Text className={to_other_eu_country ? '' : 'text-emphasize'} text={bank_account.account_number} />
+										</div>
+										{to_other_eu_country && (
+											<>
+												<div className='flex flex-space-between text-emphasize'>
+													<Text text={t('bank.iban')} />
+													<Text text={bank_account.iban} />
 												</div>
+												<div key='swift' className='flex flex-space-between'>
+													<Text text={t('bank.swift')} />
+													<Text text={bank_account.swift} />
+												</div>
+											</>
+										)}
+									</>
+								)}
+								<div className='flex flex-space-between'>
+									<Text text={t('bank.variable_symbol')} />
+									<Text className='text-emphasize' text={order_number} />
+								</div>
+							</div>
+							<div className='margin-bottom-medium'>
+								<div className='flex flex-space-between'>
+									<Text text={t('date.issue')} />
+									<Text text={formatDate(issue_date)} />
+								</div>
+								{isTaxDocument && (
+									<div className='flex flex-space-between'>
+										<Text text={t('date.tax')} />
+										<Text text={formatDate(tax_date)} />
+									</div>
+								)}
+								<div className='flex flex-space-between text-emphasize'>
+									<Text text={t('date.due')} />
+									<Text text={formatDate(due_date)} />
+								</div>
+							</div>
+
+							<div className='invoice-grid-full-width'>
+								<Text text={t('invoice.rows_heading')} />
+
+								<hr className='margin-vertical-small' />
+								<table className='invoice-rows'>
+									<tbody>
+										{this.state.invoice_rows.map((item, index) => (
+											<tr key={index}>
+												<td style={{ width: '80%' }} contentEditable suppressContentEditableWarning={true} ref={el => this.assignRow(el, index, 0)} onInput={e => this.handleCEInput(e, 'invoice_row', { index, rowIndex: 0 } )}>
+													{item[0]}
+												</td>
+												{!isSuffixed(currency) && (
+													<td className='addon'>{currencies[currency] ? currencies[currency].short + '\u00A0' : (currency + '\u00A0')}</td>
+												)}
+												<td contentEditable suppressContentEditableWarning={true} className='text-align-right addon' ref={el => this.assignRow(el, index, 1)} onInput={e => this.handleCEInput(e, 'invoice_row', { index, rowIndex: 1 } )} onBlur={e => this.formatIfPriceLike(e, { index })} onFocus={e => this.deformatIfPriceLike(e, { index })}>
+													{item[1]}
+												</td>
+												{isSuffixed(currency) && (
+													<td className='addon'>{currencies[currency] ? '\u00A0' + currencies[currency].short : ('\u00A0' + currency)}</td>
+												)}
+												<td className='screen-only addon'>
+													<div>
+														<MaterialIcon icon='close' className='icon-small cursor-pointer invoice-rows-icon' onClick={() => removeInvoiceRow(index)} />
+													</div>
+												</td>
+											</tr>
+										))}
+										<tr className='screen-only'>
+											<td colSpan='4'>
+												<MaterialIcon icon='add' className='icon-small cursor-pointer invoice-rows-icon' onClick={addInvoiceRow} />
 											</td>
 										</tr>
-									))}
-									<tr className='screen-only'>
-										<td colSpan='4'>
-											<MaterialIcon icon='add' className='icon-small cursor-pointer invoice-rows-icon' onClick={addInvoiceRow} />
-										</td>
-									</tr>
-								</tbody>
-							</table>
+									</tbody>
+								</table>
 
-							{/* this can't be part of the grid because of the <hr /> vertical alignment */}
-							<div className='flex'>
-								<div className='flex-1'>&nbsp;</div>
-								<div className='flex-1 margin-left-large'>
-									<hr className='margin-vertical-small' />
-									{isTaxDocument && (
-										<div>
-											<div className='flex flex-space-between'>
-												<Text text={t('tax.base')} />
-												<Text text={formatPrice(price, currency)} />
+								{/* this can't be part of the grid because of the <hr /> vertical alignment */}
+								<div className='flex'>
+									<div className='flex-1'>&nbsp;</div>
+									<div className='flex-1 margin-left-large'>
+										<hr className='margin-vertical-small' />
+										{isTaxDocument && (
+											<div>
+												<div className='flex flex-space-between'>
+													<Text text={t('tax.base')} />
+													<Text text={formatPrice(price, currency)} />
+												</div>
+												<div className='flex flex-space-between'>
+													<Text text={t('tax.tax_#', { amount: VAT_AMOUNT + '%' })} />
+													<Text text={formatPrice(vat_amount, currency)} />
+												</div>
 											</div>
-											<div className='flex flex-space-between'>
-												<Text text={t('tax.tax_#', { amount: VAT_AMOUNT + '%' })} />
-												<Text text={formatPrice(vat_amount, currency)} />
-											</div>
+										)}
+										<div className='flex flex-space-between text-emphasize'>
+											<Text text={t('price.total_to_pay')} />
+											<Text text={formatPrice(total_price, currency)} />
 										</div>
-									)}
-									<div className='flex flex-space-between text-emphasize'>
-										<Text text={t('price.total_to_pay')} />
-										<Text text={formatPrice(total_price, currency)} />
 									</div>
 								</div>
+
 							</div>
+
+							{qr_code && qr_code_value && (
+								<div className='invoice-grid-full-width text-align-right'>
+									<div className='qr-outer-wrapper'>
+										<div className='qr-wrapper'>
+											<QRCode renderAs='svg' size={110} value={qr_code_value} level='H' />
+											<div className='qr-label'>{t('qr.label')}</div>
+										</div>
+									</div>
+								</div>
+							)}
+
 
 						</div>
 
-						{qr_code && qr_code_value && (
-							<div className='invoice-grid-full-width text-align-right'>
-								<div className='qr-outer-wrapper'>
-									<div className='qr-wrapper'>
-										<QRCode renderAs='svg' size={110} value={qr_code_value} level='H' />
-										<div className='qr-label'>{t('qr.label')}</div>
-									</div>
-								</div>
+						{footer && (
+							<div className='invoice-footer'>
+								<hr className='margin-bottom-small' />
+								<Text text={footer.replace(/\n/g, '<br />')} />
 							</div>
 						)}
 
-
 					</div>
-
-					{footer && (
-						<div className='invoice-footer'>
-							<hr className='margin-bottom-small' />
-							<Text text={footer.replace(/\n/g, '<br />')} />
-						</div>
-					)}
-
 				</div>
-			</div >
+			</ErrorBoundary>
 		)
 	}
 

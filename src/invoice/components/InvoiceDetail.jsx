@@ -12,6 +12,7 @@ import logger from 'logger'
 import setDocumentTitle from 'docTitle'
 
 import Text from 'text/components/Text'
+import ErrorBoundary from 'error-boundary/components/ErrorBoundary'
 import InvoiceParamsForm from './InvoiceParamsForm'
 import InvoiceView from './InvoiceView'
 import InvoiceModel from 'invoice/stores/InvoiceModel'
@@ -138,45 +139,47 @@ export default class InvoiceDetail extends React.Component {
 		)
 
 		return (
-			<div className='wrapper'>
-				<div className='layout-grid'>
-					<InvoiceParamsForm data={detail} />
-					<InvoiceView data={detail} />
+			<ErrorBoundary>
+				<div className='wrapper'>
+					<div className='layout-grid'>
+						<InvoiceParamsForm data={detail} />
+						<InvoiceView data={detail} />
 
-					<div className='screen-only'>
-						<div className='box'>
-							<IconButton type='button' disabled={location.pathname.indexOf('/invoice/new') !== -1} onClick={() => this.deleteInvoice()}>
-								<MaterialIcon icon='delete_outline' />
-							</IconButton>
-							<IconButton type='button' onClick={() => this.toggleImportExport(true)}>
-								<MaterialIcon icon='import_export' />
-							</IconButton>
+						<div className='screen-only'>
+							<div className='box'>
+								<IconButton type='button' disabled={location.pathname.indexOf('/invoice/new') !== -1} onClick={() => this.deleteInvoice()}>
+									<MaterialIcon icon='delete_outline' />
+								</IconButton>
+								<IconButton type='button' onClick={() => this.toggleImportExport(true)}>
+									<MaterialIcon icon='import_export' />
+								</IconButton>
+							</div>
+
+							<Modal
+								isOpen={importExportShown}
+								onRequestClose={() => this.toggleImportExport()}
+								style={customStyles}
+								contentLabel={t('invoice.import_export')}
+							>
+								<div className='modal-wrapper'>
+									<div className='block flex flex-space-between flex-align-center'>
+										<div className='flex-1'>
+											<Text tag='h1' text={t('invoice.export')} />
+										</div>
+										<div>
+											<IconButton type='button' onClick={() => this.toggleImportExport(false)}>
+												<MaterialIcon icon='close' />
+											</IconButton>
+										</div>
+									</div>
+									<pre style={{whiteSpace: 'pre-wrap'}}>{JSON.stringify(toJS(detail), null, 2)}</pre>
+								</div>
+							</Modal>
 						</div>
 
-						<Modal
-							isOpen={importExportShown}
-							onRequestClose={() => this.toggleImportExport()}
-							style={customStyles}
-							contentLabel={t('invoice.import_export')}
-						>
-							<div className='modal-wrapper'>
-								<div className='block flex flex-space-between flex-align-center'>
-									<div className='flex-1'>
-										<Text tag='h1' text={t('invoice.export')} />
-									</div>
-									<div>
-										<IconButton type='button' onClick={() => this.toggleImportExport(false)}>
-											<MaterialIcon icon='close' />
-										</IconButton>
-									</div>
-								</div>
-								<pre style={{whiteSpace: 'pre-wrap'}}>{JSON.stringify(toJS(detail), null, 2)}</pre>
-							</div>
-						</Modal>
 					</div>
-
 				</div>
-			</div>
+			</ErrorBoundary>
 		)
 	}
 }

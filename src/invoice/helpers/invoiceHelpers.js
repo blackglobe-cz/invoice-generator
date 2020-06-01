@@ -4,20 +4,9 @@ import SupplierModel from 'settings/stores/SupplierModel'
 import { DEFAULT_DUE_PERIOD } from 'consts'
 
 export {
-	invoiceSerializer,
 	isPriceLike,
 	getInvoiceBasedOnSupplier,
 	prepareDataForGraph,
-}
-
-function invoiceSerializer(invoice) {
-	if (!invoice) return invoice
-
-	return invoice
-	// const i = JSON.parse(JSON.stringify(invoice))
-	// i.supplier_id = i.supplier.id
-	// i.supplier = i.supplier.text
-	// return i
 }
 
 function isPriceLike(priceString) {

@@ -1,7 +1,6 @@
 import { observable, action, runInAction, computed } from 'mobx'
 import { createTransformer } from 'mobx-utils'
 
-import { invoiceSerializer } from '../helpers/invoiceHelpers'
 import InvoiceModel from './InvoiceModel'
 import agent from 'agent'
 import logger from 'logger'
@@ -67,7 +66,7 @@ class InvoiceStore {
 	@action
 	save(invoice, create) {
 		return new Promise((resolve, reject) => {
-			agent.invoice[create ? 'create' : 'update'](invoiceSerializer(invoice)).then(res => {
+			agent.invoice[create ? 'create' : 'update'](invoice).then(res => {
 				if (create) {
 					runInAction(() => {
 						this.items.unshift(invoice)

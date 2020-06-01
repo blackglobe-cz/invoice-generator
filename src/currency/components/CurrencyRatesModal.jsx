@@ -5,6 +5,7 @@ import Button from '@material/react-button'
 import IconButton from '@material/react-icon-button'
 import MaterialIcon from '@material/react-material-icon'
 
+import logger from 'logger'
 import Text from 'text/components/Text'
 import FormControl from 'form/components/FormControl'
 import { CNB_PROXY_URL, CNB_RATE_STORAGE_KEY_BASE, STYLE_MODAL_DEF } from 'consts'
@@ -22,7 +23,6 @@ export default function CurrencyRatesModal () {
 		vat: 21,
 	})
 	const [data, setData] = useState({})
-	const [CNBCache, setCNBCache] = useState({})
 
 	return (
 		<>
@@ -140,6 +140,7 @@ export default function CurrencyRatesModal () {
 	}
 
 	function calculateExchangeRate(date, currency = 'EUR', amount = 1) {
+		if (loadingRate) return
 		setLoadingRate(true)
 		fetchCNBRates(date).then(res => {
 			const currLines = res.split('\n')
@@ -178,7 +179,7 @@ export default function CurrencyRatesModal () {
 						window.localStorage.setItem(key, res)
 						return resolve(res)
 					}).catch(err => {
-						console.log('Error fetching data', { err })
+						logger.log('Error fetching data', { err })
 						reject(err)
 					})
 				})

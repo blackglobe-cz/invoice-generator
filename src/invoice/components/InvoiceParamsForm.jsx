@@ -102,7 +102,6 @@ export default class InvoiceParamsForm extends React.Component {
 
 	handlePurchaserChange(prop, value) {
 		const {
-			SettingsStore,
 			data,
 		} = this.props
 

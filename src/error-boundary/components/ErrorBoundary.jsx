@@ -2,6 +2,7 @@ import React from 'react';
 
 import { withTranslation } from 'react-i18next'
 
+import logger from 'logger'
 import Text from 'text/components/Text'
 
 @withTranslation()
@@ -17,7 +18,7 @@ export default class ErrorBoundary extends React.Component {
 	}
 
 	componentDidCatch(error, errorInfo) {
-		console.warn('boundary catch', error, errorInfo);
+		logger.log('boundary catch', error, errorInfo);
 		this.setState({ ...this.state, error, errorInfo })
 	}
 

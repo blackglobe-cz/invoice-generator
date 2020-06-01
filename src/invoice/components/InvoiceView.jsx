@@ -125,12 +125,12 @@ export default class InvoiceView extends React.Component {
 				bank_account = {},
 				order_number,
 				is_tax_document,
-				supplier_ref = {},
 				payment_type,
 				issue_date,
 				due_date,
 				tax_date,
 				price,
+				// eslint-disable-next-line no-unused-vars
 				purchaser_ref, // this isn't needed in render method, but I need it here so that componentDidUpdate will fire on it's change, duh
 				currency,
 				vat_amount,
@@ -161,7 +161,6 @@ export default class InvoiceView extends React.Component {
 			})
 		}
 
-		// const isTaxDocument = (supplier_ref && supplier_ref.registered_for_vat) || to_other_eu_country
 		const isTaxDocument = is_tax_document || to_other_eu_country
 
 		return (

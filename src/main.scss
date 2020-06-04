@@ -76,9 +76,9 @@ $paper-padding: 5rem;
 		width: 100%;
 	}
 
-	/* react tools */
-	#root > div:first-child > div:first-child {
-		display: none;
+	/* react mobx dev tools */
+	.devtools {
+		display: none !important;
 	}
 }
 

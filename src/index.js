@@ -31,7 +31,7 @@ const SuitableRouter = (window.targetStatic || location.protocol === 'file:') ? 
 
 render(
 	<div>
-		{window.debug && <DevTools />}
+		{window.debug && <DevTools className='devtools' />}
 		<Provider {...stores}>
 
 			<SuitableRouter>

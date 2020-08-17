@@ -8,13 +8,7 @@ import {
 import { COLORS } from 'consts'
 import formatCurrency from 'currency/helpers/formatter'
 
-export default function InvoiceHistoryGraph(props) {
-
-	const {
-		data,
-		dataKeys,
-	} = props
-
+export default function InvoiceHistoryGraph({ data, dataKeys }) {
 	return (
 		<ResponsiveContainer
 			height={200}
@@ -28,7 +22,12 @@ export default function InvoiceHistoryGraph(props) {
 				<CartesianGrid strokeDasharray='3 3' />
 				<XAxis dataKey='name' />
 				<YAxis tickFormatter={val => formatCurrency(val, null, { skipCurrency: true, decimals: 0 })} />
-				<Tooltip formatter={val => formatCurrency(val, null, { skipCurrency: true })} />
+				<Tooltip
+					formatter={(val, name, props) =>
+						formatCurrency(val, null, { skipCurrency: true })
+						+ (props.payload[`${name}VAT`] ? ` (${formatCurrency(props.payload[`${name}VAT`], null, { skipCurrency: true })})` : '')
+					}
+				/>
 				{dataKeys.length > 1 && <Legend />}
 				{dataKeys.map((key, index) => (
 					<Line key={key} type='monotone' dataKey={key} stroke={COLORS[index % COLORS.length]} />

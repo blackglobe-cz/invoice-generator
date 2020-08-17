@@ -107,6 +107,8 @@ function prepareDataForGraph(invoices, { date, t } = {}) {
 
 		data[dataIndex][dataKey] = data[dataIndex][dataKey] || 0
 		data[dataIndex][dataKey] += item.price
+		data[dataIndex][`${dataKey}VAT`] = data[dataIndex][`${dataKey}VAT`] || 0
+		data[dataIndex][`${dataKey}VAT`] += item.vat_amount
 
 		totals[dataKeyTotals] = totals[dataKeyTotals] || {}
 		totals[dataKeyTotals][item.currency] = totals[dataKeyTotals][item.currency] || { total: 0, price: 0, vat: 0 }

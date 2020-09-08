@@ -169,6 +169,7 @@ export default class InvoiceParamsForm extends React.Component {
 				{ type: 'input', name: 'bank.swift', prop: 'bank_account.swift', if: this.bankAccountShouldBeVisible }
 			)
 		}
+		const vatStyles = [['simple', 'tax.vat_style.simple'], ['discrete', 'tax.vat_style.discrete']]
 
 		const formConfig = [
 			[
@@ -185,7 +186,8 @@ export default class InvoiceParamsForm extends React.Component {
 				{ type: 'date', name: 'date.tax_short', prop: 'tax_date', labelProps: { title: t('date.tax_long') } }
 			], [
 				{ type: 'number', name: 'price.total_to_pay', prop: 'price', props: { min: '0', step: '10.00', disabled: data.autocalc } },
-				{ type: 'checkbox', name: 'price.autocalc', prop: 'autocalc' }
+				{ type: 'checkbox', name: 'price.autocalc', prop: 'autocalc' },
+				{ type: 'select', name: 'tax.vat_style.vat_style', prop: 'vat_style', opts: vatStyles.map(item => [item[0], t(item[1], { lng: data.language })]), optSrc: vatStyles.map(vs => vs[0]), if: () => (data && data.is_tax_document) }
 			], [
 				{ type: 'select', name: 'payment_type.payment_type', prop: 'payment_type', optSrc: paymentTypes, opts: paymentTypes.map(item => [t(item.label, { lng: data.language }), t(item.label, { lng: data.language })]) },
 				{ type: 'select', name: 'currency.currency', prop: 'currency', opts: Object.values(currencies).map(i => [i, i.label]), optSrc: Object.values(currencies).map(i => i.code) },

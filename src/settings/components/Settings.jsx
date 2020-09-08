@@ -19,7 +19,10 @@ import PurchaserModel from '../stores/PurchaserModel'
 import BankAccountModel from '../stores/BankAccountModel'
 import InvoiceRowModel from '../stores/InvoiceRowModel'
 
-import { LANGUAGES } from 'consts'
+import {
+	LANGUAGES,
+	VAT_AMOUNT,
+} from 'consts'
 
 @inject('SettingsStore')
 @withTranslation()
@@ -330,23 +333,28 @@ export default class Settings extends React.Component {
 
 							<div className='flex flex-align-center'>
 								<Text text='#' className='margin-horizontal-medium' />
-								<Text t='invoice.row_text' className='flex-1' />
+								<Text t='invoice.row_text' className='flex-2' />
+								<Text t='tax.vat_percent' className='flex-1' />
 								<Text t='invoice.row_price' className='flex-1' />
 								<div style={{minWidth: '48px'}} />
 							</div>
 							<hr className='block' />
 
-							{activeSupplier.default_invoice_rows.map((item, index) => (
-								<div key={index} className='flex flex-align-center'>
-									<Text text={index + 1} className='margin-horizontal-medium' />
-									<FormControl className='flex-1' value={item.text} type='input' name='text' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
-									<FormControl className='flex-1' value={item.price} type='number' name='price.price' prop='price' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
-									<IconButton type='button' className='button button-icon button-alt' onClick={action(() => activeSupplier.default_invoice_rows.splice(index, 1))}>
-										<MaterialIcon icon='delete_outline' />
-									</IconButton>
-								</div>
-							))}
-							<Button type='button' className='button' onClick={action(() => activeSupplier.default_invoice_rows.push(new InvoiceRowModel()))}>
+							{activeSupplier.default_invoice_rows.map((rawItem, index) => {
+								const item = new InvoiceRowModel(rawItem)
+								return (
+									<div key={index} className='flex flex-align-center'>
+										<Text text={index + 1} className='margin-horizontal-medium' />
+										<FormControl className='flex-2' value={item.text} type='input' name='text' onChange={(prop, value, e) => this.handleInput(prop, value, e, rawItem)} />
+										<FormControl className='flex-1' value={item.vat} type='number' name='tax.vat_percent' prop='vat' onChange={(prop, value, e) => this.handleInput(prop, value, e, rawItem)} />
+										<FormControl className='flex-1' value={item.price} type='number' name='price.price' prop='price' onChange={(prop, value, e) => this.handleInput(prop, value, e, rawItem)} />
+										<IconButton type='button' className='button button-icon button-alt' onClick={action(() => activeSupplier.default_invoice_rows.splice(index, 1))}>
+											<MaterialIcon icon='delete_outline' />
+										</IconButton>
+									</div>
+								)
+							})}
+							<Button type='button' className='button' onClick={action(() => activeSupplier.default_invoice_rows.push(new InvoiceRowModel({ vat: activeSupplier.registered_for_vat ? VAT_AMOUNT : 0 })))}>
 								<Text t='invoice.default_invoice_row.add' />
 							</Button>
 						</div>

@@ -4,6 +4,7 @@ import {
 	DEFAULT_LANGUAGE,
 	DEFAULT_CURRENCY,
 	DEFAULT_DUE_PERIOD,
+	DEFAULT_VAT_STYLE,
 	VAT_AMOUNT,
 } from 'consts'
 
@@ -20,15 +21,23 @@ export default class InvoiceModel {
 	@observable order_number
 	@observable order_number_autocalc
 	@observable to_other_eu_country
-	@observable price
+	@computed get price() {
+		return this.invoice_rows.reduce((price, row) => {
+			price += parseFloat(row[1], 10)
+			return price
+		}, 0)
+	}
 	@computed get vat_amount() {
-		return (VAT_AMOUNT / 100) * (this.price || 0)
+		return this.invoice_rows.reduce((vat, row) => {
+			vat += row[1] * ((row.length > 2 ? row[2] : 0) / 100)
+			return vat
+		}, 0)
 	}
 	@computed get total_price() {
-		// return this.price + (((this.supplier_ref && this.supplier_ref.registered_for_vat) || this.to_other_eu_country) ? this.vat_amount : 0)
 		return this.price + ((this.is_tax_document || this.to_other_eu_country) ? this.vat_amount : 0)
 	}
 	@observable currency
+	// @observable discount
 	@observable is_tax_document
 	@observable supplier // the text on invoice
 	@observable supplier_id // the id (so that I don't save the whole object in db)
@@ -45,6 +54,7 @@ export default class InvoiceModel {
 	@observable payment_type
 	@observable qr_code
 	@observable footer
+	@observable vat_style
 	@computed get qr_code_value() {
 		const due_date = new Date(this.due_date)
 		if (!(
@@ -60,8 +70,6 @@ export default class InvoiceModel {
 			+ '*CC:' + String(this.currency).toUpperCase()
 			+ '*DT:' + due_date.toISOString().slice(0, 10).replace(/-/g, '')
 			+ '*X-VS:' + String(this.order_number.slice(0, 10))
-		// qrcode.makeCode(spayd)
-		// fe($('.qr-outer-wrapper'), el => (checkQRValidity() ? el.classList.remove('invalid') : el.classList.add('invalid')))
 		return spayd
 	}
 	@observable invoice_rows
@@ -77,7 +85,7 @@ export default class InvoiceModel {
 		order_number,
 		order_number_autocalc,
 		to_other_eu_country,
-		price,
+		// price,
 		currency,
 		is_tax_document,
 		supplier,
@@ -89,6 +97,7 @@ export default class InvoiceModel {
 		bank_account,
 		payment_type,
 		qr_code,
+		vat_style,
 		invoice_rows,
 		footer,
 	} = {}) {
@@ -102,7 +111,6 @@ export default class InvoiceModel {
 			this.order_number = order_number
 			this.order_number_autocalc = order_number_autocalc !== void 0 ? order_number_autocalc : true
 			this.to_other_eu_country = to_other_eu_country || false
-			this.price = price || 0
 			this.currency = currency || DEFAULT_CURRENCY
 			this.is_tax_document = is_tax_document
 			this.supplier = supplier
@@ -114,9 +122,9 @@ export default class InvoiceModel {
 			this.bank_account = bank_account
 			this.payment_type = payment_type || PaymentTypeStore.paymentTypes[0]
 			this.qr_code = qr_code !== void 0 ? qr_code : true
+			this.vat_style = vat_style || DEFAULT_VAT_STYLE
 			this.invoice_rows = invoice_rows || []
 			this.footer = footer || ''
-
 			this.autocalc = true
 		})
 	}

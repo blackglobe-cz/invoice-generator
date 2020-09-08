@@ -50,7 +50,9 @@ export default class InvoiceView extends React.Component {
 			supplier_text: data.supplier || '',
 			purchaser_text: data.purchaser || '',
 			invoice_rows: JSON.parse(JSON.stringify(data.invoice_rows)).map(row => {
-				row[1] = isPriceLike(row[1]) ? formatPrice((typeof row[1] !== 'undefined' ? '' + row[1] : '0').replace(/\s/g, ''), 0, { skipCurrency: true, decimals: void 0 }) : '' + row[1]
+				row[1] = isPriceLike(row[1])
+					? formatPrice((typeof row[1] !== 'undefined' ? '' + row[1] : '0').replace(/\s/g, ''), 0, { skipCurrency: true, decimals: void 0 })
+					: '' + row[1]
 				return row
 			}),
 		})
@@ -80,8 +82,8 @@ export default class InvoiceView extends React.Component {
 		const newPrice = parseFloat(e.target.innerHTML)
 		runInAction(() => {
 			item[1] = newPrice
-			const np = data.invoice_rows.reduce((acc, item) => acc + parseFloat(item[1]), 0)
-			data.price = np
+			// const np = data.invoice_rows.reduce((acc, item) => acc + parseFloat(item[1]), 0)
+			// data.price = np
 		})
 	}
 
@@ -95,7 +97,7 @@ export default class InvoiceView extends React.Component {
 				this.props.data.invoice_rows[opts.index] = this.props.data.invoice_rows[opts.index] || []
 				this.props.data.invoice_rows[opts.index][opts.rowIndex] = this.invoice_rows_nodes[opts.index][opts.rowIndex].innerHTML
 
-				this.recalculatePrice()
+				// this.recalculatePrice()
 			}
 		})
 	}
@@ -114,7 +116,7 @@ export default class InvoiceView extends React.Component {
 
 	// is expected to be run in a runInAction block
 	recalculatePrice() {
-		this.props.data.price = this.props.data.invoice_rows.reduce((acc, item) => acc + parseFloat(item[1].replace(/\s/g, '') || '0'), 0)
+		// this.props.data.price = this.props.data.invoice_rows.reduce((acc, item) => acc + parseFloat(item[1].replace(/\s/g, '') || '0', 10), 0)
 	}
 
 	render() {
@@ -139,6 +141,7 @@ export default class InvoiceView extends React.Component {
 				invoice_rows,
 				qr_code,
 				qr_code_value,
+				vat_style,
 				footer,
 			},
 		} = this.props
@@ -146,7 +149,7 @@ export default class InvoiceView extends React.Component {
 		const t = (tString, opts) => this.props.t(tString, language ? Object.assign({}, opts, { lng: language }) : opts)
 
 		const addInvoiceRow = () => {
-			runInAction(() => invoice_rows.push(['', 0]))
+			runInAction(() => invoice_rows.push(['', 0, VAT_AMOUNT]))
 			this.setState({
 				invoice_rows: JSON.parse(JSON.stringify(invoice_rows)),
 			})
@@ -154,7 +157,7 @@ export default class InvoiceView extends React.Component {
 		const removeInvoiceRow = index => {
 			runInAction(() => {
 				invoice_rows.splice(index, 1)
-				this.recalculatePrice()
+				// this.recalculatePrice()
 			})
 			this.setState({
 				invoice_rows: JSON.parse(JSON.stringify(invoice_rows)),
@@ -265,11 +268,31 @@ export default class InvoiceView extends React.Component {
 								<hr className='margin-vertical-small' />
 								<table className='invoice-rows'>
 									<tbody>
+										{vat_style === 'discrete' && (
+											<tr className='table-head'>
+												<th style={{ width: '80%' }}>
+													<Text tag='small' t='invoice.item' />
+												</th>
+												<th style={{ width: '10%' }}>
+													<Text tag='small' t='tax.vat_#' tOptions={{ amount: '%' }} />
+												</th>
+												<th>
+													<Text tag='small' t='price.price' />
+												</th>
+												<th className='addon'></th>
+												<th className='screen-only addon'></th>
+											</tr>
+										)}
 										{this.state.invoice_rows.map((item, index) => (
 											<tr key={index}>
 												<td style={{ width: '80%' }} contentEditable suppressContentEditableWarning={true} ref={el => this.assignRow(el, index, 0)} onInput={e => this.handleCEInput(e, 'invoice_row', { index, rowIndex: 0 } )}>
 													{item[0]}
 												</td>
+												{isTaxDocument && vat_style === 'discrete' && (
+													<td style={{ width: '10%' }} contentEditable suppressContentEditableWarning={true} ref={el => this.assignRow(el, index, 2)} onInput={e => this.handleCEInput(e, 'invoice_row', { index, rowIndex: 2 } )}>
+														{item[2] || 0}
+													</td>
+												)}
 												{!isSuffixed(currency) && (
 													<td className='addon'>{currencies[currency] ? currencies[currency].short + '\u00A0' : (currency + '\u00A0')}</td>
 												)}
@@ -306,7 +329,10 @@ export default class InvoiceView extends React.Component {
 													<Text text={formatPrice(price, currency)} />
 												</div>
 												<div className='flex flex-space-between'>
-													<Text text={t('tax.tax_#', { amount: VAT_AMOUNT + '%' })} />
+													{vat_style !== 'discrete'
+														? <Text text={t('tax.vat_#', { amount: VAT_AMOUNT + '%' })} />
+														: <Text text={t('tax.vat_amount')} />
+													}
 													<Text text={formatPrice(vat_amount, currency)} />
 												</div>
 											</div>

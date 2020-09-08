@@ -10,7 +10,6 @@ export default {
 			order_number: invoice.order_number,
 			order_number_autocalc: invoice.order_number_autocalc,
 			to_other_eu_country: invoice.to_other_eu_country,
-			price: invoice.price,
 			currency: invoice.currency,
 			is_tax_document: invoice.is_tax_document,
 			supplier: invoice.supplier,
@@ -18,6 +17,7 @@ export default {
 			payment_type: invoice.payment_type,
 			qr_code: invoice.qr_code,
 			invoice_rows: invoice.invoice_rows,
+			vat_style: invoice.vat_style,
 			footer: invoice.footer,
 		}
 		if (invoice.supplier_ref) serialized.supplier_id = invoice.supplier_ref.id

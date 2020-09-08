@@ -1,7 +1,11 @@
 import InvoiceModel from 'invoice/stores/InvoiceModel'
 import InvoiceStore from 'invoice/stores/InvoiceStore'
 import SupplierModel from 'settings/stores/SupplierModel'
-import { DEFAULT_DUE_PERIOD } from 'consts'
+import {
+	DEFAULT_DUE_PERIOD,
+	DEFAULT_VAT_STYLE,
+	VAT_AMOUNT,
+} from 'consts'
 
 export {
 	isPriceLike,
@@ -22,10 +26,8 @@ function getInvoiceBasedOnSupplier(supplier, id) {
 		}
 		const due_date = (new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * parseInt(supplier.default_due_date_period || DEFAULT_DUE_PERIOD)))).toISOString().slice(0, 10)
 		const invoice_rows = []
-		let price = 0
-		;(supplier.default_invoice_rows.length ? supplier.default_invoice_rows : [{ text: '', price: 0 }]).map(item => {
-			price += parseFloat(item.price)
-			invoice_rows.push([item.text, item.price])
+		;(supplier.default_invoice_rows.length ? supplier.default_invoice_rows : [{ text: '', vat: VAT_AMOUNT, price: 0 }]).map(item => {
+			invoice_rows.push([item.text, item.price, item.vat])
 		})
 
 		supplier = prepareForContentEditable(copy(supplier))
@@ -48,9 +50,9 @@ function getInvoiceBasedOnSupplier(supplier, id) {
 				bank_account: supplier.bank_accounts.length ? copy(supplier.bank_accounts[0]) : {},
 				invoice_rows,
 				qr_code: !!supplier.show_qr_code,
+				vat_style: supplier.vat_style || DEFAULT_VAT_STYLE,
 				footer: supplier.footer,
 				due_date,
-				price,
 			}))
 		}).catch(err => {
 			return reject(err)
@@ -92,7 +94,6 @@ function prepareDataForGraph(invoices, { date, t } = {}) {
 	invoices.forEach(item => {
 		const dataKeyTotals = (item.supplier_ref && item.supplier_ref.id) ? (item.supplier_ref.label || item.supplier_ref.id) : 'undefined'
 
-		// const dataKey = `${dataKeyTotals}_${item.currency}`
 		const dataKey = `${dataKeyTotals}`
 
 		if (dataKeys.indexOf(dataKey) === -1) dataKeys.push(dataKey)

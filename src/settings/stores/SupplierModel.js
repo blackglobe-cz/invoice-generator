@@ -9,8 +9,8 @@ import {
 	DEFAULT_LANGUAGE,
 	DEFAULT_CURRENCY,
 	DEFAULT_DUE_PERIOD,
+	VAT_AMOUNT,
 } from 'consts'
-// import isoCurrencies from 'currency/helpers/list'
 
 export default class SupplierModel {
 	id
@@ -59,7 +59,7 @@ export default class SupplierModel {
 			this.bank_accounts = bank_accounts || ( idIsDefined ? [] : [new BankAccountModel()] )
 			this.footer = footer || ''
 			this.show_qr_code = show_qr_code !== void 0 ? show_qr_code : true
-			this.default_invoice_rows = default_invoice_rows || ( idIsDefined ? [] : [new InvoiceRowModel()] )
+			this.default_invoice_rows = default_invoice_rows || ( idIsDefined ? [] : [new InvoiceRowModel({ vat: registered_for_vat ? VAT_AMOUNT : 0 })] )
 		})
 	}
 }

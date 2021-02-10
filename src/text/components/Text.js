@@ -5,9 +5,10 @@ export default function Text(props) {
 
 	const {
 		children,
-		style,
 		className,
-		tag,
+		style,
+		suffix = '',
+		tag: Tag = 'div',
 		t: toBeTranslated,
 		tOptions,
 		text,
@@ -20,12 +21,10 @@ export default function Text(props) {
 
 	if (!content) return ''
 
-	const Tag = tag || 'div'
-
 	if (typeof content === 'string') {
-		content = <Tag className={className} style={style} title={title} dangerouslySetInnerHTML={{ __html: content }} />
+		content = <Tag className={className} style={style} title={title} dangerouslySetInnerHTML={{ __html: `${content}${suffix}` }} />
 	} else {
-		content = <Tag className={className} style={style} title={title}>{content}</Tag>
+		content = <Tag className={className} style={style} title={title}>{content}{suffix}</Tag>
 	}
 
 	return content

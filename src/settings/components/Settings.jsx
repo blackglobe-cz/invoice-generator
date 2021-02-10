@@ -55,7 +55,7 @@ export default class Settings extends React.Component {
 		if (!(
 			supplierViewModel.label
 			&& supplierViewModel.identification_text
-			&& supplierViewModel.purchasers.length && supplierViewModel.purchasers[0].label && supplierViewModel.purchasers[0].text
+			// && supplierViewModel.purchasers.length && supplierViewModel.purchasers[0].label && supplierViewModel.purchasers[0].text
 			&& supplierViewModel.bank_accounts.length
 				&& supplierViewModel.bank_accounts[0].label
 				&& supplierViewModel.bank_accounts[0].bank
@@ -63,11 +63,18 @@ export default class Settings extends React.Component {
 				&& supplierViewModel.bank_accounts[0].iban
 				&& supplierViewModel.bank_accounts[0].swift
 			&& Number.isInteger(Number.parseInt(supplierViewModel.default_due_date_period))
-		)) return this.setState({
-			formError: true,
-			formSuccess: false,
-		})
+		)) {
+			return this.setState({
+				formError: true,
+				formSuccess: false,
+			})
+		}
+
 		supplierViewModel.submit() // mobx submit
+
+		// clean-up the model
+		supplierViewModel.purchasers = supplierViewModel.purchasers.filter(item => item.text || item.label)
+
 		this.props.SettingsStore.save(supplierViewModel, !!this.state.creatingNewSupplier).then(() => {
 			this.setState({
 				formError: false,
@@ -171,7 +178,7 @@ export default class Settings extends React.Component {
 						<Text tag='h2' className='heading-4' text={t('settings.general')} />
 						<div className='block'>
 							<label>
-								<Text text={t('label') + '*'} />
+								<Text t='label' suffix='*' />
 								<FormControl value={activeSupplier.label} type='input' name='label' onChange={this.handleInput.bind(this)} />
 							</label>
 						</div><div className='block'>
@@ -187,7 +194,7 @@ export default class Settings extends React.Component {
 							</label>
 						</div><div className='block'>
 							<label>
-								<Text text={t('invoice.language') + '*'} />
+								<Text t='invoice.language' suffix='*' />
 								<FormControl value={LANGUAGES.findIndex(item => item[0] === activeSupplier.default_language)} type='select' name='invoice.language' prop='default_language' onChange={this.handleInput.bind(this)} optSrc={LANGUAGES.map(i => i[0])} opts={LANGUAGES} />
 							</label>
 						</div><div className='block'>
@@ -197,17 +204,17 @@ export default class Settings extends React.Component {
 							</label>
 						</div><div className='block'>
 							<label className='flex flex-space-between flex-align-center'>
-								<Text text={t('supplier.registered_for_vat') + '*'} />
+								<Text t='supplier.registered_for_vat' />
 								<FormControl value={activeSupplier.registered_for_vat} type='checkbox' name='supplier.registered_for_vat' prop='registered_for_vat' onChange={this.handleInput.bind(this)} />
 							</label>
 						</div><div className='block'>
 							<label>
-								<Text text={t('currency.default') + '*'} />
+								<Text t='currency.default' suffix='*' />
 								<FormControl value={currencyList.indexOf(activeSupplier.default_currency)} type='select' name='currency.default' prop='default_currency' onChange={this.handleInput.bind(this)} opts={currencyList} />
 							</label>
 						</div><div className='block'>
 							<label>
-								<Text text={t('date.due_default_period') + '*'} />
+								<Text t='date.due_default_period' suffix='*' />
 								<FormControl value={activeSupplier.default_due_date_period} type='number' name='date.due_default_period' prop='default_due_date_period' onChange={this.handleInput.bind(this)} min='0' />
 							</label>
 						</div><div className='block'>
@@ -273,7 +280,7 @@ export default class Settings extends React.Component {
 								<Text t='purchaser.add' />
 							</Button>
 						</div><div className='block'>
-							<Text tag='h2' className='heading-4' text={t('bank.accounts')} />
+							<Text tag='h2' className='heading-4' t='bank.accounts' />
 							{activeSupplier.bank_accounts.map((item, index) => (
 								<div key={index} className='box block'>
 									<div className='flex flex-align-center block'>
@@ -302,24 +309,24 @@ export default class Settings extends React.Component {
 									<hr className='block' />
 
 									<label className='block'>
-										<Text t='bank.label' />
+										<Text t='bank.label' suffix='*' />
 										<FormControl value={item.label} type='input' name='label' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
 									</label>
 									<label className='block'>
-										<Text t='bank.bank_name' />
+										<Text t='bank.bank_name' suffix='*' />
 										<FormControl value={item.bank} type='input' name='bank.bank' prop='bank' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
 									</label>
 									<label className='block'>
-										<Text t='bank.account_number' />
+										<Text t='bank.account_number' suffix='*' />
 										<FormControl value={item.account_number} type='input' name='bank.account_number' prop='account_number' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
 									</label>
 									<div className='flex block'>
 										<label className='flex-1'>
-											<Text t='bank.iban' />
+											<Text t='bank.iban' suffix='*' />
 											<FormControl value={item.iban} type='input' name='bank.iban' prop='iban' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
 										</label>
 										<label className='flex-1'>
-											<Text t='bank.swift' />
+											<Text t='bank.swift' suffix='*' />
 											<FormControl value={item.swift} type='input' name='bank.swift' prop='swift' onChange={(prop, value, e) => this.handleInput(prop, value, e, item)} />
 										</label>
 									</div>

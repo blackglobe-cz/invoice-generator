@@ -5,7 +5,7 @@ import {
 	DEFAULT_CURRENCY,
 	DEFAULT_DUE_PERIOD,
 	DEFAULT_VAT_STYLE,
-	VAT_AMOUNT,
+	// VAT_AMOUNT,
 } from 'consts'
 
 import isoCurrencies from 'currency/helpers/list'

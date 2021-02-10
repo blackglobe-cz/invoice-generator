@@ -78,7 +78,7 @@ export default class InvoiceView extends React.Component {
 
 	handlePriceInput = (e, item) => {
 		if (!this.props.data.autocalc) return
-		const data = this.props.data
+		// const data = this.props.data
 		const newPrice = parseFloat(e.target.innerHTML)
 		runInAction(() => {
 			item[1] = newPrice

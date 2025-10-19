@@ -271,13 +271,13 @@ export default class InvoiceView extends React.Component {
 										{vat_style === 'discrete' && (
 											<tr className='table-head'>
 												<th style={{ width: '80%' }}>
-													<Text tag='small' t='invoice.item' />
+													<Text tag='small' text={t('invoice.item')} />
 												</th>
 												<th style={{ width: '10%' }}>
-													<Text tag='small' t='tax.vat_#' tOptions={{ amount: '%' }} />
+													<Text tag='small' text={t('tax.vat_#', { amount: '%' })} />
 												</th>
 												<th>
-													<Text tag='small' t='price.price' />
+													<Text tag='small' text={t('price.price')} />
 												</th>
 												<th className='addon'></th>
 												<th className='screen-only addon'></th>

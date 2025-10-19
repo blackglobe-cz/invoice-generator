@@ -25,7 +25,7 @@ export default class InvoiceParamsForm extends React.Component {
 		super()
 
 		this.state = {
-			supplier_id: null,
+			supplier: null,
 			redirectTo: null,
 		}
 	}
